@@ -37,6 +37,9 @@
   <PropertyGroup>
     <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Grades.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="ObjectListView">
@@ -61,6 +64,7 @@
     <Compile Include="Enums.cs" />
     <Compile Include="Grade.cs" />
     <Compile Include="Item.cs" />
+    <Compile Include="ItemContainer.cs" />
     <Compile Include="MainWin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -105,8 +109,10 @@
     <None Include="Resources\filenew.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Grades.ico" />
     <Content Include="Resources\checkbox_no.png" />
     <Content Include="Resources\checkbox_yes.png" />
+    <None Include="Resources\help_contents.png" />
     <Content Include="WorkItems.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

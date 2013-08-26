@@ -1,33 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace BareMinimum
 {
     public class Grade : Item
     {
-        private bool marked = false;
+        private string pointsEarned;
+		private string pointsPossible;
 
-        public override double Weight
-        {
-            // TODO: Implement weight calculation
-            get
-            {
-                return 0.0;
-            }
-        }
+		public string PointsEarned
+		{
+			get
+			{
+				return pointsEarned;
+			}
+			set
+			{
+				pointsEarned = new String(value.Where(Char.IsDigit).ToArray());
+			}
+		}
 
-        public bool Marked 
-        {
-            get
-            {
-                return marked;
-            }
-            set
-            {
-                marked = value; 
-            }
-        }
+		public string PointsPossible
+		{
+			get
+			{
+				return pointsPossible;
+			}
+			set
+			{
+				pointsPossible = new String(value.Where(Char.IsDigit).ToArray());
+			}
+		}
+
+		public string PointsNeeded { get; set; }
+		public bool Marked { get; set; } 
+		public string Notes { get; set; }
+		public string Weight { get; set; }
+		public string Name { get; set; }
 
         public Grade() : this("Untitled Grade")
         {
@@ -38,6 +49,7 @@ namespace BareMinimum
         public Grade(string name)
         {
             Name = name;
+			Marked = false;
         }
     }
 }

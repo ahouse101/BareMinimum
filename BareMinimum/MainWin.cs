@@ -22,6 +22,21 @@ namespace BareMinimum
                 return (Scenario)ScenarioList.SelectedObject;
             }
         }
+		public Scenario ScenarioToReselect { get; set; } // When a user attempts a deselect on the ScenarioList, this property allows BareMinimum to role back to the previous selection.
+        public List<Grade> MarkedGrades
+        {
+            get
+            {
+                List<Grade> list = new List<Grade>();
+                foreach (Item item in ScenarioTree.Objects)
+					if (item is Grade)
+						if (((Grade)item).Marked) 
+							list.Add((Grade)item);
+				return list;
+            }
+        }
+
+		private TextOverlay emptyOverlay = new TextOverlay();
 
         public MainWin()
         {
@@ -32,15 +47,31 @@ namespace BareMinimum
             ScenarioTree.ChildrenGetter = GetChildren;
 
             // Customize the overlay for an empty list for both ObjectListViews:
-            TextOverlay emptyOverlay = new TextOverlay();
             emptyOverlay.Alignment = ContentAlignment.TopCenter;
             emptyOverlay.BackColor = Color.Transparent;
             emptyOverlay.BorderWidth = 0.0F;
             emptyOverlay.TextColor = Color.Black;
             emptyOverlay.Font = ScenarioTree.Font;
+			emptyOverlay.Text = "Add a scenario to get started.";
             ScenarioList.EmptyListMsgOverlay = emptyOverlay;
             ScenarioTree.EmptyListMsgOverlay = emptyOverlay;
 
+			// Customize the decoration for the selected item:
+			RowBorderDecoration selectedDecoration = new RowBorderDecoration(); 
+			selectedDecoration.BorderPen = new Pen(Color.FromArgb(128, Color.Black), 1); 
+			selectedDecoration.BoundsPadding = new Size(-1, -1);
+			selectedDecoration.FillBrush = new SolidBrush(Color.FromArgb(20, 0, 0, 0));
+			selectedDecoration.CornerRounding = 0f;
+			ScenarioTree.SelectedRowDecoration = selectedDecoration;
+
+			// Customize the decoration for the hot item:
+			RowBorderDecoration hotItemDecoration = new RowBorderDecoration();
+			hotItemDecoration.BorderPen = new Pen(Color.FromArgb(75, Color.Black), 1);
+			hotItemDecoration.BoundsPadding = new Size(-1, -1);
+			hotItemDecoration.FillBrush = new SolidBrush(Color.FromArgb(10, 0, 0, 0));
+			hotItemDecoration.CornerRounding = 0f;
+			ScenarioTree.HotItemStyle.Decoration = hotItemDecoration;
+			
             // Set the drop down:
             CalculationTypeComboBox.SelectedItem = "Even";
         }
@@ -68,17 +99,37 @@ namespace BareMinimum
                 return new ArrayList();
         }
 
+        public void CalculateNeeded()
+        {
+            // TODO: Finish this.
+			double distance = SelectedScenario.Target - Double.Parse(SelectedScenario.PointsEarned);
+			if (SelectedScenario.ItemType == ItemType.Grade)
+			{
+
+			}
+        }
+
         private void DeleteScenario(Scenario scenario)
         {
+			int index = ScenarioList.SelectedIndex;
             ScenarioList.RemoveObject(scenario);
-            if (ScenarioList.Items.Count < 1)
-            {
-                AddGradeButton.Enabled = false;
-                AddSectionButton.Enabled = false;
-                ScenarioTitleLabel.Text = "No Scenario Selected";
-                DeleteScenarioButton.Enabled = false;
-                DeleteItemButton.Enabled = false;
-            }
+			if (ScenarioList.Items.Count < 1)
+			{
+				AddGradeButton.Enabled = false;
+				AddSectionButton.Enabled = false;
+				ScenarioTitleLabel.Text = "No Scenario Selected";
+				DeleteScenarioButton.Enabled = false;
+				DeleteItemButton.Enabled = false;
+				emptyOverlay.Text = "Add a scenario to get started.";
+				ScenarioTree.Refresh(); // Changing the emptyOverlay won't trigger a redraw for the ScenarioTree, but it should be immediately redrawn.
+			}
+			else
+			{
+				if (index != 0)
+					ScenarioList.SelectedIndex = index - 1;
+				else
+					ScenarioList.SelectedIndex = 0;
+			}
         }
 
         private void DeleteItem()
@@ -118,7 +169,7 @@ namespace BareMinimum
             Scenario scenario = new Scenario { Name = name, ItemType = ItemType.None };
             ScenarioList.AddObject(scenario);
             ScenarioList.SelectObject(scenario);
-            ScenarioTree.EmptyListMsg = "Add some items to this scenario.";
+            emptyOverlay.Text = "Add some items to this scenario.";
             DeleteScenarioButton.Enabled = true;
         }
 
@@ -193,45 +244,73 @@ namespace BareMinimum
             if (ScenarioList.Items.Count > 0)
             {
                 // If the user clicks off of an item, but the list isn't empty, ignore it.
-                if (SelectedScenario != null)
-                {
-                    ScenarioTree.SetObjects(SelectedScenario.Items);
-                    switch (SelectedScenario.ItemType)
-                    {
-                        case ItemType.None:
-                            AddGradeButton.Enabled = true;
-                            AddSectionButton.Enabled = true;
-                            break;
-                        case ItemType.Section:
-                            AddGradeButton.Enabled = false;
-                            AddSectionButton.Enabled = true;
-                            break;
-                        case ItemType.Grade:
-                            AddGradeButton.Enabled = true;
-                            AddSectionButton.Enabled = false;
-                            break;
-                        default:
-                            break;
-                    }
-                    ScenarioTitleLabel.Text = SelectedScenario.Name;
-                }
+				if (SelectedScenario != null)
+				{
+					ScenarioTree.SetObjects(SelectedScenario.Items);
+					switch (SelectedScenario.ItemType)
+					{
+						case ItemType.None:
+							AddGradeButton.Enabled = true;
+							AddSectionButton.Enabled = true;
+							break;
+						case ItemType.Section:
+							AddGradeButton.Enabled = false;
+							AddSectionButton.Enabled = true;
+							break;
+						case ItemType.Grade:
+							AddGradeButton.Enabled = true;
+							AddSectionButton.Enabled = false;
+							break;
+						default:
+							break;
+					}
+					ScenarioTitleLabel.Text = SelectedScenario.Name;
+					ScenarioToReselect = SelectedScenario;
+				}
+				else
+				{
+					ScenarioList.SelectObject(ScenarioToReselect);
+				}
             }
         }
-        
+
+		private void ScenarioTree_FormatRow(object sender, FormatRowEventArgs e)
+		{
+			RowBorderDecoration background = new RowBorderDecoration();
+			background.BorderPen = null;
+			background.CornerRounding = 0F;
+			background.BoundsPadding = new Size(0, -1);
+			if (e.Model is Section)
+			{
+				background.FillBrush = new SolidBrush(Color.FromArgb(50, 0, 150, 255));
+			}
+			else if (e.Model is Grade)
+			{
+				background.FillBrush = new SolidBrush(Color.FromArgb(50, 0, 200, 75));
+			}
+			e.Item.Decoration = background;
+		}
+
         private void ScenarioTree_FormatCell(object sender, FormatCellEventArgs e)
         {
             if (e.ColumnIndex == 4 && e.Model is Section)
             {
-                CellBorderDecoration fill = new CellBorderDecoration();
-                fill.FillBrush = Brushes.White;
-                fill.BorderPen = null;
-                fill.CornerRounding = 0F;
-                fill.BoundsPadding = new Size(0, -1);
-                e.SubItem.Decoration = fill;
+				CellBorderDecoration background = new CellBorderDecoration();
+				background.FillBrush = Brushes.White;
+                background.BorderPen = null;
+                background.CornerRounding = 0F;
+                background.BoundsPadding = new Size(0, -1);
+                CellBorderDecoration highlight= new CellBorderDecoration();
+				highlight.FillBrush = new SolidBrush(Color.FromArgb(50, 0, 150, 255));
+                highlight.BorderPen = null;
+                highlight.CornerRounding = 0F;
+                highlight.BoundsPadding = new Size(0, -1);
+                e.SubItem.Decorations.Add(background);
+				e.SubItem.Decorations.Add(highlight);
             }
             else
             {
-                e.SubItem.Decoration = null;
+                e.SubItem.Decorations.Clear();
             }
         }
 

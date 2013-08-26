@@ -4,24 +4,29 @@ using System.Text;
 
 namespace BareMinimum
 {
-    public class Section : Item
+    public class Section : ItemContainer, Item
     {
-        private List<Item> items = new List<Item>();
-
-        public override string PointsEarned { get; set; }
-        public ItemType ItemType { get; set; }
+		public string Weight { get; set; }
         // Sections can't be marked, yet, but the TreeListView that I'm using runs very slowly if there is no CheckedAspect property present.
-        public bool Marked { get { return false; } }
+		public bool Marked { get { return false; } }
+		public string Notes { get; set; }
 
-        public List<Item> Items { get { return items; } set { items = value; } }
-
-        public override string PointsPossible 
+        public string PointsPossible 
         {
             get
             {
-                return "100%";
+                return "";
             }
+			set
+			{ }
         }
+
+		public string PointsNeeded
+		{
+			get { return ""; }
+			set { }
+		}
+
 
         public Section() : this("Untitled Section")
         {
@@ -31,6 +36,7 @@ namespace BareMinimum
         {
             Name = name;
             ItemType = ItemType.None;
+			Items = new List<Item>();
         }
     }
 }

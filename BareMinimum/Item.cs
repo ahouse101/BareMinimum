@@ -4,13 +4,13 @@ using System.Text;
 
 namespace BareMinimum
 {
-    public abstract class Item
+    public interface Item
     {
-        public string Name { get; set; }
-        public virtual double Weight { get; set; }
-        public virtual string PointsEarned { get; set; }
-        public virtual string PointsPossible { get; set; }
-        public string PointsNeeded { get; set; }
-        public string Notes { get; set; }
+		string Name { get; set; }
+        string Weight { get; set; }
+        string PointsEarned { get; set; }
+        string PointsPossible { get; set; }
+        string PointsNeeded { get; set; }
+        string Notes { get; set; }
     }
 }

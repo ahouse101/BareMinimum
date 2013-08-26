@@ -4,21 +4,14 @@ using System.Text;
 
 namespace BareMinimum
 {
-    public class Scenario
+    public class Scenario : ItemContainer
     {
-        private string name;
-        private List<Item> items = new List<Item>();
-
-        public string Name { get { return name; } set { name = value; } }
-        public List<Item> Items { get { return items; } set { items = value; } }
-        
         public double Target { get; set; }
-        public ItemType ItemType { get; set; }
-
-        public string Average 
-        { 
-            // TODO: Implement average calculation
-            get { return "n/a"; }
-        }
+        
+		public Scenario()
+		{
+			Name = "Untitled";
+			Items = new List<Item>();
+		}
     }
 }
