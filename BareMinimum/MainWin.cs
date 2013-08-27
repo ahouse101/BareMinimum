@@ -14,7 +14,11 @@ using Microsoft.VisualBasic;
 namespace BareMinimum
 {
     public partial class MainWin : Form
-    {
+	{
+		#region Properties and Fields
+
+		private TextOverlay emptyOverlay = new TextOverlay();
+
         public Scenario SelectedScenario
         {
             get
@@ -35,8 +39,6 @@ namespace BareMinimum
 				return list;
             }
         }
-
-		private TextOverlay emptyOverlay = new TextOverlay();
 
         public MainWin()
         {

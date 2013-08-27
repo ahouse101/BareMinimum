@@ -22,73 +22,73 @@ Version 0.5
 Version 0.4
 	Goal: Add the methods that will do the calculations, and make sure they are called at the right times.
 	Work Items:
-		- Implement Scenario.Average and Section.PointsEarned - medium - done (moved to ItemContainer.Average with work item 2.2).
-		- Redo the class heirarchy - large - done.
-			- Change the Item class to an interface - medium - done.
-			- Create the ItemContainer class - medium - done.
-			- Make Section and Scenario inherit from ItemContainer - small - done.
-		- Add a method to calculate the Weight of each Grade - medium - done (the method currently never gets called).
-		- Add a method that will calculate the PointsNeeded of every grade in a Scenario - large - in progress (CalculateNeeded).
+		1. Implement Scenario.Average and Section.PointsEarned - medium - done (moved to ItemContainer.Average with work item 2.2).
+		2. Redo the class heirarchy - large - done.
+			1. Change the Item class to an interface - medium - done.
+			2. Create the ItemContainer class - medium - done.
+			3. Make Section and Scenario inherit from ItemContainer - small - done.
+		3. Add a method to calculate the Weight of each Grade - medium - done (the method currently never gets called).
+		4. Add a method that will calculate the PointsNeeded of every grade in a Scenario - large - in progress (CalculateNeeded).
 	Changes:
-		- Removed the overridden Grade.Weight property, and removed the "virtual" modifier from the Item.Weight property. The Weight for each Grade will be calculated outside the class (see work item 3) - small.
-		- Made the RowHeight of ScenarioList and ScenarioTree 25 pixels (this spaces out the lists and makes them more readable) - small.
-		- Made the Item.Weight property a string so it can be blank for Grades, for now - small.
-		- Added Row decorations for Sections and Grades - medium. 
-		- Added a RowBorderDecoration for the selected item on the ScenarioTree - small.
-		- Added a RowBorderDecoration for the hot item on the ScenarioTree - small.
+		1. Removed the overridden Grade.Weight property, and removed the "virtual" modifier from the Item.Weight property. The Weight for each Grade will be calculated outside the class (see work item 3) - small.
+		2. Made the RowHeight of ScenarioList and ScenarioTree 25 pixels (this spaces out the lists and makes them more readable) - small.
+		3. Made the Item.Weight property a string so it can be blank for Grades, for now - small.
+		4. Added Row decorations for Sections and Grades - medium. 
+		5. Added a RowBorderDecoration for the selected item on the ScenarioTree - small.
+		6. Added a RowBorderDecoration for the hot item on the ScenarioTree - small.
 	Fixes:
-		- Made it impossible to perform a deselect on the ScenarioList by adding the ScenarioToReselect property - small.
+		1. Made it impossible to perform a deselect on the ScenarioList by adding the ScenarioToReselect property - small.
 
 Version 0.3
 	Goal: Finish the GUI.
 	Work Items:
-		- Add a NumericUpDown to input the Scenario's target grade - small - done (ScenarioTargetUpDown).
-		- Add a ComboBox to input the type of calculation that should be done - small - done (CalculationTypeComboBox).
-		- Add Buttons to delete Scenarios and Items, and implement them - small - done.
+		1. Add a NumericUpDown to input the Scenario's target grade - small - done (ScenarioTargetUpDown).
+		2. Add a ComboBox to input the type of calculation that should be done - small - done (CalculationTypeComboBox).
+		3. Add Buttons to delete Scenarios and Items, and implement them - small - done.
 	Changes:
-		- Overloaded DeleteItem() so that you can call it with no arguments.
-		- Rewrote ScenarioTree_KeyDown() to use DeleteItem() without arguments (DeleteItemButton_Click() was written this way from the start).
+		1. Overloaded DeleteItem() so that you can call it with no arguments.
+		2. Rewrote ScenarioTree_KeyDown() to use DeleteItem() without arguments (DeleteItemButton_Click() was written this way from the start).
 	Fixes:
-		- Made sure that the two "delete" buttons are enabled/disabled at the right times.
+		1. Made sure that the two "delete" buttons are enabled/disabled at the right times.
 
 Version 0.2
 	Goal: Fix some of the existing GUI problems before moving on.
 	Work Items:
-	- Create and finish the ItemMarkedColumn, using Decorations to hide checkboxes on Sections - large - done.
-	- Redo SelectedScenario as a property - small - done.
-	- Add keyboard support to the list and tree, and the ability to delete Scenarios and Items - medium - done.
-		- ScenarioList.KeyDown - small - done.
-		- ScenarioTree.KeyDown - medium - done.
-	- Make sure that the Scenario related buttons are disabled at the right times - medium - done.
-		- When Scenarios are added - small - done.
-		- When Items are added - small - done.
-		- When Scenarios are selected - small - done.
-		- When Items are selected - small - done.
-		- When Scenarios are deleted - small - done.
-		- When Items are deleted - small - done (also resets the Scenario's ItemType if the Scenario is empty).
+		1. Create and finish the ItemMarkedColumn, using Decorations to hide checkboxes on Sections - large - done.
+		2. Redo SelectedScenario as a property - small - done.
+		3. Add keyboard support to the list and tree, and the ability to delete Scenarios and Items - medium - done.
+			1. ScenarioList.KeyDown - small - done.
+			2. ScenarioTree.KeyDown - medium - done.
+		4. Make sure that the Scenario related buttons are disabled at the right times - medium - done.
+			1. When Scenarios are added - small - done.
+			2. When Items are added - small - done.
+			3. When Scenarios are selected - small - done.
+			4. When Items are selected - small - done.
+			5. When Scenarios are deleted - small - done.
+			6. When Items are deleted - small - done (also resets the Scenario's ItemType if the Scenario is empty).
 	Changes:
-	- Changed Scenario.Average property to a string, and marked it as a TODO - small.
-	- Changed from ScenarioTree.Checkboxes = true to ScenarioTree.UseSubItemCheckboxes = true, in order to create the ItemMarkedColumn - small.
-	- Changed ScenarioTree and ScenarioList to use SelectionChanged events instead of SelectedIndexChanged - small.
-	- Moved Scenario deletion code to the new DeleteScenario() method.
-	- Moved Item deletion code to the new DeleteItem() method.
+	1. Changed Scenario.Average property to a string, and marked it as a TODO - small.
+	2. Changed from ScenarioTree.Checkboxes = true to ScenarioTree.UseSubItemCheckboxes = true, in order to create the ItemMarkedColumn - small.
+	3. Changed ScenarioTree and ScenarioList to use SelectionChanged events instead of SelectedIndexChanged - small.
+	4. Moved Scenario deletion code to the new DeleteScenario() method.
+	5. Moved Item deletion code to the new DeleteItem() method.
 	Fixes:
-	- Fixed an issue that made the ScenarioTree perform atrociously slow with Sections (added the read-only Marked property to Section) - small.
-	- Fixed an issue that crashed BareMinimum whenever a subitem checkbox was checked. For some reason, the TreeListView calls GetChildren when this happens, even though it can only happen on a Grade, which doesn't have any children and thus was not previously handled by the GetChildren method - small.
+	1. Fixed an issue that made the ScenarioTree perform atrociously slow with Sections (added the read-only Marked property to Section) - small.
+	2. Fixed an issue that crashed BareMinimum whenever a subitem checkbox was checked. For some reason, the TreeListView calls GetChildren when this happens, even though it can only happen on a Grade, which doesn't have any children and thus was not previously handled by the GetChildren method - small.
 
 Version 0.1
 	Goal: Finish current work items and set future goals.
 	Work Items:
-	- Finish the empty message overlay styling - small - done (opted for simple text).
-	- Set the text for the empty list message - small - done.
-	- Work on implementing each of the currently empty/unfinished event handlers - large - done.
-		- AddGradeButton_Click - medium - done.
-		- AddSectionButton_Click - medium - done.
-		- ScenarioTree_SelectedIndexChanged - small - done.
-		- ScenarioTree_CellEditStarting - small - done (as far as it can be until the ItemMarkedColumn is finished, see v0.2).
-		- ScenarioListView_SelectedIndexChanged - small - done.
-	- Make the Grade class functional for the current usage - small - done.
-	- Implement GetChildren delegate method - small - done.
+	1. Finish the empty message overlay styling - small - done (opted for simple text).
+	2. Set the text for the empty list message - small - done.
+	3. Work on implementing each of the currently empty/unfinished event handlers - large - done.
+		1. AddGradeButton_Click - medium - done.
+		2. AddSectionButton_Click - medium - done.
+		3. ScenarioTree_SelectedIndexChanged - small - done.
+		4. ScenarioTree_CellEditStarting - small - done (as far as it can be until the ItemMarkedColumn is finished, see v0.2).
+		5. ScenarioListView_SelectedIndexChanged - small - done.
+	4. Make the Grade class functional for the current usage - small - done.
+	5. Implement GetChildren delegate method - small - done.
 
 Initial Reworking
 	- Created the Scenario, Item, Section, and Grade classes.
