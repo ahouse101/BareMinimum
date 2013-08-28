@@ -1,5 +1,5 @@
 ﻿Future Plans:
-	- Add miscellaneous calculatins, such as GPA, into a separate menu.
+	- Add miscellaneous calculations, such as GPA, into a separate menu.
 	
 Version 1.0 - Release
 	Goal: Release!
@@ -31,8 +31,9 @@ Version 0.4
 			r1. Made the MainWin bigger - small - change.
 			r2. Made sure the ScenarioTargetUpDown gets enabled/disabled at the right times - small - fix. 
 			r3. Added a property to the Grade class that will store its weight in the overall Scenario - small (OverallWeight).
-		- Add methods to convert non-string values in the data classes to strings, to be used by AspectToStringConverter, and change those properties in the classes back to their non-string types - large - in progress.
-			- Write ConvertWeightToString / change Item.Weight to a nullable double - medium - done.
+		4. Rewrite the Item.Weight property to be a nullable double - medium - done.
+			1. Write ConvertWeightToString - small - done.
+			2. Change Item.Weight to a nullable double - small - done.
 		- Add a method that will calculate the PointsNeeded of every grade in a Scenario - large - in progress (CalculateNeeded).
 	Changes:
 		1. Removed the overridden Grade.Weight property, and removed the "virtual" modifier from the Item.Weight property. The Weight for each Grade will be calculated outside the class (see work item 3) - small.

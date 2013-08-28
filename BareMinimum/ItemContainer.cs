@@ -25,7 +25,7 @@ namespace BareMinimum
 					foreach (Section section in Items)
 					{
 						if (section.PointsEarned != "n/a" && section.PointsEarned != "Error" && !String.IsNullOrWhiteSpace(section.PointsEarned))
-							average += Double.Parse(section.PointsEarned.Replace("%", "")) * Double.Parse(section.Weight.Replace("%", ""));
+							average += Double.Parse(section.PointsEarned.Replace("%", "")) * (double)section.Weight;
 						else
 							numEmpty++;
 					}
@@ -73,7 +73,7 @@ namespace BareMinimum
 				foreach (Grade grade in Items)
 					total += Double.Parse(grade.PointsPossible);
 				foreach (Grade grade in Items)
-					grade.Weight = (Double.Parse(grade.PointsPossible) / total * 100).ToString("0.##");
+					grade.Weight = (Double.Parse(grade.PointsPossible) / total * 100);
 			}
 		}
 	}

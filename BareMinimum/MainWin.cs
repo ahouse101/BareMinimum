@@ -52,6 +52,9 @@ namespace BareMinimum
             ScenarioTree.CanExpandGetter = CanExpand;
             ScenarioTree.ChildrenGetter = GetChildren;
 
+			// Set the String conversion delegate for ItemWeightColumn:
+			ItemWeightColumn.AspectToStringConverter = ConvertWeightToString;
+
             // Customize the overlay for an empty list for both ObjectListViews:
             emptyOverlay.Alignment = ContentAlignment.TopCenter;
             emptyOverlay.BackColor = Color.Transparent;
