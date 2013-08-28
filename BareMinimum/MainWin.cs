@@ -42,6 +42,8 @@ namespace BareMinimum
 
 		#endregion
 
+		#region Constructor and Delegates
+
 		public MainWin()
         {
             InitializeComponent();
@@ -103,7 +105,18 @@ namespace BareMinimum
                 return new ArrayList();
         }
 
-        public void CalculateNeeded()
+		public string ConvertWeightToString(object x)
+		{
+			double? weight = (double?)x;
+			if (weight == null)
+				return "";
+			else
+				return ((double)weight).ToString("0.##") + "%";
+		}
+
+		#endregion
+
+		public void CalculateNeeded()
         {
             // TODO: Finish this.
 			double distance = SelectedScenario.Target - Double.Parse(SelectedScenario.PointsEarned);

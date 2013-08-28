@@ -37,8 +37,9 @@ namespace BareMinimum
 		public string PointsNeeded { get; set; }
 		public bool Marked { get; set; } 
 		public string Notes { get; set; }
-		public string Weight { get; set; }
+		public double? Weight { get; set; }
 		public string Name { get; set; }
+		public double OverallWeight { get; set; }
 
         public Grade() : this("Untitled Grade")
         {

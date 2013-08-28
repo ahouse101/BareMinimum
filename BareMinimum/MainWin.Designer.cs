@@ -203,7 +203,7 @@
 			this.CalculationTypeComboBox.Items.AddRange(new object[] {
             "Even",
             "Most Zeros"});
-			this.CalculationTypeComboBox.Location = new System.Drawing.Point(340, 375);
+			this.CalculationTypeComboBox.Location = new System.Drawing.Point(339, 375);
 			this.CalculationTypeComboBox.Name = "CalculationTypeComboBox";
 			this.CalculationTypeComboBox.Size = new System.Drawing.Size(106, 23);
 			this.CalculationTypeComboBox.TabIndex = 8;
@@ -213,7 +213,7 @@
 			this.ScenarioTargetUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.ScenarioTargetUpDown.Enabled = false;
 			this.ScenarioTargetUpDown.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.ScenarioTargetUpDown.Location = new System.Drawing.Point(450, 375);
+			this.ScenarioTargetUpDown.Location = new System.Drawing.Point(449, 375);
 			this.ScenarioTargetUpDown.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -287,7 +287,7 @@
 			this.ScenarioTree.RowHeight = 25;
 			this.ScenarioTree.ShowGroups = false;
 			this.ScenarioTree.ShowImagesOnSubItems = true;
-			this.ScenarioTree.Size = new System.Drawing.Size(520, 355);
+			this.ScenarioTree.Size = new System.Drawing.Size(519, 355);
 			this.ScenarioTree.TabIndex = 3;
 			this.ScenarioTree.UseCellFormatEvents = true;
 			this.ScenarioTree.UseCompatibleStateImageBehavior = false;
@@ -312,7 +312,7 @@
 			// ItemWeightColumn
 			// 
 			this.ItemWeightColumn.AspectName = "Weight";
-			this.ItemWeightColumn.AspectToStringFormat = "{0}%";
+			this.ItemWeightColumn.AspectToStringFormat = "";
 			this.ItemWeightColumn.Text = "Weight";
 			this.ItemWeightColumn.Width = 50;
 			// 

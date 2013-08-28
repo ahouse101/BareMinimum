@@ -7,7 +7,7 @@ namespace BareMinimum
     public interface Item
     {
 		string Name { get; set; }
-        string Weight { get; set; }
+        double? Weight { get; set; }
         string PointsEarned { get; set; }
         string PointsPossible { get; set; }
         string PointsNeeded { get; set; }
