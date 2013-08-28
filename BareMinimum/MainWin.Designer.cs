@@ -85,7 +85,7 @@
 			this.MainSplit.Panel1.Controls.Add(this.AddScenarioButton);
 			this.MainSplit.Panel1.Controls.Add(this.ScenarioListLabel);
 			this.MainSplit.Panel1.Controls.Add(this.ScenarioList);
-			this.MainSplit.Panel1MinSize = 100;
+			this.MainSplit.Panel1MinSize = 150;
 			// 
 			// MainSplit.Panel2
 			// 
@@ -96,9 +96,9 @@
 			this.MainSplit.Panel2.Controls.Add(this.AddSectionButton);
 			this.MainSplit.Panel2.Controls.Add(this.ScenarioTree);
 			this.MainSplit.Panel2.Controls.Add(this.SelectedScenarioLabel);
-			this.MainSplit.Panel2MinSize = 200;
-			this.MainSplit.Size = new System.Drawing.Size(575, 400);
-			this.MainSplit.SplitterDistance = 150;
+			this.MainSplit.Panel2MinSize = 420;
+			this.MainSplit.Size = new System.Drawing.Size(725, 400);
+			this.MainSplit.SplitterDistance = 200;
 			this.MainSplit.SplitterWidth = 5;
 			this.MainSplit.TabIndex = 2;
 			// 
@@ -106,7 +106,7 @@
 			// 
 			this.DeleteScenarioButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.DeleteScenarioButton.Enabled = false;
-			this.DeleteScenarioButton.Location = new System.Drawing.Point(85, 375);
+			this.DeleteScenarioButton.Location = new System.Drawing.Point(135, 375);
 			this.DeleteScenarioButton.Name = "DeleteScenarioButton";
 			this.DeleteScenarioButton.Size = new System.Drawing.Size(65, 25);
 			this.DeleteScenarioButton.TabIndex = 3;
@@ -117,7 +117,7 @@
 			// AddScenarioButton
 			// 
 			this.AddScenarioButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.AddScenarioButton.Location = new System.Drawing.Point(0, 375);
+			this.AddScenarioButton.Location = new System.Drawing.Point(50, 375);
 			this.AddScenarioButton.Name = "AddScenarioButton";
 			this.AddScenarioButton.Size = new System.Drawing.Size(80, 25);
 			this.AddScenarioButton.TabIndex = 2;
@@ -155,7 +155,7 @@
 			this.ScenarioList.OwnerDraw = true;
 			this.ScenarioList.RowHeight = 25;
 			this.ScenarioList.ShowGroups = false;
-			this.ScenarioList.Size = new System.Drawing.Size(150, 355);
+			this.ScenarioList.Size = new System.Drawing.Size(200, 355);
 			this.ScenarioList.TabIndex = 0;
 			this.ScenarioList.UseCompatibleStateImageBehavior = false;
 			this.ScenarioList.UseHotItem = true;
@@ -203,7 +203,7 @@
 			this.CalculationTypeComboBox.Items.AddRange(new object[] {
             "Even",
             "Most Zeros"});
-			this.CalculationTypeComboBox.Location = new System.Drawing.Point(240, 375);
+			this.CalculationTypeComboBox.Location = new System.Drawing.Point(340, 375);
 			this.CalculationTypeComboBox.Name = "CalculationTypeComboBox";
 			this.CalculationTypeComboBox.Size = new System.Drawing.Size(106, 23);
 			this.CalculationTypeComboBox.TabIndex = 8;
@@ -211,8 +211,9 @@
 			// ScenarioTargetUpDown
 			// 
 			this.ScenarioTargetUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.ScenarioTargetUpDown.Enabled = false;
 			this.ScenarioTargetUpDown.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.ScenarioTargetUpDown.Location = new System.Drawing.Point(350, 375);
+			this.ScenarioTargetUpDown.Location = new System.Drawing.Point(450, 375);
 			this.ScenarioTargetUpDown.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -286,7 +287,7 @@
 			this.ScenarioTree.RowHeight = 25;
 			this.ScenarioTree.ShowGroups = false;
 			this.ScenarioTree.ShowImagesOnSubItems = true;
-			this.ScenarioTree.Size = new System.Drawing.Size(420, 355);
+			this.ScenarioTree.Size = new System.Drawing.Size(520, 355);
 			this.ScenarioTree.TabIndex = 3;
 			this.ScenarioTree.UseCellFormatEvents = true;
 			this.ScenarioTree.UseCompatibleStateImageBehavior = false;
@@ -367,7 +368,7 @@
 			this.ScenarioTitleLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F);
 			this.ScenarioTitleLabel.Location = new System.Drawing.Point(0, 25);
 			this.ScenarioTitleLabel.Name = "ScenarioTitleLabel";
-			this.ScenarioTitleLabel.Size = new System.Drawing.Size(585, 30);
+			this.ScenarioTitleLabel.Size = new System.Drawing.Size(735, 30);
 			this.ScenarioTitleLabel.TabIndex = 0;
 			this.ScenarioTitleLabel.Text = "No Scenario Selected";
 			this.ScenarioTitleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -387,7 +388,7 @@
 			this.FileToolbar.Location = new System.Drawing.Point(0, 0);
 			this.FileToolbar.Name = "FileToolbar";
 			this.FileToolbar.Padding = new System.Windows.Forms.Padding(5, 1, 5, 1);
-			this.FileToolbar.Size = new System.Drawing.Size(585, 25);
+			this.FileToolbar.Size = new System.Drawing.Size(735, 25);
 			this.FileToolbar.TabIndex = 1;
 			this.FileToolbar.Text = "File";
 			// 
@@ -452,12 +453,12 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(585, 460);
+			this.ClientSize = new System.Drawing.Size(735, 460);
 			this.Controls.Add(this.MainSplit);
 			this.Controls.Add(this.FileToolbar);
 			this.Controls.Add(this.ScenarioTitleLabel);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-			this.MinimumSize = new System.Drawing.Size(601, 350);
+			this.MinimumSize = new System.Drawing.Size(751, 400);
 			this.Name = "MainWin";
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
 			this.Text = "BareMinimum";

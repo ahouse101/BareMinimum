@@ -40,7 +40,9 @@ namespace BareMinimum
             }
         }
 
-        public MainWin()
+		#endregion
+
+		public MainWin()
         {
             InitializeComponent();
 
