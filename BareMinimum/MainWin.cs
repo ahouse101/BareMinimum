@@ -119,15 +119,66 @@ namespace BareMinimum
 
 		#endregion
 
-		public void CalculateNeeded()
+		#region Data Methods
+
+		private void CalculateNeeded()
         {
             // TODO: Finish this.
+			CalculateOverallGradeWeights();
+
 			double distance = SelectedScenario.Target - Double.Parse(SelectedScenario.PointsEarned);
 			if (SelectedScenario.ItemType == ItemType.Grade)
 			{
+				foreach (Grade grade in SelectedScenario.Items)
+				{
 
+				}
 			}
         }
+
+		private void CalculateOverallGradeWeights()
+		{
+			SelectedScenario.CalculateGradeWeights();
+			if (SelectedScenario.ItemType == ItemType.Grade)
+			{
+				foreach (Grade grade in SelectedScenario.Items)
+				{
+					grade.OverallWeight = (double)grade.Weight;
+				}
+			}
+			else if (SelectedScenario.ItemType == ItemType.Section)
+			{
+				foreach (Section section in SelectedScenario.Items)
+				{
+					CalculateOverallGradeWeights(section);
+				}
+			}
+		}
+
+		private void CalculateOverallGradeWeights(Section section)
+		{
+			if (section.ItemType == ItemType.Grade)
+			{
+				foreach (Grade grade in section.Items)
+				{
+					Section parent = (Section)grade.Parent;
+					double modifier = (double)parent.Weight / 100;
+					for (int level = grade.Level; level > 0; level--)
+					{
+						parent = (Section)parent.Parent;
+						modifier *= (double)parent.Weight / 100;
+					}
+					grade.OverallWeight = (double)grade.Weight * modifier;
+				}
+			}
+			else if (section.ItemType == ItemType.Section)
+			{
+				foreach (Section subSection in section.Items)
+				{
+					CalculateOverallGradeWeights(subSection);
+				}
+			}
+		}
 
         private void DeleteScenario(Scenario scenario)
         {
@@ -183,7 +234,11 @@ namespace BareMinimum
             }
         }
 
-        private void AddScenarioButton_Click(object sender, EventArgs e)
+		#endregion
+
+		#region Event Handlers
+
+		private void AddScenarioButton_Click(object sender, EventArgs e)
         {
             string name = Interaction.InputBox("Type a name for the new scenario.", "New Scenario", "Untitled");
             Scenario scenario = new Scenario { Name = name, ItemType = ItemType.None };
@@ -200,14 +255,14 @@ namespace BareMinimum
             {
                 // Add a new Grade to the Scenario:
                 SelectedScenario.ItemType = ItemType.Section;
-                SelectedScenario.Items.Add(new Section());
+                SelectedScenario.Items.Add(new Section(SelectedScenario));
                 ScenarioTree.SetObjects(SelectedScenario.Items);
             }
             else
             {
                 Section container = ((Section)ScenarioTree.SelectedObject);
                 container.ItemType = ItemType.Section;
-                container.Items.Add(new Section());
+                container.Items.Add(new Section(container));
                 ScenarioTree.RefreshObject(container);
                 if (!ScenarioTree.IsExpanded(container))
                     ScenarioTree.Expand(container);
@@ -223,14 +278,14 @@ namespace BareMinimum
                 Scenario container = SelectedScenario;
                 // Add a new Grade to the Scenario:
                 container.ItemType = ItemType.Grade;
-                container.Items.Add(new Grade());
+                container.Items.Add(new Grade(SelectedScenario));
                 ScenarioTree.SetObjects(SelectedScenario.Items);
             }
             else
             {
                 Section container = ((Section)ScenarioTree.SelectedObject);
                 container.ItemType = ItemType.Grade;
-                container.Items.Add(new Grade());
+                container.Items.Add(new Grade(container));
                 ScenarioTree.RefreshObject(container);
                 if (!ScenarioTree.IsExpanded(container))
                     ScenarioTree.Expand(container);
@@ -425,6 +480,8 @@ namespace BareMinimum
                         break;
                 }
             }
-        }
-    }
+		}
+
+		#endregion
+	}
 }

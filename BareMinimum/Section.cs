@@ -11,6 +11,9 @@ namespace BareMinimum
 		public bool Marked { get { return false; } }
 		public string Notes { get; set; }
 
+		public object Parent { get; set; }
+		public int Level { get; set; }
+
         public string PointsPossible 
         {
             get
@@ -28,12 +31,17 @@ namespace BareMinimum
 		}
 
 
-        public Section() : this("Untitled Section")
+        public Section(object parent) : this(parent, "Untitled Section")
         {
         }
 
-        public Section(string name)
+        public Section(object parent, string name)
         {
+			Parent = parent;
+			if (parent is Scenario)
+				Level = 0;
+			else
+				Level = ((Section)parent).Level + 1;
             Name = name;
             ItemType = ItemType.None;
 			Items = new List<Item>();

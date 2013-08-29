@@ -36,6 +36,10 @@ Version 0.4
 			2. Change Item.Weight to a nullable double - small - done.
 		- Add a method that will calculate the PointsNeeded of every grade in a Scenario - large - in progress (CalculateNeeded).
 			r1. Made it impossible to resize the ItemMarkedColumn - small - fix.
+			1. Write a method to calculate and store the OverallWeight of each Grade - medium - done (CalculuateOverallGradeWeights).
+			r1. Added the Parent property to the Item interface and the Grade/Section classes, and added related functionality to their constructors and the code in MainWin.cs that initializes objects of those types - small - change.
+			r2. Added the Level property to the Item interface and the Grade/Section classes, and added relaed functionality to their constructors and the code in MainWin.cs that initializes object of those types - small - change.
+			- Finish implementing CalculateNeeded for the "Even" mode - medium - in progress. 
 	Changes:
 		1. Removed the overridden Grade.Weight property, and removed the "virtual" modifier from the Item.Weight property. The Weight for each Grade will be calculated outside the class (see work item 3) - small.
 		2. Made the RowHeight of ScenarioList and ScenarioTree 25 pixels (this spaces out the lists and makes them more readable) - small.

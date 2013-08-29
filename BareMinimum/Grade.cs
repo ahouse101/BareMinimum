@@ -41,16 +41,24 @@ namespace BareMinimum
 		public string Name { get; set; }
 		public double OverallWeight { get; set; }
 
-        public Grade() : this("Untitled Grade")
+		public object Parent { get; set; }
+		public int Level { get; set; }
+
+        public Grade(object parent) : this(parent, "Untitled Grade")
         {
             PointsNeeded = "50";
             PointsPossible = "100";
         }
 
-        public Grade(string name)
+        public Grade(object parent, string name)
         {
+			if (parent is Scenario)
+				Level = 0;
+			else
+				Level = ((Section)parent).Level + 1;
             Name = name;
 			Marked = false;
+			Parent = parent;
         }
     }
 }
