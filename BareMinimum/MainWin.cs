@@ -56,6 +56,7 @@ namespace BareMinimum
 
 			// Set the RenderDelegates for the ScenarioTree:
 			ItemWeightColumn.RendererDelegate = RenderItemWeight;
+			ItemEarnedColumn.RendererDelegate = RenderItemEarned;
 
             // Customize the overlay for an empty list for both ObjectListViews:
             emptyOverlay.Alignment = ContentAlignment.TopCenter;
@@ -115,15 +116,40 @@ namespace BareMinimum
 		{
 			if (model is Section)
 			{
-				if (((Section)model).EvenWeighted)
+				Section section = (Section)model;
+				if (section.EvenWeighted)
 					DrawTextInCell(g, r, "Auto");
 				else
-					DrawTextInCell(g, r, ((Section)model).Weight.ToString("0.##") + "%");
+					DrawTextInCell(g, r, (section.Weight.ToString("0.##") + "%");
 			}
 			else
 				g.FillRectangle(Brushes.White, r);
 			return true;
 		}
+
+		// RendererDelegate for ItemEarnedColumn
+		public bool RenderItemEarned(EventArgs e, Graphics g, Rectangle r, object model)
+		{
+			if (model is Section)
+			{
+				Section section = (Section)model;
+				if (section.PointsEarned == null)
+					DrawTextInCell(g, r, "n/a");
+				else
+					DrawTextInCell(g, r, ((decimal)section.PointsEarned).ToString("0.##") + "%");
+			}
+			else // model is Grade
+			{
+				Grade grade = (Grade)model;
+				if (grade.PointsNeeded == null)
+					g.FillRectangle(Brushes.White, r);
+				else
+					DrawTextInCell(g, r, ((decimal)grade.PointsEarned).ToString("0.##") + "%");
+			}
+			return true;
+		}
+
+		
 
 		private void DrawTextInCell(Graphics g, Rectangle r, String text)
 		{
