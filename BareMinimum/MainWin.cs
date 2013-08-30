@@ -58,6 +58,9 @@ namespace BareMinimum
 			ItemWeightColumn.RendererDelegate = RenderItemWeight;
 			ItemEarnedColumn.RendererDelegate = RenderItemEarned;
 
+			// Set the AspectPutters for the ScenarioTree:
+			ItemEarnedColumn.AspectPutter = PutPointsEarned;
+
             // Customize the overlay for an empty list for both ObjectListViews:
             emptyOverlay.Alignment = ContentAlignment.TopCenter;
             emptyOverlay.BackColor = Color.Transparent;
@@ -120,7 +123,7 @@ namespace BareMinimum
 				if (section.EvenWeighted)
 					DrawTextInCell(g, r, "Auto");
 				else
-					DrawTextInCell(g, r, (section.Weight.ToString("0.##") + "%");
+					DrawTextInCell(g, r, (section.Weight.ToString("0.##") + "%"));
 			}
 			else
 				g.FillRectangle(Brushes.White, r);
@@ -141,15 +144,23 @@ namespace BareMinimum
 			else // model is Grade
 			{
 				Grade grade = (Grade)model;
-				if (grade.PointsNeeded == null)
+				if (grade.PointsEarned == null)
 					g.FillRectangle(Brushes.White, r);
 				else
-					DrawTextInCell(g, r, ((decimal)grade.PointsEarned).ToString("0.##") + "%");
+					DrawTextInCell(g, r, ((decimal)grade.PointsEarned).ToString("0.##"));
 			}
 			return true;
 		}
 
-		
+		public void PutPointsEarned(Object x, object value)
+		{
+			Grade grade = (Grade)x;
+			decimal newValue;
+			if (Decimal.TryParse(value.ToString(), out newValue))
+				grade.PointsEarned = newValue;
+			else
+				grade.PointsEarned = null;
+		}
 
 		private void DrawTextInCell(Graphics g, Rectangle r, String text)
 		{
@@ -173,6 +184,9 @@ namespace BareMinimum
 		private void CalculateNeeded()
         {
             // Note: this calculation is for the "Even" mode.
+			if (MarkedGrades.Count < 1)
+				return;
+
 			if (SelectedScenario.PointsEarned == null)
 			{
 				foreach (Grade grade in MarkedGrades)
@@ -191,8 +205,7 @@ namespace BareMinimum
 				foreach (Grade grade in MarkedGrades)
 					grade.PointsNeeded = needed;
 			}
-			//ScenarioTree.RefreshObjects(MarkedGrades);
-			ScenarioTree.RebuildAll(true);
+			ScenarioTree.RefreshObjects(MarkedGrades);
         }
 
 		private void CalculateOverallGradeWeights()
