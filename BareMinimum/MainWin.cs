@@ -28,18 +28,6 @@ namespace BareMinimum
             }
         }
 		public Scenario ScenarioToReselect { get; set; } // When a user attempts a deselect on the ScenarioList, this property allows BareMinimum to role back to the previous selection.
-        public List<Grade> MarkedGrades
-        {
-            get
-            {
-                List<Grade> list = new List<Grade>();
-                foreach (Item item in ScenarioTree.Objects)
-					if (item is Grade)
-						if (((Grade)item).Marked) 
-							list.Add((Grade)item);
-				return list;
-            }
-        }
 
 		#endregion
 
@@ -201,12 +189,12 @@ namespace BareMinimum
 		private void CalculateNeeded()
         {
             // Note: this calculation is for the "Even" mode.
-			if (MarkedGrades.Count < 1)
+			if (SelectedScenario.MarkedGrades.Count < 1)
 				return;
 
 			if (SelectedScenario.PointsEarned == null)
 			{
-				foreach (Grade grade in MarkedGrades)
+				foreach (Grade grade in SelectedScenario.MarkedGrades)
 					grade.PointsNeeded = SelectedScenario.Target;
 			}
 			else
@@ -214,15 +202,15 @@ namespace BareMinimum
 				CalculateOverallGradeWeights();
 
 				decimal markedPercent = 0;
-				foreach (Grade grade in MarkedGrades)
+				foreach (Grade grade in SelectedScenario.MarkedGrades)
 					markedPercent += grade.OverallWeight;
 				decimal current = (decimal)SelectedScenario.PointsEarned * ((100 - markedPercent) / 100);
 				decimal distance = SelectedScenario.Target - current;
 				decimal needed = (distance / markedPercent) * 100;
-				foreach (Grade grade in MarkedGrades)
+				foreach (Grade grade in SelectedScenario.MarkedGrades)
 					grade.PointsNeeded = needed;
 			}
-			ScenarioTree.RefreshObjects(MarkedGrades);
+			ScenarioTree.RefreshObjects(SelectedScenario.MarkedGrades);
         }
 
 		private void CalculateOverallGradeWeights()
@@ -250,9 +238,9 @@ namespace BareMinimum
 			{
 				foreach (Grade grade in section.Items)
 				{
-					Section parent = (Section)grade.Parent;
+					Section parent = section;
 					decimal modifier = parent.Weight / 100;
-					for (int level = grade.Level; level > 0; level--)
+					for (int level = grade.Level; level > parent.Level+1; level--)
 					{
 						parent = (Section)parent.Parent;
 						modifier *= parent.Weight / 100;
@@ -282,7 +270,7 @@ namespace BareMinimum
 				DeleteItemButton.Enabled = false;
 				ScenarioTargetUpDown.Enabled = false;
 				emptyOverlay.Text = "Add a scenario to get started.";
-				ScenarioTree.Refresh(); // Changing the emptyOverlay won't trigger a redraw for the ScenarioTree, but it should be immediately redrawn.
+				ScenarioTree.Refresh(); // Changing the emptyOverlay won't trigger a redraw for the ScenarioTree, we want a redraw anyway.
 			}
 			else
 			{

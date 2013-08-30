@@ -12,6 +12,26 @@ namespace BareMinimum
 		public List<Item> Items { get; set; }
 		public string Name { get; set; }
 
+		public List<Grade> MarkedGrades
+		{
+			get
+			{
+				List<Grade> list = new List<Grade>();
+				if (ItemType == ItemType.Grade)
+				{
+					foreach (Grade grade in Items)
+						if (grade.Marked)
+							list.Add(grade);
+				}
+				else if (ItemType == ItemType.Section)
+				{
+					foreach (Section section in Items)
+						list.AddRange(section.MarkedGrades);
+				}
+				return list;
+			}
+		}
+
 		public decimal? PointsEarned
 		{
 			get
