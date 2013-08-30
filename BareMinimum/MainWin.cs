@@ -123,17 +123,17 @@ namespace BareMinimum
 
 		private void CalculateNeeded()
         {
-            // TODO: Finish this.
+            // Note: this calculation is for the "Even" mode.
 			CalculateOverallGradeWeights();
 
-			double distance = SelectedScenario.Target - Double.Parse(SelectedScenario.PointsEarned);
-			if (SelectedScenario.ItemType == ItemType.Grade)
-			{
-				foreach (Grade grade in SelectedScenario.Items)
-				{
-
-				}
-			}
+			double markedPercent = 0.0;
+			foreach (Grade grade in MarkedGrades)
+				markedPercent += grade.OverallWeight;
+			double current = Double.Parse(SelectedScenario.PointsEarned.Replace("%", "")) * ((100 - markedPercent) / 100);
+			double distance = SelectedScenario.Target - current;
+			double needed = (distance / markedPercent) * 100;
+			foreach (Grade grade in MarkedGrades)
+				grade.PointsNeeded = needed.ToString("#.00");
         }
 
 		private void CalculateOverallGradeWeights()
@@ -191,6 +191,7 @@ namespace BareMinimum
 				ScenarioTitleLabel.Text = "No Scenario Selected";
 				DeleteScenarioButton.Enabled = false;
 				DeleteItemButton.Enabled = false;
+				ScenarioTargetUpDown.Enabled = false;
 				emptyOverlay.Text = "Add a scenario to get started.";
 				ScenarioTree.Refresh(); // Changing the emptyOverlay won't trigger a redraw for the ScenarioTree, but it should be immediately redrawn.
 			}
@@ -246,6 +247,7 @@ namespace BareMinimum
             ScenarioList.SelectObject(scenario);
             emptyOverlay.Text = "Add some items to this scenario.";
             DeleteScenarioButton.Enabled = true;
+			ScenarioTargetUpDown.Enabled = true;
         }
 
         private void AddSectionButton_Click(object sender, EventArgs e)
@@ -480,6 +482,12 @@ namespace BareMinimum
                         break;
                 }
             }
+		}
+
+		private void ScenarioTargetUpDown_ValueChanged(object sender, EventArgs e)
+		{
+			SelectedScenario.Target = (double)ScenarioTargetUpDown.Value;
+			CalculateNeeded();
 		}
 
 		#endregion

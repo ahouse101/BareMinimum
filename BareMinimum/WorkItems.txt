@@ -29,17 +29,18 @@ Version 0.4
 			3. Make Section and Scenario inherit from ItemContainer - small - done.
 		3. Add a method to calculate the Weight of each Grade - medium - done (the method currently never gets called).
 			r1. Made the MainWin bigger - small - change.
-			r2. Made sure the ScenarioTargetUpDown gets enabled/disabled at the right times - small - fix. 
+			r2. Made sure the ScenarioTargetUpDown gets enabled/disabled at the right times - small - fix (actually, this wasn't finished, oops). 
 			r3. Added a property to the Grade class that will store its weight in the overall Scenario - small (OverallWeight) - change.
 		4. Rewrite the Item.Weight property to be a nullable double - medium - done.
 			1. Write ConvertWeightToString - small - done.
 			2. Change Item.Weight to a nullable double - small - done.
-		- Add a method that will calculate the PointsNeeded of every grade in a Scenario - large - in progress (CalculateNeeded).
+		5. Add a method that will calculate the PointsNeeded of every grade in a Scenario - large - in progress (CalculateNeeded) (quite buggy).
 			r1. Made it impossible to resize the ItemMarkedColumn - small - fix.
 			1. Write a method to calculate and store the OverallWeight of each Grade - medium - done (CalculuateOverallGradeWeights).
 			r1. Added the Parent property to the Item interface and the Grade/Section classes, and added related functionality to their constructors and the code in MainWin.cs that initializes objects of those types - small - change.
 			r2. Added the Level property to the Item interface and the Grade/Section classes, and added relaed functionality to their constructors and the code in MainWin.cs that initializes object of those types - small - change.
-			- Finish implementing CalculateNeeded for the "Even" mode - medium - in progress. 
+			2. Finish implementing CalculateNeeded for the "Even" mode - medium - done. 
+			r1. Made sure the ScenarioTargetUpDown got enabled at the correct times (turns out I didn't actually finish in v0.3.2.3r2) - small - fix.
 	Changes:
 		1. Removed the overridden Grade.Weight property, and removed the "virtual" modifier from the Item.Weight property. The Weight for each Grade will be calculated outside the class (see work item 3) - small.
 		2. Made the RowHeight of ScenarioList and ScenarioTree 25 pixels (this spaces out the lists and makes them more readable) - small.

@@ -46,7 +46,6 @@ namespace BareMinimum
 
         public Grade(object parent) : this(parent, "Untitled Grade")
         {
-            PointsNeeded = "50";
             PointsPossible = "100";
         }
 
