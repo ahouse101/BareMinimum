@@ -31,9 +31,9 @@ namespace BareMinimum
 		}
 
 
-        public Section(object parent) : this(parent, "Untitled Section")
-        {
-        }
+		public Section(object parent)
+			: this(parent, "Untitled Section")
+		{ }
 
         public Section(object parent, string name)
         {

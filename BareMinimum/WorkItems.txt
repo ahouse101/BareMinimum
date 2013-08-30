@@ -14,7 +14,7 @@ Version 0.7
 	Goal: Polish existing features, get rid of hacks if possible, create help, and publish the Codeplex project.
 
 Version 0.6
-	Goal: Add templates, custom calculation modes, and options.
+	Goal: Add templates, custom calculation modes, and options. Also, improve the editing workflow.
 
 Version 0.5
 	Goal: Add file support.
@@ -22,7 +22,7 @@ Version 0.5
 Version 0.4
 	Goal: Add the methods that will do the calculations, and make sure they are called at the right times.
 	Work Items:
-		1. Implement Scenario.Average and Section.PointsEarned - medium - done (moved to ItemContainer.Average with work item 2.2).
+		1. Implement Scenario.Average and Section.PointsEarned - medium - done (moved to ItemContainer.PointsEarned with work item 2.2).
 		2. Redo the class heirarchy - large - done.
 			1. Change the Item class to an interface - medium - done.
 			2. Create the ItemContainer class - medium - done.
@@ -41,6 +41,9 @@ Version 0.4
 			r2. Added the Level property to the Item interface and the Grade/Section classes, and added relaed functionality to their constructors and the code in MainWin.cs that initializes object of those types - small - change.
 			2. Finish implementing CalculateNeeded for the "Even" mode - medium - done. 
 			r1. Made sure the ScenarioTargetUpDown got enabled at the correct times (turns out I didn't actually finish in v0.3.2.3r2) - small - fix.
+		- Fix some of the glaring issues with the current CalculateNeeded() - large - in progress.
+			1. Make sure the ScenarioTree gets refreshed at the right times so it doesn't look sluggish - small - done.
+			- Remove Item.Weight, and make Grade.Weight a double, and Section.Weight a string.
 	Changes:
 		1. Removed the overridden Grade.Weight property, and removed the "virtual" modifier from the Item.Weight property. The Weight for each Grade will be calculated outside the class (see work item 3) - small.
 		2. Made the RowHeight of ScenarioList and ScenarioTree 25 pixels (this spaces out the lists and makes them more readable) - small.

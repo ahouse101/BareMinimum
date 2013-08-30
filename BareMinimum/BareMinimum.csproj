@@ -38,7 +38,7 @@
     <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Grades.ico</ApplicationIcon>
+    <ApplicationIcon>Proto1.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
@@ -110,6 +110,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Grades.ico" />
+    <Content Include="Proto1.ico" />
     <Content Include="Resources\checkbox_no.png" />
     <Content Include="Resources\checkbox_yes.png" />
     <None Include="Resources\help_contents.png" />

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
 using Microsoft.VisualBasic;
+using System.ComponentModel;
 
 namespace BareMinimum
 {
@@ -54,7 +55,7 @@ namespace BareMinimum
 
 			// Set the String conversion delegate for ItemWeightColumn:
 			ItemWeightColumn.AspectToStringConverter = ConvertWeightToString;
-
+			
             // Customize the overlay for an empty list for both ObjectListViews:
             emptyOverlay.Alignment = ContentAlignment.TopCenter;
             emptyOverlay.BackColor = Color.Transparent;
@@ -134,6 +135,8 @@ namespace BareMinimum
 			double needed = (distance / markedPercent) * 100;
 			foreach (Grade grade in MarkedGrades)
 				grade.PointsNeeded = needed.ToString("#.00");
+			//ScenarioTree.RefreshObjects(MarkedGrades);
+			ScenarioTree.RebuildAll(true);
         }
 
 		private void CalculateOverallGradeWeights()
@@ -242,7 +245,7 @@ namespace BareMinimum
 		private void AddScenarioButton_Click(object sender, EventArgs e)
         {
             string name = Interaction.InputBox("Type a name for the new scenario.", "New Scenario", "Untitled");
-            Scenario scenario = new Scenario { Name = name, ItemType = ItemType.None };
+            Scenario scenario = new Scenario(name);
             ScenarioList.AddObject(scenario);
             ScenarioList.SelectObject(scenario);
             emptyOverlay.Text = "Add some items to this scenario.";
@@ -280,14 +283,18 @@ namespace BareMinimum
                 Scenario container = SelectedScenario;
                 // Add a new Grade to the Scenario:
                 container.ItemType = ItemType.Grade;
-                container.Items.Add(new Grade(SelectedScenario));
+				Grade newGrade = new Grade(SelectedScenario);
+				newGrade.PropertyChanged += Grade_PropertyChanged;
+                container.Items.Add(newGrade);
                 ScenarioTree.SetObjects(SelectedScenario.Items);
             }
             else
             {
                 Section container = ((Section)ScenarioTree.SelectedObject);
                 container.ItemType = ItemType.Grade;
-                container.Items.Add(new Grade(container));
+				Grade newGrade = new Grade(container);
+				newGrade.PropertyChanged += Grade_PropertyChanged;
+				container.Items.Add(newGrade);
                 ScenarioTree.RefreshObject(container);
                 if (!ScenarioTree.IsExpanded(container))
                     ScenarioTree.Expand(container);
@@ -488,6 +495,12 @@ namespace BareMinimum
 		{
 			SelectedScenario.Target = (double)ScenarioTargetUpDown.Value;
 			CalculateNeeded();
+		}
+
+		private void Grade_PropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == "Marked")
+				CalculateNeeded();
 		}
 
 		#endregion

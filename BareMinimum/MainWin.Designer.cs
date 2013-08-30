@@ -37,6 +37,7 @@
 			this.ScenarioList = new BrightIdeasSoftware.ObjectListView();
 			this.ScenarioNameColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.ScenarioAverageColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.ScenarioTargetColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.DeleteItemButton = new System.Windows.Forms.Button();
 			this.CalculationTypeComboBox = new System.Windows.Forms.ComboBox();
 			this.ScenarioTargetUpDown = new System.Windows.Forms.NumericUpDown();
@@ -138,6 +139,7 @@
 			// 
 			this.ScenarioList.AllColumns.Add(this.ScenarioNameColumn);
 			this.ScenarioList.AllColumns.Add(this.ScenarioAverageColumn);
+			this.ScenarioList.AllColumns.Add(this.ScenarioTargetColumn);
 			this.ScenarioList.AlternateRowBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
 			this.ScenarioList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
@@ -145,7 +147,8 @@
 			this.ScenarioList.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.DoubleClick;
 			this.ScenarioList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.ScenarioNameColumn,
-            this.ScenarioAverageColumn});
+            this.ScenarioAverageColumn,
+            this.ScenarioTargetColumn});
 			this.ScenarioList.Cursor = System.Windows.Forms.Cursors.Default;
 			this.ScenarioList.FullRowSelect = true;
 			this.ScenarioList.HeaderUsesThemes = false;
@@ -180,6 +183,12 @@
 			this.ScenarioAverageColumn.Text = "Average";
 			this.ScenarioAverageColumn.Width = 55;
 			// 
+			// ScenarioTargetColumn
+			// 
+			this.ScenarioTargetColumn.AspectName = "Target";
+			this.ScenarioTargetColumn.Text = "Target";
+			this.ScenarioTargetColumn.Width = 55;
+			// 
 			// DeleteItemButton
 			// 
 			this.DeleteItemButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -203,7 +212,7 @@
 			this.CalculationTypeComboBox.Items.AddRange(new object[] {
             "Even",
             "Most Zeros"});
-			this.CalculationTypeComboBox.Location = new System.Drawing.Point(336, 375);
+			this.CalculationTypeComboBox.Location = new System.Drawing.Point(340, 375);
 			this.CalculationTypeComboBox.Name = "CalculationTypeComboBox";
 			this.CalculationTypeComboBox.Size = new System.Drawing.Size(106, 23);
 			this.CalculationTypeComboBox.TabIndex = 8;
@@ -213,7 +222,7 @@
 			this.ScenarioTargetUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.ScenarioTargetUpDown.Enabled = false;
 			this.ScenarioTargetUpDown.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.ScenarioTargetUpDown.Location = new System.Drawing.Point(446, 375);
+			this.ScenarioTargetUpDown.Location = new System.Drawing.Point(450, 375);
 			this.ScenarioTargetUpDown.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -223,7 +232,7 @@
 			this.ScenarioTargetUpDown.Size = new System.Drawing.Size(69, 23);
 			this.ScenarioTargetUpDown.TabIndex = 6;
 			this.ScenarioTargetUpDown.Value = new decimal(new int[] {
-            91,
+            90,
             0,
             0,
             0});
@@ -288,7 +297,7 @@
 			this.ScenarioTree.RowHeight = 25;
 			this.ScenarioTree.ShowGroups = false;
 			this.ScenarioTree.ShowImagesOnSubItems = true;
-			this.ScenarioTree.Size = new System.Drawing.Size(516, 355);
+			this.ScenarioTree.Size = new System.Drawing.Size(520, 355);
 			this.ScenarioTree.TabIndex = 3;
 			this.ScenarioTree.UseCellFormatEvents = true;
 			this.ScenarioTree.UseCompatibleStateImageBehavior = false;
@@ -513,6 +522,7 @@
         private System.Windows.Forms.Button DeleteScenarioButton;
         private System.Windows.Forms.Button DeleteItemButton;
         private System.Windows.Forms.ToolStripButton HelpToolbarButton;
+		private BrightIdeasSoftware.OLVColumn ScenarioTargetColumn;
     }
 }
 

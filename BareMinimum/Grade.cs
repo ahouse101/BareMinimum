@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace BareMinimum
 {
-    public class Grade : Item
+    public class Grade : Item, INotifyPropertyChanged
     {
         private string pointsEarned;
 		private string pointsPossible;
+		private bool marked;
 
 		public string PointsEarned
 		{
@@ -34,8 +37,20 @@ namespace BareMinimum
 			}
 		}
 
-		public string PointsNeeded { get; set; }
-		public bool Marked { get; set; } 
+		public bool Marked 
+		{
+			get
+			{
+				return marked;
+			}
+			set
+			{
+				marked = value;
+				NotifyPropertyChanged();
+			}
+		}
+
+		public string PointsNeeded { get; set; } 
 		public string Notes { get; set; }
 		public double? Weight { get; set; }
 		public string Name { get; set; }
@@ -44,10 +59,9 @@ namespace BareMinimum
 		public object Parent { get; set; }
 		public int Level { get; set; }
 
-        public Grade(object parent) : this(parent, "Untitled Grade")
-        {
-            PointsPossible = "100";
-        }
+		public Grade(object parent)
+			: this(parent, "Untitled Grade")
+		{ }
 
         public Grade(object parent, string name)
         {
@@ -56,8 +70,16 @@ namespace BareMinimum
 			else
 				Level = ((Section)parent).Level + 1;
             Name = name;
-			Marked = false;
+			PointsPossible = "100";
+			marked = false;
 			Parent = parent;
         }
+
+		public event PropertyChangedEventHandler PropertyChanged;
+		private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+		{
+			if (PropertyChanged != null)
+				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+		}
     }
 }
