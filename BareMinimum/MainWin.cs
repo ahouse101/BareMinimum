@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
 using Microsoft.VisualBasic;
-using System.ComponentModel;
 
 namespace BareMinimum
 {
@@ -55,7 +54,7 @@ namespace BareMinimum
 
 			// Set the String conversion delegate for ItemWeightColumn:
 			ItemWeightColumn.AspectToStringConverter = ConvertWeightToString;
-			
+
             // Customize the overlay for an empty list for both ObjectListViews:
             emptyOverlay.Alignment = ContentAlignment.TopCenter;
             emptyOverlay.BackColor = Color.Transparent;
@@ -81,7 +80,7 @@ namespace BareMinimum
 			hotItemDecoration.FillBrush = new SolidBrush(Color.FromArgb(10, 0, 0, 0));
 			hotItemDecoration.CornerRounding = 0f;
 			ScenarioTree.HotItemStyle.Decoration = hotItemDecoration;
-			
+
             // Set the drop down:
             CalculationTypeComboBox.SelectedItem = "Even";
         }
@@ -111,11 +110,8 @@ namespace BareMinimum
 
 		public string ConvertWeightToString(object x)
 		{
-			double? weight = (double?)x;
-			if (weight == null)
-				return "";
-			else
-				return ((double)weight).ToString("0.##") + "%";
+			decimal weight = (decimal)x;
+			return weight.ToString("0.##") + "%";
 		}
 
 		#endregion
@@ -127,14 +123,14 @@ namespace BareMinimum
             // Note: this calculation is for the "Even" mode.
 			CalculateOverallGradeWeights();
 
-			double markedPercent = 0.0;
+			decimal markedPercent = 0;
 			foreach (Grade grade in MarkedGrades)
 				markedPercent += grade.OverallWeight;
-			double current = Double.Parse(SelectedScenario.PointsEarned.Replace("%", "")) * ((100 - markedPercent) / 100);
-			double distance = SelectedScenario.Target - current;
-			double needed = (distance / markedPercent) * 100;
+			decimal current = (decimal)SelectedScenario.PointsEarned * ((100 - markedPercent) / 100);
+			decimal distance = SelectedScenario.Target - current;
+			decimal needed = (distance / markedPercent) * 100;
 			foreach (Grade grade in MarkedGrades)
-				grade.PointsNeeded = needed.ToString("#.00");
+				grade.PointsNeeded = needed;
 			//ScenarioTree.RefreshObjects(MarkedGrades);
 			ScenarioTree.RebuildAll(true);
         }
@@ -146,7 +142,7 @@ namespace BareMinimum
 			{
 				foreach (Grade grade in SelectedScenario.Items)
 				{
-					grade.OverallWeight = (double)grade.Weight;
+					grade.OverallWeight = grade.Weight;
 				}
 			}
 			else if (SelectedScenario.ItemType == ItemType.Section)
@@ -165,13 +161,13 @@ namespace BareMinimum
 				foreach (Grade grade in section.Items)
 				{
 					Section parent = (Section)grade.Parent;
-					double modifier = (double)parent.Weight / 100;
+					decimal modifier = parent.Weight / 100;
 					for (int level = grade.Level; level > 0; level--)
 					{
 						parent = (Section)parent.Parent;
-						modifier *= (double)parent.Weight / 100;
+						modifier *= parent.Weight / 100;
 					}
-					grade.OverallWeight = (double)grade.Weight * modifier;
+					grade.OverallWeight = grade.Weight * modifier;
 				}
 			}
 			else if (section.ItemType == ItemType.Section)
@@ -493,7 +489,7 @@ namespace BareMinimum
 
 		private void ScenarioTargetUpDown_ValueChanged(object sender, EventArgs e)
 		{
-			SelectedScenario.Target = (double)ScenarioTargetUpDown.Value;
+			SelectedScenario.Target = ScenarioTargetUpDown.Value;
 			CalculateNeeded();
 		}
 

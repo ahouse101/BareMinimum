@@ -41,9 +41,12 @@ Version 0.4
 			r2. Added the Level property to the Item interface and the Grade/Section classes, and added relaed functionality to their constructors and the code in MainWin.cs that initializes object of those types - small - change.
 			2. Finish implementing CalculateNeeded for the "Even" mode - medium - done. 
 			r1. Made sure the ScenarioTargetUpDown got enabled at the correct times (turns out I didn't actually finish in v0.3.2.3r2) - small - fix.
-		- Fix some of the glaring issues with the current CalculateNeeded() - large - in progress.
-			1. Make sure the ScenarioTree gets refreshed at the right times so it doesn't look sluggish - small - done.
-			- Remove Item.Weight, and make Grade.Weight a double, and Section.Weight a string.
+		6. Change the way the ScenarioTree renders data, and make the data classes reflect what they store - large - in progress.
+			r1. Made sure the ScenarioTree gets refreshed at the right times so it doesn't look sluggish - small - done.
+			1. Remove properties from Item that shouldn't be the same type in Section and Grade - small - done.
+			2. Rewrite the Grade properties - medium - done.
+			3. Rewrite the Section and Scenario properties - medium - done.
+		- Fix some of the glaring issues with the current CalculateNeeded() - large - planned.
 	Changes:
 		1. Removed the overridden Grade.Weight property, and removed the "virtual" modifier from the Item.Weight property. The Weight for each Grade will be calculated outside the class (see work item 3) - small.
 		2. Made the RowHeight of ScenarioList and ScenarioTree 25 pixels (this spaces out the lists and makes them more readable) - small.

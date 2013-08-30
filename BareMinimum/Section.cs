@@ -6,7 +6,7 @@ namespace BareMinimum
 {
     public class Section : ItemContainer, Item
     {
-		public double? Weight { get; set; }
+		public decimal Weight { get; set; }
         // Sections can't be marked, yet, but the TreeListView that I'm using runs very slowly if there is no CheckedAspect property present.
 		public bool Marked { get { return false; } }
 		public string Notes { get; set; }

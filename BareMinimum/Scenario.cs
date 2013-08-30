@@ -6,9 +6,9 @@ namespace BareMinimum
 {
     public class Scenario : ItemContainer
     {
-        public double Target { get; set; }
+        public decimal Target { get; set; }
 
-		public Scenario(double target)
+		public Scenario(decimal target)
 			: this(target, "Untitled")
 		{ }
 
@@ -20,7 +20,7 @@ namespace BareMinimum
 			: this(90, "Untitled")
 		{ }
 
-		public Scenario(double target, string name)
+		public Scenario(decimal target, string name)
 		{
 			Target = target;
 			Name = name;

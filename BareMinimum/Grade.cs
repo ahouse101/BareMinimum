@@ -9,33 +9,7 @@ namespace BareMinimum
 {
     public class Grade : Item, INotifyPropertyChanged
     {
-        private string pointsEarned;
-		private string pointsPossible;
 		private bool marked;
-
-		public string PointsEarned
-		{
-			get
-			{
-				return pointsEarned;
-			}
-			set
-			{
-				pointsEarned = new String(value.Where(Char.IsDigit).ToArray());
-			}
-		}
-
-		public string PointsPossible
-		{
-			get
-			{
-				return pointsPossible;
-			}
-			set
-			{
-				pointsPossible = new String(value.Where(Char.IsDigit).ToArray());
-			}
-		}
 
 		public bool Marked 
 		{
@@ -46,15 +20,19 @@ namespace BareMinimum
 			set
 			{
 				marked = value;
+				if (value == false)
+					PointsNeeded = null;
 				NotifyPropertyChanged();
 			}
 		}
 
-		public string PointsNeeded { get; set; } 
-		public string Notes { get; set; }
-		public double? Weight { get; set; }
+		public decimal? PointsEarned { get; set; }
+		public decimal? PointsNeeded { get; set; }
+		public decimal PointsPossible { get; set; }
+		public decimal Weight { get; set; }
+		public decimal OverallWeight { get; set; }
 		public string Name { get; set; }
-		public double OverallWeight { get; set; }
+		public string Notes { get; set; }
 
 		public object Parent { get; set; }
 		public int Level { get; set; }
@@ -70,7 +48,7 @@ namespace BareMinimum
 			else
 				Level = ((Section)parent).Level + 1;
             Name = name;
-			PointsPossible = "100";
+			PointsPossible = 100;
 			marked = false;
 			Parent = parent;
         }

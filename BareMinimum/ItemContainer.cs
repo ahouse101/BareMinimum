@@ -12,50 +12,50 @@ namespace BareMinimum
 		public List<Item> Items { get; set; }
 		public string Name { get; set; }
 
-		public string PointsEarned
+		public decimal? PointsEarned
 		{
 			get
 			{
 				if (Items.Count < 1)
-					return "n/a";
+					return null;
 				if (ItemType == ItemType.Section)
 				{
-					double average = 0.0;
+					decimal average = 0;
 					int numEmpty = 0;
 					foreach (Section section in Items)
 					{
-						if (section.PointsEarned != "n/a" && section.PointsEarned != "Error" && !String.IsNullOrWhiteSpace(section.PointsEarned))
-							average += Double.Parse(section.PointsEarned.Replace("%", "")) * (double)section.Weight;
+						if (section.PointsEarned != null)
+							average += (decimal)section.PointsEarned * (decimal)section.Weight;
 						else
 							numEmpty++;
 					}
 					if (numEmpty == Items.Count)
-						return "n/a";
+						return null;
 					else
-						return average.ToString("0.##") + "%";
+						return average;
 				}
 				else if (ItemType == ItemType.Grade)
 				{
-					double total = 0.0;
-					double points = 0.0;
+					decimal total = 0;
+					decimal points = 0;
 					int numEmpty = 0;
 					foreach (Grade grade in Items)
 					{
-						if (!String.IsNullOrWhiteSpace(grade.PointsEarned))
+						if (grade.PointsEarned != null)
 						{
-							total += Double.Parse(grade.PointsPossible);
-							points += Double.Parse(grade.PointsEarned);
+							total += grade.PointsPossible;
+							points += (decimal)grade.PointsEarned;
 						}
 						else
 							numEmpty++;
 					}
 					if (numEmpty == Items.Count)
-						return "n/a";
+						return null;
 					else
-						return (points / total * 100).ToString("0.##") + "%";
+						return (points / total * 100);
 				}
 				else
-					return "Error";
+					return null;
 			}
 			set { }
 		}
@@ -69,11 +69,11 @@ namespace BareMinimum
 			}
 			else if  (ItemType == ItemType.Grade)
 			{
-				double total = 0.0;
+				decimal total = 0;
 				foreach (Grade grade in Items)
-					total += Double.Parse(grade.PointsPossible);
+					total += (decimal)grade.PointsPossible;
 				foreach (Grade grade in Items)
-					grade.Weight = (Double.Parse(grade.PointsPossible) / total * 100);
+					grade.Weight = ((decimal)grade.PointsPossible / total * 100);
 			}
 		}
 	}

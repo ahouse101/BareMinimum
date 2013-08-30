@@ -109,7 +109,6 @@
     <None Include="Resources\filenew.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Grades.ico" />
     <Content Include="Proto1.ico" />
     <Content Include="Resources\checkbox_no.png" />
     <Content Include="Resources\checkbox_yes.png" />
