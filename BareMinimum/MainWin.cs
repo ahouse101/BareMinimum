@@ -18,6 +18,7 @@ namespace BareMinimum
 		#region Properties and Fields
 
 		private TextOverlay emptyOverlay = new TextOverlay();
+		private Font controlFont;
 
         public Scenario SelectedScenario
         {
@@ -47,13 +48,14 @@ namespace BareMinimum
 		public MainWin()
         {
             InitializeComponent();
+			controlFont = ScenarioTree.Font;
 
             // Set up the TreeListView for display:
             ScenarioTree.CanExpandGetter = CanExpand;
             ScenarioTree.ChildrenGetter = GetChildren;
 
-			// Set the String conversion delegate for ItemWeightColumn:
-			ItemWeightColumn.AspectToStringConverter = ConvertWeightToString;
+			// Set the RenderDelegates for the ScenarioTree:
+			ItemWeightColumn.RendererDelegate = RenderItemWeight;
 
             // Customize the overlay for an empty list for both ObjectListViews:
             emptyOverlay.Alignment = ContentAlignment.TopCenter;
@@ -108,10 +110,34 @@ namespace BareMinimum
                 return new ArrayList();
         }
 
-		public string ConvertWeightToString(object x)
+		// RendererDelegate for ItemWeightColumn
+		public bool RenderItemWeight(EventArgs e, Graphics g, Rectangle r, object model)
 		{
-			decimal weight = (decimal)x;
-			return weight.ToString("0.##") + "%";
+			if (model is Section)
+			{
+				if (((Section)model).EvenWeighted)
+					DrawTextInCell(g, r, "Auto");
+				else
+					DrawTextInCell(g, r, ((Section)model).Weight.ToString("0.##") + "%");
+			}
+			else
+				g.FillRectangle(Brushes.White, r);
+			return true;
+		}
+
+		private void DrawTextInCell(Graphics g, Rectangle r, String text)
+		{
+			// Fill backgroud:
+			g.FillRectangle(Brushes.White, r);
+			
+			// Create the StringFormat:
+			StringFormat format = new StringFormat(StringFormatFlags.NoWrap);
+			format.LineAlignment = StringAlignment.Center;
+			format.Alignment = StringAlignment.Near;
+			format.Trimming = StringTrimming.EllipsisCharacter;
+
+			// Draw the text:
+			g.DrawString(text, controlFont, Brushes.Black, r, format);
 		}
 
 		#endregion
@@ -121,16 +147,24 @@ namespace BareMinimum
 		private void CalculateNeeded()
         {
             // Note: this calculation is for the "Even" mode.
-			CalculateOverallGradeWeights();
+			if (SelectedScenario.PointsEarned == null)
+			{
+				foreach (Grade grade in MarkedGrades)
+					grade.PointsNeeded = SelectedScenario.Target;
+			}
+			else
+			{
+				CalculateOverallGradeWeights();
 
-			decimal markedPercent = 0;
-			foreach (Grade grade in MarkedGrades)
-				markedPercent += grade.OverallWeight;
-			decimal current = (decimal)SelectedScenario.PointsEarned * ((100 - markedPercent) / 100);
-			decimal distance = SelectedScenario.Target - current;
-			decimal needed = (distance / markedPercent) * 100;
-			foreach (Grade grade in MarkedGrades)
-				grade.PointsNeeded = needed;
+				decimal markedPercent = 0;
+				foreach (Grade grade in MarkedGrades)
+					markedPercent += grade.OverallWeight;
+				decimal current = (decimal)SelectedScenario.PointsEarned * ((100 - markedPercent) / 100);
+				decimal distance = SelectedScenario.Target - current;
+				decimal needed = (distance / markedPercent) * 100;
+				foreach (Grade grade in MarkedGrades)
+					grade.PointsNeeded = needed;
+			}
 			//ScenarioTree.RefreshObjects(MarkedGrades);
 			ScenarioTree.RebuildAll(true);
         }
@@ -366,7 +400,7 @@ namespace BareMinimum
 			}
 			else if (e.Model is Grade)
 			{
-				background.FillBrush = new SolidBrush(Color.FromArgb(50, 0, 200, 75));
+				background.FillBrush = new SolidBrush(Color.FromArgb(50, 0, 190, 0));
 			}
 			e.Item.Decoration = background;
 		}

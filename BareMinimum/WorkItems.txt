@@ -46,6 +46,8 @@ Version 0.4
 			1. Remove properties from Item that shouldn't be the same type in Section and Grade - small - done.
 			2. Rewrite the Grade properties - medium - done.
 			3. Rewrite the Section and Scenario properties - medium - done.
+			4. Add a method that will render the ItemWeightColumn and remove the string formatter - medium - done (RenderItemWeight).
+		
 		- Fix some of the glaring issues with the current CalculateNeeded() - large - planned.
 	Changes:
 		1. Removed the overridden Grade.Weight property, and removed the "virtual" modifier from the Item.Weight property. The Weight for each Grade will be calculated outside the class (see work item 3) - small.
