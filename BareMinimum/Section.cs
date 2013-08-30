@@ -7,7 +7,7 @@ namespace BareMinimum
     public class Section : ItemContainer, Item
     {
 		public decimal Weight { get; set; }
-		public bool EvenWeighted { get; set; }
+		public bool AutoWeighted { get; set; }
         // Sections can't be marked, yet, but the TreeListView that I'm using runs very slowly if there is no CheckedAspect property present.
 		public bool Marked { get { return false; } }
 		public string Notes { get; set; }
@@ -37,7 +37,7 @@ namespace BareMinimum
 
         public Section(object parent, string name)
         {
-			EvenWeighted = true;
+			AutoWeighted = true;
 			Parent = parent;
 			if (parent is Scenario)
 				Level = 0;

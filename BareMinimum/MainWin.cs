@@ -121,7 +121,7 @@ namespace BareMinimum
 			if (model is Section)
 			{
 				Section section = (Section)model;
-				if (section.EvenWeighted)
+				if (section.AutoWeighted)
 					DrawTextInCell(g, r, "Auto");
 				else
 					DrawTextInCell(g, r, (section.Weight.ToString("0.##") + "%"));
@@ -159,12 +159,13 @@ namespace BareMinimum
 			decimal newValue;
 			if (Decimal.TryParse(value.ToString(), out newValue))
 			{
+				section.AutoWeighted = false;
 				section.Weight = newValue;
-				section.EvenWeighted = false;
 			}
 			else
 			{
-				section.EvenWeighted = true;
+				section.AutoWeighted = true;
+				SelectedScenario.CalculateAutoSectionWeights();
 			}
 		}
 
@@ -357,6 +358,7 @@ namespace BareMinimum
                 if (!ScenarioTree.IsExpanded(container))
                     ScenarioTree.Expand(container);
             }
+			SelectedScenario.CalculateAutoSectionWeights();
             AddGradeButton.Enabled = false;
         }
 

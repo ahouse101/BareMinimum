@@ -35,12 +35,12 @@ Version 0.4
 			1. Write ConvertWeightToString - small - done.
 			2. Change Item.Weight to a nullable double - small - done.
 		5. Add a method that will calculate the PointsNeeded of every grade in a Scenario - large - in progress (CalculateNeeded) (quite buggy).
-			r1. Made it impossible to resize the ItemMarkedColumn - small - fix.
+				r1. Made it impossible to resize the ItemMarkedColumn - small - fix.
 			1. Write a method to calculate and store the OverallWeight of each Grade - medium - done (CalculuateOverallGradeWeights).
-			r1. Added the Parent property to the Item interface and the Grade/Section classes, and added related functionality to their constructors and the code in MainWin.cs that initializes objects of those types - small - change.
-			r2. Added the Level property to the Item interface and the Grade/Section classes, and added relaed functionality to their constructors and the code in MainWin.cs that initializes object of those types - small - change.
+				r1. Added the Parent property to the Item interface and the Grade/Section classes, and added related functionality to their constructors and the code in MainWin.cs that initializes objects of those types - small - change.
+				r2. Added the Level property to the Item interface and the Grade/Section classes, and added relaed functionality to their constructors and the code in MainWin.cs that initializes object of those types - small - change.
 			2. Finish implementing CalculateNeeded for the "Even" mode - medium - done. 
-			r1. Made sure the ScenarioTargetUpDown got enabled at the correct times (turns out I didn't actually finish in v0.3.2.3r2) - small - fix.
+				r1. Made sure the ScenarioTargetUpDown got enabled at the correct times (turns out I didn't actually finish in v0.3.2.3r2) - small - fix.
 		6. Change the way the ScenarioTree renders data, and make the data classes reflect what they store - large - in progress.
 			r1. Made sure the ScenarioTree gets refreshed at the right times so it doesn't look sluggish - small - done.
 			1. Remove properties from Item that shouldn't be the same type in Section and Grade - small - done.
@@ -50,6 +50,8 @@ Version 0.4
 			5. Add a method that will render the ItemEarnedColumn - medium - done (RenderItemEarned).
 			6. Add a method that will write the edited value back into the model for Grade.PointsEarned - small - done (PutPointsEarned).
 			7. Add a method that will write the edited value back into the model for Section.Weight - small - done (PutWeight).
+			8. Add a method to the ItemContainer class that will calculate the Weight of AutoWeighted sections - done - in progress (CalculateAutoSectionWeights).
+				r1. Fixed an issue with ItemContainer.PointsEarned that caused it to be much larger than the real value when Sections were present in the tree - small - fix.
 		- Fix some of the issues with the current CalculateNeeded() - large - planned.
 	Changes:
 		1. Removed the overridden Grade.Weight property, and removed the "virtual" modifier from the Item.Weight property. The Weight for each Grade will be calculated outside the class (see work item 3) - small.

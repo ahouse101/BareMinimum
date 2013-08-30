@@ -25,7 +25,7 @@ namespace BareMinimum
 					foreach (Section section in Items)
 					{
 						if (section.PointsEarned != null)
-							average += (decimal)section.PointsEarned * (decimal)section.Weight;
+							average += (decimal)section.PointsEarned * ((decimal)section.Weight / 100);
 						else
 							numEmpty++;
 					}
@@ -74,6 +74,23 @@ namespace BareMinimum
 					total += (decimal)grade.PointsPossible;
 				foreach (Grade grade in Items)
 					grade.Weight = ((decimal)grade.PointsPossible / total * 100);
+			}
+		}
+
+		public void CalculateAutoSectionWeights()
+		{
+			if (ItemType == ItemType.Section)
+			{
+				int autoWeightedSectionsCount = 0;
+				foreach (Section section in Items)
+					if (section.AutoWeighted)
+						autoWeightedSectionsCount++;
+				
+				foreach (Section section in Items)
+				{
+					section.Weight = 100M / autoWeightedSectionsCount;
+					section.CalculateAutoSectionWeights();
+				}
 			}
 		}
 	}
