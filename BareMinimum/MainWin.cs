@@ -59,9 +59,10 @@ namespace BareMinimum
 			ItemEarnedColumn.RendererDelegate = RenderItemEarned;
 
 			// Set the AspectPutters for the ScenarioTree:
+			ItemWeightColumn.AspectPutter = PutWeight;
 			ItemEarnedColumn.AspectPutter = PutPointsEarned;
-
-            // Customize the overlay for an empty list for both ObjectListViews:
+			
+			// Customize the overlay for an empty list for both ObjectListViews:
             emptyOverlay.Alignment = ContentAlignment.TopCenter;
             emptyOverlay.BackColor = Color.Transparent;
             emptyOverlay.BorderWidth = 0.0F;
@@ -152,7 +153,22 @@ namespace BareMinimum
 			return true;
 		}
 
-		public void PutPointsEarned(Object x, object value)
+		public void PutWeight(object x, object value)
+		{
+			Section section = (Section)x;
+			decimal newValue;
+			if (Decimal.TryParse(value.ToString(), out newValue))
+			{
+				section.Weight = newValue;
+				section.EvenWeighted = false;
+			}
+			else
+			{
+				section.EvenWeighted = true;
+			}
+		}
+
+		public void PutPointsEarned(object x, object value)
 		{
 			Grade grade = (Grade)x;
 			decimal newValue;
