@@ -42,6 +42,9 @@ namespace BareMinimum
             ScenarioTree.CanExpandGetter = CanExpand;
             ScenarioTree.ChildrenGetter = GetChildren;
 
+			// Set the AspectToStringConverters for the ScenarioList:
+			ScenarioAverageColumn.AspectToStringConverter = ConvertScenarioAverageToString;
+
 			// Set the RenderDelegates for the ScenarioTree:
 			ItemWeightColumn.RendererDelegate = RenderItemWeight;
 			ItemEarnedColumn.RendererDelegate = RenderItemEarned;
@@ -103,6 +106,16 @@ namespace BareMinimum
             else
                 return new ArrayList();
         }
+
+		// AspectToStringConverter for ScenarioAverageColumn
+		public string ConvertScenarioAverageToString(object x)
+		{
+			decimal? average = (decimal?)x;
+			if (average != null)
+				return ((decimal)average).ToString("0.##") + "%";
+			else
+				return "n/a";
+		}
 
 		// RendererDelegate for ItemWeightColumn
 		public bool RenderItemWeight(EventArgs e, Graphics g, Rectangle r, object model)
