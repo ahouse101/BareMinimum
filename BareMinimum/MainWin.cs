@@ -49,6 +49,7 @@ namespace BareMinimum
 			// Set the AspectPutters for the ScenarioTree:
 			ItemWeightColumn.AspectPutter = PutWeight;
 			ItemEarnedColumn.AspectPutter = PutPointsEarned;
+			ScenarioTargetColumn.AspectPutter = PutTarget;
 			
 			// Customize the overlay for an empty list for both ObjectListViews:
             emptyOverlay.Alignment = ContentAlignment.TopCenter;
@@ -165,6 +166,14 @@ namespace BareMinimum
 				grade.PointsEarned = newValue;
 			else
 				grade.PointsEarned = null;
+		}
+
+		public void PutTarget(object x, object value)
+		{
+			Scenario scenario = (Scenario)x;
+			decimal newValue;
+			if (Decimal.TryParse(value.ToString(), out newValue))
+				scenario.Target = newValue;
 		}
 
 		private void DrawTextInCell(Graphics g, Rectangle r, String text)
