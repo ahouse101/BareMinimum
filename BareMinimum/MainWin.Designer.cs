@@ -40,7 +40,6 @@
 			this.ScenarioTargetColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.DeleteItemButton = new System.Windows.Forms.Button();
 			this.CalculationTypeComboBox = new System.Windows.Forms.ComboBox();
-			this.ScenarioTargetUpDown = new System.Windows.Forms.NumericUpDown();
 			this.AddGradeButton = new System.Windows.Forms.Button();
 			this.AddSectionButton = new System.Windows.Forms.Button();
 			this.ScenarioTree = new BrightIdeasSoftware.TreeListView();
@@ -66,7 +65,6 @@
 			this.MainSplit.Panel2.SuspendLayout();
 			this.MainSplit.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ScenarioList)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.ScenarioTargetUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.ScenarioTree)).BeginInit();
 			this.FileToolbar.SuspendLayout();
 			this.SuspendLayout();
@@ -92,7 +90,6 @@
 			// 
 			this.MainSplit.Panel2.Controls.Add(this.DeleteItemButton);
 			this.MainSplit.Panel2.Controls.Add(this.CalculationTypeComboBox);
-			this.MainSplit.Panel2.Controls.Add(this.ScenarioTargetUpDown);
 			this.MainSplit.Panel2.Controls.Add(this.AddGradeButton);
 			this.MainSplit.Panel2.Controls.Add(this.AddSectionButton);
 			this.MainSplit.Panel2.Controls.Add(this.ScenarioTree);
@@ -213,31 +210,10 @@
 			this.CalculationTypeComboBox.Items.AddRange(new object[] {
             "Even",
             "Most Zeros"});
-			this.CalculationTypeComboBox.Location = new System.Drawing.Point(340, 375);
+			this.CalculationTypeComboBox.Location = new System.Drawing.Point(415, 375);
 			this.CalculationTypeComboBox.Name = "CalculationTypeComboBox";
 			this.CalculationTypeComboBox.Size = new System.Drawing.Size(105, 23);
 			this.CalculationTypeComboBox.TabIndex = 8;
-			// 
-			// ScenarioTargetUpDown
-			// 
-			this.ScenarioTargetUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.ScenarioTargetUpDown.Enabled = false;
-			this.ScenarioTargetUpDown.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.ScenarioTargetUpDown.Location = new System.Drawing.Point(450, 375);
-			this.ScenarioTargetUpDown.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-			this.ScenarioTargetUpDown.Name = "ScenarioTargetUpDown";
-			this.ScenarioTargetUpDown.Size = new System.Drawing.Size(70, 23);
-			this.ScenarioTargetUpDown.TabIndex = 6;
-			this.ScenarioTargetUpDown.Value = new decimal(new int[] {
-            90,
-            0,
-            0,
-            0});
-			this.ScenarioTargetUpDown.ValueChanged += new System.EventHandler(this.ScenarioTargetUpDown_ValueChanged);
 			// 
 			// AddGradeButton
 			// 
@@ -482,7 +458,6 @@
 			((System.ComponentModel.ISupportInitialize)(this.MainSplit)).EndInit();
 			this.MainSplit.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.ScenarioList)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.ScenarioTargetUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.ScenarioTree)).EndInit();
 			this.FileToolbar.ResumeLayout(false);
 			this.FileToolbar.PerformLayout();
@@ -517,8 +492,7 @@
         private BrightIdeasSoftware.OLVColumn ItemPossibleColumn;
         private BrightIdeasSoftware.OLVColumn ItemNeededColumn;
         private BrightIdeasSoftware.OLVColumn ItemNotesColumn;
-        private BrightIdeasSoftware.OLVColumn ItemMarkedColumn;
-        private System.Windows.Forms.NumericUpDown ScenarioTargetUpDown;
+		private BrightIdeasSoftware.OLVColumn ItemMarkedColumn;
         private System.Windows.Forms.ComboBox CalculationTypeComboBox;
         private System.Windows.Forms.Button DeleteScenarioButton;
         private System.Windows.Forms.Button DeleteItemButton;

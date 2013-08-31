@@ -10,6 +10,7 @@ namespace BareMinimum
     {
 		private decimal target;
 
+
         public decimal Target 
 		{
 			get

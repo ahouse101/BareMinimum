@@ -268,7 +268,6 @@ namespace BareMinimum
 				ScenarioTitleLabel.Text = "No Scenario Selected";
 				DeleteScenarioButton.Enabled = false;
 				DeleteItemButton.Enabled = false;
-				ScenarioTargetUpDown.Enabled = false;
 				emptyOverlay.Text = "Add a scenario to get started.";
 				ScenarioTree.Refresh(); // Changing the emptyOverlay won't trigger a redraw for the ScenarioTree, we want a redraw anyway.
 			}
@@ -324,7 +323,6 @@ namespace BareMinimum
             ScenarioList.SelectObject(newScenario);
             emptyOverlay.Text = "Add some items to this scenario.";
             DeleteScenarioButton.Enabled = true;
-			ScenarioTargetUpDown.Enabled = true;
         }
 
         private void AddSectionButton_Click(object sender, EventArgs e)
@@ -571,12 +569,6 @@ namespace BareMinimum
                         break;
                 }
             }
-		}
-
-		private void ScenarioTargetUpDown_ValueChanged(object sender, EventArgs e)
-		{
-			SelectedScenario.Target = ScenarioTargetUpDown.Value;
-			CalculateNeeded();
 		}
 
 		private void Section_PropertyChanged(object sender, PropertyChangedEventArgs e)
