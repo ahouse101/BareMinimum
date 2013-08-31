@@ -44,6 +44,7 @@ namespace BareMinimum
 
 			// Set the AspectToStringConverters for the ScenarioList:
 			ScenarioAverageColumn.AspectToStringConverter = ConvertScenarioAverageToString;
+			ItemNeededColumn.AspectToStringConverter = ConvertPointsNeededToString;
 
 			// Set the RenderDelegates for the ScenarioTree:
 			ItemWeightColumn.RendererDelegate = RenderItemWeight;
@@ -52,6 +53,7 @@ namespace BareMinimum
 			// Set the AspectPutters for the ScenarioTree:
 			ItemWeightColumn.AspectPutter = PutWeight;
 			ItemEarnedColumn.AspectPutter = PutPointsEarned;
+			ItemPossibleColumn.AspectPutter = PutPointsPossible;
 			ScenarioTargetColumn.AspectPutter = PutTarget;
 			
 			// Customize the overlay for an empty list for both ObjectListViews:
@@ -117,6 +119,16 @@ namespace BareMinimum
 				return "n/a";
 		}
 
+		// AspectToStringConverter for ItemNeededColumn
+		private string ConvertPointsNeededToString(object x)
+		{
+			decimal? needed = (decimal?)x;
+			if (needed != null)
+				return ((decimal)needed).ToString("0.00");
+			else
+				return "";
+		}
+
 		// RendererDelegate for ItemWeightColumn
 		private bool RenderItemWeight(EventArgs e, Graphics g, Rectangle r, object model)
 		{
@@ -179,6 +191,14 @@ namespace BareMinimum
 				grade.PointsEarned = newValue;
 			else
 				grade.PointsEarned = null;
+		}
+
+		private void PutPointsPossible(object x, object value)
+		{
+			Grade grade = (Grade)x;
+			decimal newValue;
+			if (Decimal.TryParse(value.ToString(), out newValue))
+				grade.PointsPossible = newValue;
 		}
 
 		private void PutTarget(object x, object value)
@@ -331,6 +351,7 @@ namespace BareMinimum
                 SelectedScenario.ItemType = ItemType.None;
                 DeleteScenarioButton.Enabled = false;
             }
+			ScenarioList.RefreshObject(SelectedScenario);
         }
 
 		#endregion

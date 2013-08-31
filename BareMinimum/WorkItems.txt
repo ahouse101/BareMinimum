@@ -66,6 +66,9 @@ Version 0.4
 				r3. Added an AspectToStringConverter for the ScenarioAverageColumn - small - change.
 			2. Make sure the ScenarioList and ScenarioTree are redrawn when needed - small - done.
 				(Added ScenarioList.RefreshObject(SelectedScenario) to each of the PropertyChanged events that signal a change in SelectedScenario.Average)
+				r1. Added a method to format the PointsNeeded column correctly - small - change. 
+			3. Add a method that will return the average of the scenario, not including Grades that are Marked - small - planned.
+			4. Revise the existing ItemContainer.PointsEarned so that it treats empty Sections as if they don't exist - medium - planned.
 				
 	Changes:
 		1. Removed the overridden Grade.Weight property, and removed the "virtual" modifier from the Item.Weight property. The Weight for each Grade will be calculated outside the class (see work item 3) - small.
