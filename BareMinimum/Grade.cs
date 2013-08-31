@@ -7,9 +7,11 @@ using System.Runtime.CompilerServices;
 
 namespace BareMinimum
 {
-    public class Grade : Item, INotifyPropertyChanged
+    public class Grade : IItem, INotifyPropertyChanged
     {
 		private bool marked;
+		private decimal? pointsEarned;
+		private decimal pointsPossible;
 
 		public bool Marked 
 		{
@@ -26,9 +28,33 @@ namespace BareMinimum
 			}
 		}
 
-		public decimal? PointsEarned { get; set; }
+		public decimal? PointsEarned
+		{
+			get
+			{
+				return pointsEarned;
+			}
+			set
+			{
+				pointsEarned = value;
+				NotifyPropertyChanged();
+			}
+		}
+
+		public decimal PointsPossible
+		{
+			get
+			{
+				return pointsPossible;
+			}
+			set
+			{
+				pointsPossible = value;
+				NotifyPropertyChanged();
+			}
+		}
+
 		public decimal? PointsNeeded { get; set; }
-		public decimal PointsPossible { get; set; }
 		public decimal Weight { get; set; }
 		public decimal OverallWeight { get; set; }
 		public string Name { get; set; }

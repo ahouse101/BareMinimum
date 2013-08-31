@@ -54,7 +54,12 @@ Version 0.4
 				r1. Fixed an issue with ItemContainer.PointsEarned that caused it to be much larger than the real value when Sections were present in the tree - small - fix.
 				r2. Moved MarkedGrades to ItemContainer and modified it, because it needs to traverse the tree to find out - medium - change.
 				r3. Fixed an issue with CalculateOverallGradeWeights() that caused it to throw an exception whenever Sections were present in the tree - small - fix.
-		- Fix some of the issues with the current CalculateNeeded() - medium - planned.
+		7. Fix some of the issues with the current CalculateNeeded() - medium - planned.
+			1. Make sure that CalculateNeeded is called whenever the tree is updated - medium - done.
+				(Added INotifyPropertyChanged to the Section class for the Weight property)
+				(Made the Grade class throw the PropertyChanged event for PointsPossible and PointsEarned)
+				(Added INotifyPropertyChanged to the Scenario class for the Name and Target properties)
+				(Implemented the PropertyChanged even for all three classes to call CalculateNeeded when needed)
 	Changes:
 		1. Removed the overridden Grade.Weight property, and removed the "virtual" modifier from the Item.Weight property. The Weight for each Grade will be calculated outside the class (see work item 3) - small.
 		2. Made the RowHeight of ScenarioList and ScenarioTree 25 pixels (this spaces out the lists and makes them more readable) - small.

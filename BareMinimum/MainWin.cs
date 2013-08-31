@@ -285,13 +285,13 @@ namespace BareMinimum
         {
             if (SelectedScenario != null && ScenarioTree.SelectedObject != null)
             {
-                Item item = (Item)ScenarioTree.SelectedObject;
+                IItem item = (IItem)ScenarioTree.SelectedObject;
                 Section parent = (Section)ScenarioTree.GetParent(item);
                 DeleteItem(item, parent);
             }
         }
 
-        private void DeleteItem(Item item, Section parent)
+        private void DeleteItem(IItem item, Section parent)
         {
             if (parent == null) // The item is a top level item (root).
             {
@@ -319,9 +319,9 @@ namespace BareMinimum
 		private void AddScenarioButton_Click(object sender, EventArgs e)
         {
             string name = Interaction.InputBox("Type a name for the new scenario.", "New Scenario", "Untitled");
-            Scenario scenario = new Scenario(name);
-            ScenarioList.AddObject(scenario);
-            ScenarioList.SelectObject(scenario);
+            Scenario newScenario = new Scenario(name);
+            ScenarioList.AddObject(newScenario);
+            ScenarioList.SelectObject(newScenario);
             emptyOverlay.Text = "Add some items to this scenario.";
             DeleteScenarioButton.Enabled = true;
 			ScenarioTargetUpDown.Enabled = true;
@@ -334,14 +334,18 @@ namespace BareMinimum
             {
                 // Add a new Grade to the Scenario:
                 SelectedScenario.ItemType = ItemType.Section;
-                SelectedScenario.Items.Add(new Section(SelectedScenario));
+				Section newSection = new Section(SelectedScenario);
+				newSection.PropertyChanged += Section_PropertyChanged;
+                SelectedScenario.Items.Add(newSection);
                 ScenarioTree.SetObjects(SelectedScenario.Items);
             }
             else
             {
                 Section container = ((Section)ScenarioTree.SelectedObject);
                 container.ItemType = ItemType.Section;
-                container.Items.Add(new Section(container));
+				Section newSection = new Section(container);
+				newSection.PropertyChanged += Section_PropertyChanged;
+                container.Items.Add(newSection);
                 ScenarioTree.RefreshObject(container);
                 if (!ScenarioTree.IsExpanded(container))
                     ScenarioTree.Expand(container);
@@ -405,6 +409,9 @@ namespace BareMinimum
                 // If the user clicks off of an item, but the list isn't empty, ignore it.
 				if (SelectedScenario != null)
 				{
+					if (ScenarioToReselect != null)
+						ScenarioToReselect.PropertyChanged -= Scenario_PropertyChanged;
+					SelectedScenario.PropertyChanged += Scenario_PropertyChanged;
 					ScenarioTree.SetObjects(SelectedScenario.Items);
 					switch (SelectedScenario.ItemType)
 					{
@@ -557,7 +564,7 @@ namespace BareMinimum
                 {
                     case 1:
                     case 5:
-                        //((Grade)e.RowObject).Marked = !((Grade)e.RowObject).Marked;
+                        // ((Grade)e.RowObject).Marked = !((Grade)e.RowObject).Marked;
                         e.Cancel = true;
                         break;
                     default:
@@ -572,10 +579,39 @@ namespace BareMinimum
 			CalculateNeeded();
 		}
 
+		private void Section_PropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == "Weight")
+				CalculateNeeded();
+		}
+
 		private void Grade_PropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName == "Marked")
-				CalculateNeeded();
+			switch (e.PropertyName)
+			{
+				case "Marked":
+				case "PointsEarned":
+				case "PointsPossible":
+					CalculateNeeded();
+					break;
+				default:
+					break;
+			}
+		}
+
+		private void Scenario_PropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			switch (e.PropertyName)
+			{
+				case "Name":
+					ScenarioTitleLabel.Text = SelectedScenario.Name;
+					break;
+				case "Target":
+					CalculateNeeded();
+					break;
+				default:
+					break;
+			}
 		}
 
 		#endregion

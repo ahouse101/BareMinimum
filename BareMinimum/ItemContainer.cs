@@ -9,7 +9,7 @@ namespace BareMinimum
 	public abstract class ItemContainer
 	{
 		public ItemType ItemType { get; set; }
-		public List<Item> Items { get; set; }
+		public List<IItem> Items { get; set; }
 		public string Name { get; set; }
 
 		public List<Grade> MarkedGrades

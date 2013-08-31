@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BareMinimum
 {
-    public interface Item
+    public interface IItem
     {
 		// Properties for display:
 		string Name { get; set; }
