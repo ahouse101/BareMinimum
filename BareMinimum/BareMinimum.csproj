@@ -82,9 +82,6 @@
     <Compile Include="Section.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="MainWin.en-US.resx">
-      <DependentUpon>MainWin.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MainWin.resx">
       <DependentUpon>MainWin.cs</DependentUpon>
     </EmbeddedResource>

@@ -15,20 +15,14 @@ namespace BareMinimum
 		public object Parent { get; set; }
 		public int Level { get; set; }
 
-        public string PointsPossible 
-        {
-            get
-            {
-                return "";
-            }
-			set
-			{ }
-        }
+		public string PointsPossible
+		{
+			get { return ""; }
+		}
 
 		public string PointsNeeded
 		{
 			get { return ""; }
-			set { }
 		}
 
 		public Section(object parent)
