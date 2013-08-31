@@ -210,7 +210,7 @@
 			this.CalculationTypeComboBox.Items.AddRange(new object[] {
             "Even",
             "Most Zeros"});
-			this.CalculationTypeComboBox.Location = new System.Drawing.Point(415, 375);
+			this.CalculationTypeComboBox.Location = new System.Drawing.Point(414, 375);
 			this.CalculationTypeComboBox.Name = "CalculationTypeComboBox";
 			this.CalculationTypeComboBox.Size = new System.Drawing.Size(105, 23);
 			this.CalculationTypeComboBox.TabIndex = 8;
@@ -274,7 +274,7 @@
 			this.ScenarioTree.RowHeight = 25;
 			this.ScenarioTree.ShowGroups = false;
 			this.ScenarioTree.ShowImagesOnSubItems = true;
-			this.ScenarioTree.Size = new System.Drawing.Size(520, 355);
+			this.ScenarioTree.Size = new System.Drawing.Size(519, 355);
 			this.ScenarioTree.TabIndex = 3;
 			this.ScenarioTree.UseCellFormatEvents = true;
 			this.ScenarioTree.UseCompatibleStateImageBehavior = false;
@@ -330,6 +330,7 @@
 			// ItemNeededColumn
 			// 
 			this.ItemNeededColumn.AspectName = "PointsNeeded";
+			this.ItemNeededColumn.AspectToStringFormat = "";
 			this.ItemNeededColumn.Text = "Needed";
 			this.ItemNeededColumn.Width = 55;
 			// 

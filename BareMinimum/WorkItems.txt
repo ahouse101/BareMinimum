@@ -29,7 +29,7 @@ Version 0.4
 			3. Make Section and Scenario inherit from ItemContainer - small - done.
 		3. Add a method to calculate the Weight of each Grade - medium - done (the method currently never gets called).
 			r1. Made the MainWin bigger - small - change.
-			r2. Made sure the ScenarioTargetUpDown gets enabled/disabled at the right times - small - fix (actually, this wasn't finished, oops). 
+			r2. Made sure the ScenarioTargetUpDown gets enabled/disabled at the right times - small - fix (actually, I marked this fixed on accident without actually doing it, oops). 
 			r3. Added a property to the Grade class that will store its weight in the overall Scenario - small (OverallWeight) - change.
 		4. Rewrite the Item.Weight property to be a nullable double - medium - done.
 			1. Write ConvertWeightToString - small - done.
@@ -64,6 +64,9 @@ Version 0.4
 				r2. Fixed an issue that made it impossible to edit the Scenario Target from the ScenarioList control - small - fix. 
 					(Added an AspectPutter for ScenarioTargetColumn)
 				r3. Added an AspectToStringConverter for the ScenarioAverageColumn - small - change.
+			2. Make sure the ScenarioList and ScenarioTree are redrawn when needed - small - done.
+				(Added ScenarioList.RefreshObject(SelectedScenario) to each of the PropertyChanged events that signal a change in SelectedScenario.Average)
+				
 	Changes:
 		1. Removed the overridden Grade.Weight property, and removed the "virtual" modifier from the Item.Weight property. The Weight for each Grade will be calculated outside the class (see work item 3) - small.
 		2. Made the RowHeight of ScenarioList and ScenarioTree 25 pixels (this spaces out the lists and makes them more readable) - small.

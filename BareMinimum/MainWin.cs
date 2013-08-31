@@ -85,7 +85,7 @@ namespace BareMinimum
         }
 
         // Delegate that tells the ScenarioTree when it can expand an item:
-        public bool CanExpand(object item)
+        private bool CanExpand(object item)
         {
             if (item is Section)
             {
@@ -99,7 +99,7 @@ namespace BareMinimum
         }
 
         // Delegate that returns the children of a given item to the ScenarioTree:
-        public ArrayList GetChildren(object item)
+        private ArrayList GetChildren(object item)
         {
             if (item is Section)
                 return new ArrayList(((Section)item).Items);
@@ -108,7 +108,7 @@ namespace BareMinimum
         }
 
 		// AspectToStringConverter for ScenarioAverageColumn
-		public string ConvertScenarioAverageToString(object x)
+		private string ConvertScenarioAverageToString(object x)
 		{
 			decimal? average = (decimal?)x;
 			if (average != null)
@@ -118,7 +118,7 @@ namespace BareMinimum
 		}
 
 		// RendererDelegate for ItemWeightColumn
-		public bool RenderItemWeight(EventArgs e, Graphics g, Rectangle r, object model)
+		private bool RenderItemWeight(EventArgs e, Graphics g, Rectangle r, object model)
 		{
 			if (model is Section)
 			{
@@ -134,7 +134,7 @@ namespace BareMinimum
 		}
 
 		// RendererDelegate for ItemEarnedColumn
-		public bool RenderItemEarned(EventArgs e, Graphics g, Rectangle r, object model)
+		private bool RenderItemEarned(EventArgs e, Graphics g, Rectangle r, object model)
 		{
 			if (model is Section)
 			{
@@ -155,7 +155,7 @@ namespace BareMinimum
 			return true;
 		}
 
-		public void PutWeight(object x, object value)
+		private void PutWeight(object x, object value)
 		{
 			Section section = (Section)x;
 			decimal newValue;
@@ -171,7 +171,7 @@ namespace BareMinimum
 			}
 		}
 
-		public void PutPointsEarned(object x, object value)
+		private void PutPointsEarned(object x, object value)
 		{
 			Grade grade = (Grade)x;
 			decimal newValue;
@@ -181,7 +181,7 @@ namespace BareMinimum
 				grade.PointsEarned = null;
 		}
 
-		public void PutTarget(object x, object value)
+		private void PutTarget(object x, object value)
 		{
 			Scenario scenario = (Scenario)x;
 			decimal newValue;
@@ -596,7 +596,10 @@ namespace BareMinimum
 		private void Section_PropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == "Weight")
+			{
 				CalculateNeeded();
+				ScenarioList.RefreshObject(SelectedScenario);
+			}
 		}
 
 		private void Grade_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -607,6 +610,7 @@ namespace BareMinimum
 				case "PointsEarned":
 				case "PointsPossible":
 					CalculateNeeded();
+					ScenarioList.RefreshObject(SelectedScenario);
 					break;
 				default:
 					break;
