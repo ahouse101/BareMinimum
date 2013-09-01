@@ -246,7 +246,7 @@ namespace BareMinimum
 				decimal markedPercent = 0;
 				foreach (Grade grade in SelectedScenario.MarkedGrades)
 					markedPercent += grade.OverallWeight;
-				decimal current = (decimal)SelectedScenario.GetAverage(false, false) * ((100 - markedPercent) / 100);
+				decimal current = (decimal)SelectedScenario.GetAverage(false, false, true) * ((100 - markedPercent) / 100);
 				decimal distance = SelectedScenario.Target - current;
 				decimal needed = (distance / markedPercent) * 100;
 				foreach (Grade grade in SelectedScenario.MarkedGrades)

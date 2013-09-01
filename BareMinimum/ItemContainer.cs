@@ -36,11 +36,11 @@ namespace BareMinimum
 		{
 			get
 			{
-				return GetAverage(true, false);
+				return GetAverage(true, false, false);
 			}
 		}
 
-		public decimal? GetAverage(bool includeMarked, bool treatEmptyAsZero)
+		public decimal? GetAverage(bool includeMarked, bool treatEmptyAsZero, bool treatMarkedForCalculation)
 		{
 			if (Items.Count < 1)
 				return null;
@@ -51,9 +51,9 @@ namespace BareMinimum
 				decimal nonEmptyWeight = 0;
 				foreach (Section section in Items)
 				{
-					if (section.GetAverage(includeMarked, treatEmptyAsZero) != null)
+					if (section.GetAverage(includeMarked, treatEmptyAsZero, treatMarkedForCalculation) != null)
 					{
-						average += (decimal)section.GetAverage(includeMarked, treatEmptyAsZero) * ((decimal)section.Weight / 100);
+						average += (decimal)section.GetAverage(includeMarked, treatEmptyAsZero, treatMarkedForCalculation) * ((decimal)section.Weight / 100);
 						nonEmptyWeight += section.Weight;
 					}
 					else
@@ -97,6 +97,11 @@ namespace BareMinimum
 						{
 							total += grade.PointsPossible;
 							points += (decimal)grade.PointsEarned;
+						}
+						else if (grade.Marked && treatMarkedForCalculation)
+						{
+							total += grade.PointsPossible;
+							points += grade.PointsPossible;
 						}
 						else
 							numEmpty++;
