@@ -57,7 +57,13 @@ namespace BareMinimum
 						nonEmptyWeight += section.Weight;
 					}
 					else
+					{
+						if (!includeMarked && section.MarkedGrades.Count > 0)
+						{
+							nonEmptyWeight += section.Weight;
+						}
 						numEmpty++;
+					}
 				}
 				if (numEmpty == Items.Count)
 					return null;

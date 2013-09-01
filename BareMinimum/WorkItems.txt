@@ -74,7 +74,7 @@ Version 0.4
 				(Changed CalculateNeeded to use GetAverage() instead of PointsEarned)
 			4. Implement the ability to allow ItemContainer.GetAverage() to ignore empty sections (bool treatEmptyAsZero) - medium - done.
 				(Added the correct conditionals to GetAverage())
-			5. Modify the treatEmptyAsZero functionality so that it can include empty sections if they have empty grades marked - small - in progress.
+			5. Modify the treatEmptyAsZero functionality so that it can include empty sections if they have empty grades marked - small - done.
 				
 	Changes:
 		1. Removed the overridden Grade.Weight property, and removed the "virtual" modifier from the Item.Weight property. The Weight for each Grade will be calculated outside the class (see work item 3) - small.
