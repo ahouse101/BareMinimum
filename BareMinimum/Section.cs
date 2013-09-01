@@ -36,9 +36,9 @@ namespace BareMinimum
 			get { return ""; }
 		}
 
-		public string PointsNeeded
+		public decimal? PointsNeeded
 		{
-			get { return ""; }
+			get { return null; }
 		}
 
 		public Section(object parent)

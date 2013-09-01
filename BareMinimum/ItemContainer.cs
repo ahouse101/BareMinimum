@@ -36,30 +36,46 @@ namespace BareMinimum
 		{
 			get
 			{
-				if (Items.Count < 1)
-					return null;
-				if (ItemType == ItemType.Section)
+				return GetAverage(true, false);
+			}
+		}
+
+		public decimal? GetAverage(bool includeMarked, bool treatEmptyAsZero)
+		{
+			if (Items.Count < 1)
+				return null;
+			if (ItemType == ItemType.Section)
+			{
+				decimal average = 0;
+				int numEmpty = 0;
+				decimal nonEmptyWeight = 0;
+				foreach (Section section in Items)
 				{
-					decimal average = 0;
-					int numEmpty = 0;
-					foreach (Section section in Items)
+					if (section.GetAverage(includeMarked, treatEmptyAsZero) != null)
 					{
-						if (section.PointsEarned != null)
-							average += (decimal)section.PointsEarned * ((decimal)section.Weight / 100);
-						else
-							numEmpty++;
+						average += (decimal)section.GetAverage(includeMarked, treatEmptyAsZero) * ((decimal)section.Weight / 100);
+						nonEmptyWeight += section.Weight;
 					}
-					if (numEmpty == Items.Count)
-						return null;
 					else
-						return average;
+						numEmpty++;
 				}
-				else if (ItemType == ItemType.Grade)
+				if (numEmpty == Items.Count)
+					return null;
+				else
 				{
-					decimal total = 0;
-					decimal points = 0;
-					int numEmpty = 0;
-					foreach (Grade grade in Items)
+					if (!treatEmptyAsZero)
+						average *= (100 / nonEmptyWeight);
+					return average;
+				}
+			}
+			else if (ItemType == ItemType.Grade)
+			{
+				decimal total = 0;
+				decimal points = 0;
+				int numEmpty = 0;
+				foreach (Grade grade in Items)
+				{
+					if (includeMarked)
 					{
 						if (grade.PointsEarned != null)
 						{
@@ -69,15 +85,24 @@ namespace BareMinimum
 						else
 							numEmpty++;
 					}
-					if (numEmpty == Items.Count)
-						return null;
 					else
-						return (points / total * 100);
+					{
+						if (!grade.Marked && grade.PointsEarned != null)
+						{
+							total += grade.PointsPossible;
+							points += (decimal)grade.PointsEarned;
+						}
+						else
+							numEmpty++;
+					}
 				}
-				else
+				if (numEmpty == Items.Count)
 					return null;
+				else
+					return (points / total * 100);
 			}
-			set { }
+			else
+				return null;
 		}
 
 		public void CalculateGradeWeights()
