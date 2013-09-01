@@ -76,6 +76,7 @@ Version 0.4
 				(Added the correct conditionals to GetAverage())
 			5. Modify the treatEmptyAsZero functionality so that it can include empty sections if they have empty grades marked - small - done.
 				r1. Fixed an issue with CalculateNeeded that makes it calculate the wrong grade with Sections present or a grade in PointsEarned - small - fix.
+				r2. Fixed an issue that made the designer shift right-anchored controls in MainSplit.Panel2 to the left - small - fix.
 				
 	Changes:
 		1. Removed the overridden Grade.Weight property, and removed the "virtual" modifier from the Item.Weight property. The Weight for each Grade will be calculated outside the class (see work item 3) - small.

@@ -36,6 +36,8 @@ namespace BareMinimum
 		public MainWin()
         {
             InitializeComponent();
+			MainSplit.SplitterWidth = 5; // If I set this in the designer, it messes up layout over time. 
+			
 			controlFont = ScenarioTree.Font;
 
             // Set up the TreeListView for display:

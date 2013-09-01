@@ -97,7 +97,6 @@
 			this.MainSplit.Panel2MinSize = 420;
 			this.MainSplit.Size = new System.Drawing.Size(725, 400);
 			this.MainSplit.SplitterDistance = 200;
-			this.MainSplit.SplitterWidth = 5;
 			this.MainSplit.TabIndex = 2;
 			// 
 			// DeleteScenarioButton
@@ -210,9 +209,9 @@
 			this.CalculationTypeComboBox.Items.AddRange(new object[] {
             "Even",
             "Most Zeros"});
-			this.CalculationTypeComboBox.Location = new System.Drawing.Point(414, 375);
+			this.CalculationTypeComboBox.Location = new System.Drawing.Point(415, 375);
 			this.CalculationTypeComboBox.Name = "CalculationTypeComboBox";
-			this.CalculationTypeComboBox.Size = new System.Drawing.Size(105, 23);
+			this.CalculationTypeComboBox.Size = new System.Drawing.Size(106, 23);
 			this.CalculationTypeComboBox.TabIndex = 8;
 			// 
 			// AddGradeButton
@@ -274,7 +273,7 @@
 			this.ScenarioTree.RowHeight = 25;
 			this.ScenarioTree.ShowGroups = false;
 			this.ScenarioTree.ShowImagesOnSubItems = true;
-			this.ScenarioTree.Size = new System.Drawing.Size(519, 355);
+			this.ScenarioTree.Size = new System.Drawing.Size(521, 355);
 			this.ScenarioTree.TabIndex = 3;
 			this.ScenarioTree.UseCellFormatEvents = true;
 			this.ScenarioTree.UseCompatibleStateImageBehavior = false;
