@@ -17,7 +17,7 @@ namespace BareMinimum
 		public bool Marked { get { return false; } }
 		public string Notes { get; set; }
 
-		public object Parent { get; set; }
+		public ItemContainer Parent { get; set; }
 		[JsonIgnore]
 		public int Level { get; set; }
 
@@ -44,16 +44,16 @@ namespace BareMinimum
 			get { return null; }
 		}
 
-		public Section(object parent)
+		public Section(ItemContainer parent)
 			: this(parent, "Untitled Section")
 		{ }
 
-		public Section(object parent, string name)
+		public Section(ItemContainer parent, string name)
 			: this(parent, name, true, 0, ItemType.None, new List<IItem>(), "")
 		{ }
 
 		[JsonConstructor]
-		public Section(object parent, string name, bool autoWeighted, decimal weight, ItemType itemType, List<IItem> items, string notes)
+		public Section(ItemContainer parent, string name, bool autoWeighted, decimal weight, ItemType itemType, List<IItem> items, string notes)
 		{
 			this.Parent = parent;
 			if (parent is Scenario)

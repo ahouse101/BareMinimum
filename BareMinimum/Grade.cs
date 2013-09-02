@@ -62,20 +62,28 @@ namespace BareMinimum
 		public string Notes { get; set; }
 
 		[JsonIgnore]
-		public object Parent { get; set; }
+		public ItemContainer Parent { get; set; }
 		[JsonIgnore]
 		public int Level { get; set; }
 
-		public Grade(object parent)
+		public decimal GetPercent()
+		{
+			if (PointsEarned == null)
+				return 0;
+			else
+				return (decimal)PointsEarned / PointsPossible * 100;
+		}
+
+		public Grade(ItemContainer parent)
 			: this(parent, "Untitled Grade")
 		{ }
 
-		public Grade(object parent, string name)
+		public Grade(ItemContainer parent, string name)
 			: this(parent, name, 100, null, null, false, "")
 		{ }
 
 		[JsonConstructor]
-		public Grade(object parent, string name, decimal pointsPossible, decimal? pointsEarned, decimal? pointsNeeded, bool marked, string notes)
+		public Grade(ItemContainer parent, string name, decimal pointsPossible, decimal? pointsEarned, decimal? pointsNeeded, bool marked, string notes)
 		{
 			this.Parent = parent;
 			if (parent is Scenario)

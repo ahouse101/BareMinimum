@@ -48,9 +48,16 @@ namespace BareMinimum
             ScenarioTree.CanExpandGetter = CanExpand;
             ScenarioTree.ChildrenGetter = GetChildren;
 
-			// Set the AspectToStringConverters for the ScenarioList:
+			// Set the AspectToStringConverters for the ScenarioList/ScenarioTree:
 			ScenarioAverageColumn.AspectToStringConverter = ConvertScenarioAverageToString;
 			ItemNeededColumn.AspectToStringConverter = ConvertPointsNeededToString;
+
+			// Set the AspectToStringFormats for the ScenarioList/ScenarioTree:
+			string format = "{0:0.##}";
+			ScenarioTargetColumn.AspectToStringFormat = format;
+			ItemPossibleColumn.AspectToStringFormat = format;
+			ItemEarnedColumn.AspectToStringFormat = format;
+			ItemWeightColumn.AspectToStringFormat = format;
 
 			// Set the RenderDelegates for the ScenarioTree:
 			ItemWeightColumn.RendererDelegate = RenderItemWeight;
@@ -243,73 +250,83 @@ namespace BareMinimum
 
 		private void CalculateNeeded()
         {
-            // Note: this calculation is for the "Even" mode.
-			if (SelectedScenario.MarkedGrades.Count < 1)
+			List<Grade> grades = GetGradesForCalculation(SelectedScenario);
+			List<Grade> markedGrades = GetMarkedGrades(grades);
+
+			if (markedGrades.Count < 1)
 				return;
 
-			if (SelectedScenario.PointsEarned == null)
-			{
-				foreach (Grade grade in SelectedScenario.MarkedGrades)
-					grade.PointsNeeded = SelectedScenario.Target;
-			}
-			else
-			{
-				CalculateOverallGradeWeights();
+			// Note: this calculation is for the "Even" mode.
+			CalculateOverallGradeWeights(grades);
 
-				decimal markedPercent = 0;
-				foreach (Grade grade in SelectedScenario.MarkedGrades)
-					markedPercent += grade.OverallWeight;
-				decimal current = (decimal)SelectedScenario.GetAverage(false, false, true) * ((100 - markedPercent) / 100);
-				decimal distance = SelectedScenario.Target - current;
-				decimal needed = (distance / markedPercent) * 100;
-				foreach (Grade grade in SelectedScenario.MarkedGrades)
-					grade.PointsNeeded = needed;
-			}
-			ScenarioTree.RefreshObjects(SelectedScenario.MarkedGrades);
+			decimal markedPercent = 0;
+			foreach (Grade grade in markedGrades)
+				markedPercent += grade.OverallWeight;
+			decimal currentGradeWithMarked = GetAverageForCalculation(grades);
+			decimal distance = SelectedScenario.Target - currentGradeWithMarked;
+			decimal needed = (distance / markedPercent) * 100;
+			foreach (Grade grade in markedGrades)
+				grade.PointsNeeded = needed;
+			
+			ScenarioTree.RefreshObjects(markedGrades);
         }
 
-		private void CalculateOverallGradeWeights()
+		private void CalculateOverallGradeWeights(List<Grade> gradeList)
 		{
 			SelectedScenario.CalculateGradeWeights();
-			if (SelectedScenario.ItemType == ItemType.Grade)
+			foreach (Grade grade in gradeList)
 			{
-				foreach (Grade grade in SelectedScenario.Items)
+				grade.OverallWeight = grade.Weight;
+				if (grade.Level > 0)
 				{
-					grade.OverallWeight = grade.Weight;
-				}
-			}
-			else if (SelectedScenario.ItemType == ItemType.Section)
-			{
-				foreach (Section section in SelectedScenario.Items)
-				{
-					CalculateOverallGradeWeights(section);
+					Section parent = (Section)grade.Parent;
+					grade.OverallWeight *= parent.Weight / 100;
+
+					for (int level = grade.Level; level > 1; level--)
+					{
+						parent = (Section)parent.Parent;
+						grade.OverallWeight *= parent.Weight / 100;
+					}
 				}
 			}
 		}
 
-		private void CalculateOverallGradeWeights(Section section)
+		private decimal GetAverageForCalculation(List<Grade> gradeList)
 		{
-			if (section.ItemType == ItemType.Grade)
+			decimal points = 0;
+			decimal total = 0;
+			foreach (Grade grade in gradeList)
 			{
-				foreach (Grade grade in section.Items)
-				{
-					Section parent = section;
-					decimal modifier = parent.Weight / 100;
-					for (int level = grade.Level; level > parent.Level+1; level--)
-					{
-						parent = (Section)parent.Parent;
-						modifier *= parent.Weight / 100;
-					}
-					grade.OverallWeight = grade.Weight * modifier;
-				}
+				if (grade.Marked)
+					points += 0;
+				else
+					points += grade.GetPercent() * (grade.OverallWeight / 100);
+				total += grade.OverallWeight;
 			}
-			else if (section.ItemType == ItemType.Section)
-			{
-				foreach (Section subSection in section.Items)
-				{
-					CalculateOverallGradeWeights(subSection);
-				}
-			}
+			return points / total * 100;
+		}
+
+		private List<Grade> GetGradesForCalculation(Scenario scenario)
+		{
+			List<Grade> gradesForCalculation = new List<Grade>();
+			foreach (Grade grade in scenario.GetGrades())
+				if (grade.PointsEarned != null || grade.Marked)
+					gradesForCalculation.Add(grade);
+			return gradesForCalculation;
+		}
+
+		private List<Grade> GetMarkedGrades(ItemContainer container)
+		{
+			return GetMarkedGrades(container.GetGrades());
+		}
+
+		private List<Grade> GetMarkedGrades(List<Grade> gradeList)
+		{
+			List<Grade> markedGrades = new List<Grade>();
+			foreach (Grade grade in gradeList)
+				if (grade.Marked)
+					markedGrades.Add(grade);
+			return markedGrades;
 		}
 
         private void DeleteScenario(Scenario scenario)
@@ -432,10 +449,8 @@ namespace BareMinimum
 			{
 				filePath = dialog.FileName;
 				FileLabel.Text = Path.GetFileName(filePath);
+				SaveFile(filePath);
 			}
-			else
-				return;
-			SaveFile(filePath);
 		}
 
 		private void SaveFile(string filePath)
@@ -469,8 +484,8 @@ namespace BareMinimum
 			if (dialog.ShowDialog() == DialogResult.OK)
 			{
 				path = dialog.FileName;
+				OpenFile(path);
 			}
-			OpenFile(path);
 		}
 
 		private void OpenFile(string filePath)
@@ -487,6 +502,7 @@ namespace BareMinimum
 				List<Scenario> list = JsonConvert.DeserializeObject<List<Scenario>>(json, JsonSettings);
 				RegisterEvents(list);
 				ScenarioList.SetObjects(list);
+				ScenarioList.SelectedIndex = 0;
 			}
 			catch (IOException e)
 			{

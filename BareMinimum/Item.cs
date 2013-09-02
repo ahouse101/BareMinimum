@@ -11,7 +11,7 @@ namespace BareMinimum
         string Notes { get; set; }
 		
 		// Non-display properties:
-		object Parent { get; set; }
+		ItemContainer Parent { get; set; }
 		int Level { get; set; }
     }
 }
