@@ -396,6 +396,7 @@
 			this.OpenFileButton.Name = "OpenFileButton";
 			this.OpenFileButton.Size = new System.Drawing.Size(56, 20);
 			this.OpenFileButton.Text = "Open";
+			this.OpenFileButton.Click += new System.EventHandler(this.OpenFileButton_Click);
 			// 
 			// SaveFileButton
 			// 
@@ -404,6 +405,7 @@
 			this.SaveFileButton.Name = "SaveFileButton";
 			this.SaveFileButton.Size = new System.Drawing.Size(51, 20);
 			this.SaveFileButton.Text = "Save";
+			this.SaveFileButton.Click += new System.EventHandler(this.SaveFileButton_Click);
 			// 
 			// SaveAsFileButton
 			// 
@@ -412,6 +414,7 @@
 			this.SaveAsFileButton.Name = "SaveAsFileButton";
 			this.SaveAsFileButton.Size = new System.Drawing.Size(76, 20);
 			this.SaveAsFileButton.Text = "Save As...";
+			this.SaveAsFileButton.Click += new System.EventHandler(this.SaveAsFileButton_Click);
 			// 
 			// OptionsButton
 			// 
@@ -427,7 +430,7 @@
 			this.FileLabel.AutoSize = false;
 			this.FileLabel.Name = "FileLabel";
 			this.FileLabel.Size = new System.Drawing.Size(220, 20);
-			this.FileLabel.Text = "Untitled.bmin";
+			this.FileLabel.Text = "Unsaved File";
 			this.FileLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// HelpToolbarButton

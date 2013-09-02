@@ -4,6 +4,7 @@ using System.Text;
 using System.Linq;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Newtonsoft.Json;
 
 namespace BareMinimum
 {
@@ -60,24 +61,34 @@ namespace BareMinimum
 		public string Name { get; set; }
 		public string Notes { get; set; }
 
+		[JsonIgnore]
 		public object Parent { get; set; }
+		[JsonIgnore]
 		public int Level { get; set; }
 
 		public Grade(object parent)
 			: this(parent, "Untitled Grade")
 		{ }
 
-        public Grade(object parent, string name)
-        {
+		public Grade(object parent, string name)
+			: this(parent, name, 100, null, null, false, "")
+		{ }
+
+		[JsonConstructor]
+		public Grade(object parent, string name, decimal pointsPossible, decimal? pointsEarned, decimal? pointsNeeded, bool marked, string notes)
+		{
+			this.Parent = parent;
 			if (parent is Scenario)
 				Level = 0;
 			else
 				Level = ((Section)parent).Level + 1;
-            Name = name;
-			PointsPossible = 100;
-			marked = false;
-			Parent = parent;
-        }
+			this.Name = name;
+			this.pointsPossible = pointsPossible;
+			this.pointsEarned = pointsEarned;
+			this.PointsNeeded = pointsNeeded;
+			this.marked = marked;
+			this.Notes = notes;
+		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
 		private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")

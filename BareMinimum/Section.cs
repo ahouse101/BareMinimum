@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Newtonsoft.Json;
 
 namespace BareMinimum
 {
@@ -12,10 +13,12 @@ namespace BareMinimum
 
 		public bool AutoWeighted { get; set; }
         // Sections can't be marked, yet, but the TreeListView control runs slowly if the property you set in AspectName isn't present.
+		[JsonIgnore]
 		public bool Marked { get { return false; } }
 		public string Notes { get; set; }
 
 		public object Parent { get; set; }
+		[JsonIgnore]
 		public int Level { get; set; }
 
 		public decimal Weight 
@@ -45,18 +48,25 @@ namespace BareMinimum
 			: this(parent, "Untitled Section")
 		{ }
 
-        public Section(object parent, string name)
-        {
-			AutoWeighted = true;
-			Parent = parent;
+		public Section(object parent, string name)
+			: this(parent, name, true, 0, ItemType.None, new List<IItem>(), "")
+		{ }
+
+		[JsonConstructor]
+		public Section(object parent, string name, bool autoWeighted, decimal weight, ItemType itemType, List<IItem> items, string notes)
+		{
+			this.Parent = parent;
 			if (parent is Scenario)
 				Level = 0;
 			else
 				Level = ((Section)parent).Level + 1;
-            Name = name;
-            ItemType = ItemType.None;
-			Items = new List<IItem>();
-        }
+			this.Name = name;
+			this.weight = weight;
+			this.AutoWeighted = autoWeighted;
+			this.ItemType = itemType;
+			this.Items = items;
+			this.Notes = notes;
+		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
 		private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")

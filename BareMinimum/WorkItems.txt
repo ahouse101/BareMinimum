@@ -1,46 +1,54 @@
 ﻿Future Plans:
 	- Add miscellaneous calculations, such as GPA, into a separate menu.
 	
-Version 1.0 - Release
-	Goal: Release!
+Version 1.0 - Release!
+	The application is ready for distribution!
 
-Version 0.9 - Alpha
-	Goal: Do the final tests and package the application for distribution.
+Version 0.9 - Final Steps
+	Goal: Do the final tests, package the application, and ready for distribution. 
 
-Version 0.8 - Beta
-	Goal: Fix bugs.
+Version 0.8 - Alpha
+	Goal: Do a more complete release and fix bugs that arise.
 
-Version 0.7
-	Goal: Polish existing features, get rid of hacks if possible, create help, and publish the Codeplex project.
+Version 0.7 - Beta
+	Goal: Fix bugs, do a limited release.
 
 Version 0.6
-	Goal: Add templates, custom calculation modes, and options. Also, improve the editing workflow.
+	Goal: Polish existing features, get rid of hacks if possible, create help, and publish the Codeplex project.
 
 Version 0.5
-	Goal: Add file support.
+	Goal: Add templates, custom calculation modes, and options. Also, improve the editing workflow.
 
 Version 0.4
+	Goal: Add file support.
+	Change Log:
+		.1 - Added save and open functionality (buggy) - medium.
+
+	Work Items:
+		- Add the ability to create new files.
+
+Version 0.3
 	Goal: Add the methods that will do the calculations, and make sure they are called at the right times.
 	Work Items:
-		1. Implement Scenario.Average and Section.PointsEarned - medium - done (moved to ItemContainer.PointsEarned with work item 2.2).
-		2. Redo the class heirarchy - large - done.
-			1. Change the Item class to an interface - medium - done.
-			2. Create the ItemContainer class - medium - done.
-			3. Make Section and Scenario inherit from ItemContainer - small - done.
-		3. Add a method to calculate the Weight of each Grade - medium - done (the method currently never gets called).
+		1. Implemented Scenario.Average and Section.PointsEarned - medium (moved to ItemContainer.PointsEarned with work item 2.2).
+		2. Reded the class heirarchy - large.
+			1. Changed the Item class to an interface - medium.
+			2. Created the ItemContainer class - medium.
+			3. Made Section and Scenario inherit from ItemContainer - small.
+		3. Added a method to calculate the Weight of each Grade - medium (the method currently never gets called).
 			r1. Made the MainWin bigger - small - change.
 			r2. Made sure the ScenarioTargetUpDown gets enabled/disabled at the right times - small - fix (actually, I marked this fixed on accident without actually doing it, oops). 
 			r3. Added a property to the Grade class that will store its weight in the overall Scenario - small (OverallWeight) - change.
-		4. Rewrite the Item.Weight property to be a nullable double - medium - done.
-			1. Write ConvertWeightToString - small - done.
-			2. Change Item.Weight to a nullable double - small - done.
-		5. Add a method that will calculate the PointsNeeded of every grade in a Scenario - large - in progress (CalculateNeeded) (quite buggy).
+		4. Rewrote the Item.Weight property to be a nullable double - medium.
+			1. Wrote ConvertWeightToString - small.
+			2. Changed Item.Weight to a nullable double - small - done.
+		5. Added a method that will calculate the PointsNeeded of every grade in a Scenario - large - done (CalculateNeeded) (quite buggy).
 				r1. Made it impossible to resize the ItemMarkedColumn - small - fix.
 			1. Write a method to calculate and store the OverallWeight of each Grade - medium - done (CalculuateOverallGradeWeights).
 				r1. Added the Parent property to the Item interface and the Grade/Section classes, and added related functionality to their constructors and the code in MainWin.cs that initializes objects of those types - small - change.
 				r2. Added the Level property to the Item interface and the Grade/Section classes, and added relaed functionality to their constructors and the code in MainWin.cs that initializes object of those types - small - change.
 			2. Finish implementing CalculateNeeded for the "Even" mode - medium - done. 
-				r1. Made sure the ScenarioTargetUpDown got enabled at the correct times (turns out I didn't actually finish in v0.3.2.3r2) - small - fix.
+				r1. Made sure the ScenarioTargetUpDown got enabled at the correct times (turns out I didn't actually finish in 2.3r2) - small - fix.
 		6. Change the way the ScenarioTree renders data, and make the data classes reflect what they store - large - in progress.
 			r1. Made sure the ScenarioTree gets refreshed at the right times so it doesn't look sluggish - small - done.
 			1. Remove properties from Item that shouldn't be the same type in Section and Grade - small - done.
@@ -88,7 +96,7 @@ Version 0.4
 	Fixes:
 		1. Made it impossible to perform a deselect on the ScenarioList by adding the ScenarioToReselect property - small.
 
-Version 0.3
+Version 0.2
 	Goal: Finish the GUI.
 	Work Items:
 		1. Add a NumericUpDown to input the Scenario's target grade - small - done (ScenarioTargetUpDown).
@@ -100,7 +108,7 @@ Version 0.3
 	Fixes:
 		1. Made sure that the two "delete" buttons are enabled/disabled at the right times.
 
-Version 0.2
+Version 0.1
 	Goal: Fix some of the existing GUI problems before moving on.
 	Work Items:
 		1. Create and finish the ItemMarkedColumn, using Decorations to hide checkboxes on Sections - large - done.
@@ -125,7 +133,7 @@ Version 0.2
 	1. Fixed an issue that made the ScenarioTree perform atrociously slow with Sections (added the read-only Marked property to Section) - small.
 	2. Fixed an issue that crashed BareMinimum whenever a subitem checkbox was checked. For some reason, the TreeListView calls GetChildren when this happens, even though it can only happen on a Grade, which doesn't have any children and thus was not previously handled by the GetChildren method - small.
 
-Version 0.1
+Version 0.0
 	Goal: Finish current work items and set future goals.
 	Work Items:
 	1. Finish the empty message overlay styling - small - done (opted for simple text).

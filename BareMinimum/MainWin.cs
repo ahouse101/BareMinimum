@@ -4,11 +4,13 @@ using System.Collections;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
+using Newtonsoft.Json;
 using Microsoft.VisualBasic;
 
 namespace BareMinimum
@@ -19,6 +21,7 @@ namespace BareMinimum
 
 		private TextOverlay emptyOverlay = new TextOverlay();
 		private Font controlFont;
+		private string filePath;
 
         public Scenario SelectedScenario
         {
@@ -27,7 +30,8 @@ namespace BareMinimum
                 return (Scenario)ScenarioList.SelectedObject;
             }
         }
-		public Scenario ScenarioToReselect { get; set; } // When a user attempts a deselect on the ScenarioList, this property allows BareMinimum to role back to the previous selection.
+		public Scenario LastScenario { get; set; } // When a user attempts a deselect on the ScenarioList, this property allows BareMinimum to role back to the previous selection.
+		public JsonSerializerSettings JsonSettings { get; set; }
 
 		#endregion
 
@@ -86,6 +90,13 @@ namespace BareMinimum
 
             // Set the drop down:
             CalculationTypeComboBox.SelectedItem = "Even";
+
+			// Set up JsonSettings:
+			JsonSettings = new JsonSerializerSettings
+			{
+				PreserveReferencesHandling = PreserveReferencesHandling.Objects,
+				TypeNameHandling = TypeNameHandling.All
+			};
         }
 
         // Delegate that tells the ScenarioTree when it can expand an item:
@@ -356,9 +367,155 @@ namespace BareMinimum
 			ScenarioList.RefreshObject(SelectedScenario);
         }
 
+		private void RegisterEvents(List<Scenario> list)
+		{
+			foreach (Scenario scenario in list)
+			{
+				if (scenario.Items.Count < 1)
+					return;
+				if (scenario.ItemType == ItemType.Section)
+				{
+					foreach (Section section in scenario.Items)
+						RegisterEvents(section);
+				}
+				else if (scenario.ItemType == ItemType.Grade)
+				{
+					foreach (Grade grade in scenario.Items)
+						RegisterEvents(grade);
+				}
+			}
+		}
+
+		private void RegisterEvents(Section section)
+		{
+			section.PropertyChanged += Section_PropertyChanged;
+			
+			if (section.Items.Count < 1)
+				return;
+			if (section.ItemType == ItemType.Section)
+			{
+				foreach (Section subSection in section.Items)
+					RegisterEvents(subSection);
+			}
+			else if (section.ItemType == ItemType.Grade)
+			{
+				foreach (Grade grade in section.Items)
+					RegisterEvents(grade);
+			}
+		}
+
+		private void RegisterEvents(Grade grade)
+		{
+			grade.PropertyChanged += Grade_PropertyChanged;
+		}
+
+		#endregion
+
+		#region File Methods
+
+		private void SaveFile()
+		{
+			if (filePath != null)
+				SaveFile(filePath);
+			else
+				SaveFileAs();
+		}
+
+		private void SaveFileAs()
+		{
+			SaveFileDialog dialog = new SaveFileDialog();
+			dialog.AddExtension = true;
+			dialog.Title = "Save your list of scenarios...";
+			dialog.Filter = "BareMinimum Files|*.bmin";
+			dialog.DefaultExt = "bmin";
+			if (dialog.ShowDialog() == DialogResult.OK)
+			{
+				filePath = dialog.FileName;
+				FileLabel.Text = Path.GetFileName(filePath);
+			}
+			else
+				return;
+			SaveFile(filePath);
+		}
+
+		private void SaveFile(string filePath)
+		{
+			try
+			{
+				string serialized = JsonConvert.SerializeObject(
+					new List<Scenario>(ScenarioList.Objects.Cast<Scenario>()),
+					Formatting.Indented,
+					JsonSettings);
+				File.WriteAllText(filePath, "BareMinimum File Format (Development)\n" + serialized);
+			}
+			catch (IOException e)
+			{
+				MessageBox.Show("I/O Error:\n" + e.Message);
+			}
+			catch (JsonSerializationException e)
+			{
+				MessageBox.Show("JSON Serialization Error:\n" + e.Message);
+			}
+		}
+
+		private void OpenFile()
+		{
+			string path = "";
+			OpenFileDialog dialog = new OpenFileDialog();
+			dialog.AddExtension = true;
+			dialog.Title = "Open a list of scenarios...";
+			dialog.Filter = "BareMinimum Files|*.bmin|All Files|*.*";
+			dialog.DefaultExt = "bmin";
+			if (dialog.ShowDialog() == DialogResult.OK)
+			{
+				path = dialog.FileName;
+			}
+			OpenFile(path);
+		}
+
+		private void OpenFile(string filePath)
+		{
+			try
+			{
+				List<string> fileContents = new List<string>(File.ReadAllLines(filePath));
+				string versionText = fileContents[0];
+				fileContents.RemoveAt(0);
+				string json = fileContents[0];
+				fileContents.RemoveAt(0);
+				foreach (string line in fileContents)
+					json += "\n" + line;
+				List<Scenario> list = JsonConvert.DeserializeObject<List<Scenario>>(json, JsonSettings);
+				RegisterEvents(list);
+				ScenarioList.SetObjects(list);
+			}
+			catch (IOException e)
+			{
+				MessageBox.Show("I/O Error:\n" + e.Message);
+			}
+			catch (JsonSerializationException e)
+			{
+				MessageBox.Show("JSON Serialization Error:\n" + e.Message);
+			}
+		}
+
 		#endregion
 
 		#region Event Handlers
+
+		private void OpenFileButton_Click(object sender, EventArgs e)
+		{
+			OpenFile();
+		}
+
+		private void SaveFileButton_Click(object sender, EventArgs e)
+		{
+			SaveFile();
+		}
+
+		private void SaveAsFileButton_Click(object sender, EventArgs e)
+		{
+			SaveFileAs();
+		}
 
 		private void AddScenarioButton_Click(object sender, EventArgs e)
         {
@@ -452,8 +609,8 @@ namespace BareMinimum
                 // If the user clicks off of an item, but the list isn't empty, ignore it.
 				if (SelectedScenario != null)
 				{
-					if (ScenarioToReselect != null)
-						ScenarioToReselect.PropertyChanged -= Scenario_PropertyChanged;
+					if (LastScenario != null)
+						LastScenario.PropertyChanged -= Scenario_PropertyChanged;
 					SelectedScenario.PropertyChanged += Scenario_PropertyChanged;
 					ScenarioTree.SetObjects(SelectedScenario.Items);
 					switch (SelectedScenario.ItemType)
@@ -474,11 +631,11 @@ namespace BareMinimum
 							break;
 					}
 					ScenarioTitleLabel.Text = SelectedScenario.Name;
-					ScenarioToReselect = SelectedScenario;
+					LastScenario = SelectedScenario;
 				}
 				else
 				{
-					ScenarioList.SelectObject(ScenarioToReselect);
+					ScenarioList.SelectObject(LastScenario);
 				}
             }
         }

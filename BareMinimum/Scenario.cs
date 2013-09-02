@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Newtonsoft.Json;
 
 namespace BareMinimum
 {
@@ -37,11 +38,15 @@ namespace BareMinimum
 		{ }
 
 		public Scenario(decimal target, string name)
+			: this(target, name, new List<IItem>(), ItemType.None)
+		{ }
+
+		public Scenario(decimal target, string name, List<IItem> items, ItemType itemType)
 		{
 			this.target = target;
-			Name = name;
-			Items = new List<IItem>();
-			ItemType = ItemType.None;
+			this.Name = name;
+			this.Items = items;
+			this.ItemType = itemType;
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;

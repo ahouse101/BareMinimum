@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace BareMinimum
 {
@@ -12,6 +13,7 @@ namespace BareMinimum
 		public List<IItem> Items { get; set; }
 		public string Name { get; set; }
 
+		[JsonIgnore]
 		public List<Grade> MarkedGrades
 		{
 			get
@@ -32,6 +34,7 @@ namespace BareMinimum
 			}
 		}
 
+		[JsonIgnore]
 		public decimal? PointsEarned
 		{
 			get
