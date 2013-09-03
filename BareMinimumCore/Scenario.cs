@@ -20,9 +20,12 @@ namespace BareMinimumCore
 			set
 			{
 				target = value;
-				NotifyPropertyChanged();
+				NotifyPropertyChanged("Target");
 			}
 		}
+
+		[JsonConstructor]
+		private Scenario() { }
 
 		public Scenario(decimal target)
 			: this(target, "Untitled")
@@ -45,7 +48,7 @@ namespace BareMinimumCore
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
-		private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+		private void NotifyPropertyChanged(String propertyName = "")
 		{
 			if (PropertyChanged != null)
 				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));

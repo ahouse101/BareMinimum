@@ -98,7 +98,10 @@ namespace BareMinimumCore
 					if (grade.PointsEarned != null || grade.Marked)
 						total += (decimal)grade.PointsPossible;
 				foreach (Grade grade in Items)
-					grade.Weight = ((decimal)grade.PointsPossible / total * 100);
+					if (total == 0)
+						grade.Weight = 0;
+					else
+						grade.Weight = ((decimal)grade.PointsPossible / total * 100);
 			}
 		}
 

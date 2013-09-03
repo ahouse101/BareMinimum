@@ -30,7 +30,7 @@ namespace BareMinimumCore
 			set
 			{
 				weight = value;
-				NotifyPropertyChanged();
+				NotifyPropertyChanged("Weight");
 			}
 		}
 
@@ -43,6 +43,9 @@ namespace BareMinimumCore
 		{
 			get { return null; }
 		}
+
+		[JsonConstructor]
+		private Section() { }
 
 		public Section(ItemContainer parent)
 			: this(parent, "Untitled Section")
@@ -68,7 +71,7 @@ namespace BareMinimumCore
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
-		private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+		private void NotifyPropertyChanged(String propertyName = "")
 		{
 			if (PropertyChanged != null)
 				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));

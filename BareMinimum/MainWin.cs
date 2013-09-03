@@ -103,7 +103,7 @@ namespace BareMinimum
 			// Set up JsonSettings:
 			JsonSettings = new JsonSerializerSettings
 			{
-				PreserveReferencesHandling = PreserveReferencesHandling.Objects,
+				PreserveReferencesHandling = PreserveReferencesHandling.All,
 				TypeNameHandling = TypeNameHandling.All
 			};
         }

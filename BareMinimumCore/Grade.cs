@@ -25,7 +25,7 @@ namespace BareMinimumCore
 				marked = value;
 				if (value == false)
 					PointsNeeded = null;
-				NotifyPropertyChanged();
+				NotifyPropertyChanged("Marked");
 			}
 		}
 
@@ -38,7 +38,7 @@ namespace BareMinimumCore
 			set
 			{
 				pointsEarned = value;
-				NotifyPropertyChanged();
+				NotifyPropertyChanged("PointsEarned");
 			}
 		}
 
@@ -51,7 +51,7 @@ namespace BareMinimumCore
 			set
 			{
 				pointsPossible = value;
-				NotifyPropertyChanged();
+				NotifyPropertyChanged("PointsPossible");
 			}
 		}
 
@@ -61,7 +61,6 @@ namespace BareMinimumCore
 		public string Name { get; set; }
 		public string Notes { get; set; }
 
-		[JsonIgnore]
 		public ItemContainer Parent { get; set; }
 		[JsonIgnore]
 		public int Level { get; set; }
@@ -74,6 +73,9 @@ namespace BareMinimumCore
 				return (decimal)PointsEarned / PointsPossible * 100;
 		}
 
+		[JsonConstructor]
+		private Grade() { }
+
 		public Grade(ItemContainer parent)
 			: this(parent, "Untitled Grade")
 		{ }
@@ -82,8 +84,6 @@ namespace BareMinimumCore
 			: this(parent, name, 100, null, null, false, "")
 		{ }
 
-
-		[JsonConstructor]
 		public Grade(ItemContainer parent, string name, decimal pointsPossible, decimal? pointsEarned, decimal? pointsNeeded, bool marked, string notes)
 		{
 			this.Parent = parent;
@@ -100,7 +100,7 @@ namespace BareMinimumCore
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
-		private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+		private void NotifyPropertyChanged(String propertyName = "")
 		{
 			if (PropertyChanged != null)
 				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
