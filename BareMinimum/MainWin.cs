@@ -251,84 +251,9 @@ namespace BareMinimum
 		#region Data Methods
 
 		private void CalculateNeeded()
-        {
-			List<Grade> grades = GetGradesForCalculation(SelectedScenario);
-			List<Grade> markedGrades = GetMarkedGrades(grades);
-
-			if (markedGrades.Count < 1)
-				return;
-
-			// Note: this calculation is for the "Even" mode.
-			CalculateOverallGradeWeights(grades);
-
-			decimal markedPercent = 0;
-			foreach (Grade grade in markedGrades)
-				markedPercent += grade.OverallWeight;
-			decimal currentGradeWithMarked = GetAverageForCalculation(grades);
-			decimal distance = SelectedScenario.Target - currentGradeWithMarked;
-			decimal needed = (distance / markedPercent) * 100;
-			foreach (Grade grade in markedGrades)
-				grade.PointsNeeded = needed;
-			
-			ScenarioTree.RefreshObjects(markedGrades);
-        }
-
-		private void CalculateOverallGradeWeights(List<Grade> gradeList)
 		{
-			SelectedScenario.CalculateGradeWeights();
-			foreach (Grade grade in gradeList)
-			{
-				grade.OverallWeight = grade.Weight;
-				if (grade.Level > 0)
-				{
-					Section parent = (Section)grade.Parent;
-					grade.OverallWeight *= parent.Weight / 100;
-
-					for (int level = grade.Level; level > 1; level--)
-					{
-						parent = (Section)parent.Parent;
-						grade.OverallWeight *= parent.Weight / 100;
-					}
-				}
-			}
-		}
-
-		private decimal GetAverageForCalculation(List<Grade> gradeList)
-		{
-			decimal points = 0;
-			decimal total = 0;
-			foreach (Grade grade in gradeList)
-			{
-				if (grade.Marked)
-					points += 0;
-				else
-					points += grade.GetPercent() * (grade.OverallWeight / 100);
-				total += grade.OverallWeight;
-			}
-			return points / total * 100;
-		}
-
-		private List<Grade> GetGradesForCalculation(Scenario scenario)
-		{
-			List<Grade> gradesForCalculation = new List<Grade>();
-			foreach (Grade grade in scenario.GetGrades())
-				if (grade.PointsEarned != null || grade.Marked)
-					gradesForCalculation.Add(grade);
-			return gradesForCalculation;
-		}
-
-		private List<Grade> GetMarkedGrades(ItemContainer container)
-		{
-			return GetMarkedGrades(container.GetGrades());
-		}
-
-		private List<Grade> GetMarkedGrades(List<Grade> gradeList)
-		{
-			List<Grade> markedGrades = new List<Grade>();
-			foreach (Grade grade in gradeList)
-				if (grade.Marked)
-					markedGrades.Add(grade);
-			return markedGrades;
+			Calculations.CalculateNeeded(SelectedScenario);
+			ScenarioTree.RefreshObjects(SelectedScenario.GetGrades());
 		}
 
         private void DeleteScenario(Scenario scenario)
@@ -505,6 +430,7 @@ namespace BareMinimum
 				RegisterEvents(list);
 				ScenarioList.SetObjects(list);
 				ScenarioList.SelectedIndex = 0;
+				ScenarioTree.ExpandAll();
 			}
 			catch (IOException e)
 			{
