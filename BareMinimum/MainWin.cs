@@ -412,6 +412,7 @@ namespace BareMinimum
 			{
 				path = dialog.FileName;
 				OpenFile(path);
+				filePath = path;
 			}
 		}
 

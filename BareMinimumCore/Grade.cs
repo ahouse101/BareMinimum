@@ -62,7 +62,6 @@ namespace BareMinimumCore
 		public string Notes { get; set; }
 
 		public ItemContainer Parent { get; set; }
-		[JsonIgnore]
 		public int Level { get; set; }
 
 		public decimal GetPercent()

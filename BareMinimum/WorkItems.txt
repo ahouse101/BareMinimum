@@ -28,6 +28,7 @@ Version 0.4
 		.4 - Changed the build target to .NET 4.0 - medium.
 		.5 - Moved some of the code for calculations to the BareMinimumCore.Calculations static class - small.
 			r1 - Fixed an issue with the math (Sections that don't have any Grades to be used in the calculation are now ignore) - medium.
+			r2 - Fixed an issue with serialization (the 4.5 targetted version didn't need to serialize Level, but the 4.0 one does) - small.
 
 	Work Items:
 		- Add the ability to create new files.
