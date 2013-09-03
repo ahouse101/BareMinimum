@@ -6,7 +6,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
 
-namespace BareMinimum
+namespace BareMinimumCore
 {
     public class Grade : IItem, INotifyPropertyChanged
     {
@@ -81,6 +81,7 @@ namespace BareMinimum
 		public Grade(ItemContainer parent, string name)
 			: this(parent, name, 100, null, null, false, "")
 		{ }
+
 
 		[JsonConstructor]
 		public Grade(ItemContainer parent, string name, decimal pointsPossible, decimal? pointsEarned, decimal? pointsNeeded, bool marked, string notes)

@@ -67,10 +67,6 @@
     <Compile Include="ClickThroughMenu+Toolbar.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Enums.cs" />
-    <Compile Include="Grade.cs" />
-    <Compile Include="Item.cs" />
-    <Compile Include="ItemContainer.cs" />
     <Compile Include="MainWin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -84,8 +80,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Scenario.cs" />
-    <Compile Include="Section.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MainWin.resx">
@@ -118,6 +112,12 @@
     <Content Include="Resources\checkbox_yes.png" />
     <None Include="Resources\help_contents.png" />
     <Content Include="WorkItems.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BareMinimumCore\BareMinimumCore.csproj">
+      <Project>{77336715-5c39-43f3-b826-18c3449aa99f}</Project>
+      <Name>BareMinimumCore</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

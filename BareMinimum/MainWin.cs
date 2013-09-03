@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using BrightIdeasSoftware;
 using Newtonsoft.Json;
 using Microsoft.VisualBasic;
+using BareMinimumCore;
 
 namespace BareMinimum
 {
@@ -22,6 +23,7 @@ namespace BareMinimum
 		private TextOverlay emptyOverlay = new TextOverlay();
 		private Font controlFont;
 		private string filePath;
+		private string defaultScenarioName = "Untitled";
 
         public Scenario SelectedScenario
         {

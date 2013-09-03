@@ -5,12 +5,11 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
 
-namespace BareMinimum
+namespace BareMinimumCore
 {
     public class Scenario : ItemContainer, INotifyPropertyChanged
     {
 		private decimal target;
-
 
         public decimal Target 
 		{
@@ -31,10 +30,6 @@ namespace BareMinimum
 
 		public Scenario(string name)
 			: this(90, name)
-		{ }
-
-		public Scenario()
-			: this(90, "Untitled")
 		{ }
 
 		public Scenario(decimal target, string name)

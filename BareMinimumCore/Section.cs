@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
 
-namespace BareMinimum
+namespace BareMinimumCore
 {
     public class Section : ItemContainer, IItem, INotifyPropertyChanged
     {
@@ -52,7 +52,6 @@ namespace BareMinimum
 			: this(parent, name, true, 0, ItemType.None, new List<IItem>(), "")
 		{ }
 
-		[JsonConstructor]
 		public Section(ItemContainer parent, string name, bool autoWeighted, decimal weight, ItemType itemType, List<IItem> items, string notes)
 		{
 			this.Parent = parent;

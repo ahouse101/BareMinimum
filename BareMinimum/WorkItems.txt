@@ -24,6 +24,7 @@ Version 0.4
 	Change Log:
 		.1 - Added save and open functionality (buggy) - medium.
 		.2 - Rewrote the calculation system from scratch, changed some of the data classes slightly - large.
+		.3 - Created BareMinimumCore and moved all of the data classes into it - medium.
 
 	Work Items:
 		- Add the ability to create new files.
