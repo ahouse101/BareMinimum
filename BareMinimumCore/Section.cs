@@ -15,6 +15,9 @@ namespace BareMinimumCore
         // Sections can't be marked, yet, but the TreeListView control runs slowly if the property you set in AspectName isn't present.
 		[JsonIgnore]
 		public bool Marked { get { return false; } }
+		[JsonIgnore]
+		public decimal ModifiedWeight { get; set; } // This property allows the internal weight for calculation purposes to ignore empty sections.
+
 		public string Notes { get; set; }
 
 		public ItemContainer Parent { get; set; }
@@ -34,11 +37,13 @@ namespace BareMinimumCore
 			}
 		}
 
+		[JsonIgnore]
 		public string PointsPossible
 		{
 			get { return ""; }
 		}
 
+		[JsonIgnore]
 		public decimal? PointsNeeded
 		{
 			get { return null; }

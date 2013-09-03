@@ -17,7 +17,9 @@ namespace BareMinimumCore
 				return;
 
 			// Note: this calculation is for the "Even" mode.
-			CalculateOverallGradeWeights(gradesForCalculation, scenario);
+			scenario.CalculateGradeWeights();
+			CalculateModifiedSectionWeight(scenario);
+			CalculateOverallGradeWeights(gradesForCalculation);
 
 			decimal markedPercent = 0;
 			foreach (Grade grade in markedGrades)
@@ -29,23 +31,48 @@ namespace BareMinimumCore
 				grade.PointsNeeded = needed;
 		}
 
-		public static void CalculateOverallGradeWeights(List<Grade> gradeList, Scenario scenario)
+		public static void CalculateOverallGradeWeights(List<Grade> gradeList)
 		{
-			scenario.CalculateGradeWeights();
 			foreach (Grade grade in gradeList)
 			{
 				grade.OverallWeight = grade.Weight;
 				if (grade.Level > 0)
 				{
 					Section parent = (Section)grade.Parent;
-					grade.OverallWeight *= parent.Weight / 100;
+					grade.OverallWeight *= parent.ModifiedWeight / 100;
 
 					for (int level = grade.Level; level > 1; level--)
 					{
 						parent = (Section)parent.Parent;
-						grade.OverallWeight *= parent.Weight / 100;
+						grade.OverallWeight *= parent.ModifiedWeight / 100;
 					}
 				}
+			}
+		}
+
+		public static void CalculateModifiedSectionWeight(ItemContainer container)
+		{
+			if (container.Items.Count < 1)
+				return;
+
+			if (container.ItemType == ItemType.Section)
+			{
+				decimal emptyWeight = 0;
+				foreach (Section section in container.Items)
+					if (GetGradesForCalculation(section).Count < 1)
+						emptyWeight += section.Weight;
+				if (emptyWeight == 0)
+					foreach (Section section in container.Items)
+						section.ModifiedWeight = section.Weight;
+				else
+				{
+					decimal nonEmptyWeight = 100 - emptyWeight;
+					foreach (Section section in container.Items)
+						section.ModifiedWeight = section.Weight / (nonEmptyWeight / 100);
+				}
+
+				foreach (Section section in container.Items)
+					CalculateModifiedSectionWeight(section);
 			}
 		}
 
@@ -64,10 +91,10 @@ namespace BareMinimumCore
 			return points / total * 100;
 		}
 
-		public static List<Grade> GetGradesForCalculation(Scenario scenario)
+		public static List<Grade> GetGradesForCalculation(ItemContainer container)
 		{
 			List<Grade> gradesForCalculation = new List<Grade>();
-			foreach (Grade grade in scenario.GetGrades())
+			foreach (Grade grade in container.GetGrades())
 				if (grade.PointsEarned != null || grade.Marked)
 					gradesForCalculation.Add(grade);
 			return gradesForCalculation;
