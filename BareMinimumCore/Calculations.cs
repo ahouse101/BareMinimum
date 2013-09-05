@@ -16,7 +16,6 @@ namespace BareMinimumCore
 			if (markedGrades.Count < 1)
 				return;
 
-			// Note: this calculation is for the "Even" mode.
 			scenario.CalculateGradeWeights();
 			CalculateModifiedSectionWeight(scenario);
 			CalculateOverallGradeWeights(gradesForCalculation);
@@ -61,14 +60,16 @@ namespace BareMinimumCore
 				foreach (Section section in container.Items)
 					if (GetGradesForCalculation(section).Count < 1)
 						emptyWeight += section.Weight;
-				if (emptyWeight == 0)
-					foreach (Section section in container.Items)
-						section.ModifiedWeight = section.Weight;
-				else
+				if (emptyWeight != 100)
 				{
 					decimal nonEmptyWeight = 100 - emptyWeight;
 					foreach (Section section in container.Items)
 						section.ModifiedWeight = section.Weight / (nonEmptyWeight / 100);
+				}
+				else
+				{
+					foreach (Section section in container.Items)
+						section.ModifiedWeight = 0;
 				}
 
 				foreach (Section section in container.Items)

@@ -110,14 +110,22 @@ namespace BareMinimumCore
 			if (ItemType == ItemType.Section)
 			{
 				int autoWeightedSectionsCount = 0;
+				decimal manualWeight = 0;
 				foreach (Section section in Items)
 					if (section.AutoWeighted)
 						autoWeightedSectionsCount++;
-				
-				foreach (Section section in Items)
+					else
+						manualWeight += section.Weight;
+
+				if (autoWeightedSectionsCount != 0)
 				{
-					section.Weight = 100M / autoWeightedSectionsCount;
-					section.CalculateAutoSectionWeights();
+					decimal autoWeight = (100M - manualWeight) / autoWeightedSectionsCount;
+					foreach (Section section in Items)
+					{
+						if (section.AutoWeighted)
+							section.Weight = autoWeight;
+						section.CalculateAutoSectionWeights();
+					}
 				}
 			}
 		}

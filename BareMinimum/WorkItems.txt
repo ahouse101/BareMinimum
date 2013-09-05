@@ -1,5 +1,5 @@
 ﻿Future Plans:
-	- Add templates, custom calculation modes, and options.
+	- Add templates, more/custom calculation modes, and options.
 	- Add miscellaneous calculations, such as GPA, into a separate menu.
 
 Version 1.0 - Release!
@@ -20,10 +20,11 @@ Version 0.6
 Version 0.5 - Active
 	Goal: Improve the editing workflow.
 		.0 - Removed the CalculationTypeComboBox and the OptionsToolbarButton - small.
+		.1 - Fixed some bugs with the auto-weighted section feature (also, the interface now shows the weight) - small.
+
 
 	Work Items:
-		- Rework the way AutoWeighted Section Weights are calculated and displayed - active.
-		- Add some sort of decoration around editable fields to make it more obvious what you can edit.
+		- Add some sort of decoration around editable fields to make it more obvious what you can edit - active.
 		- Add more keyboard support.
 
 Version 0.4
@@ -34,7 +35,7 @@ Version 0.4
 		.3 - Created BareMinimumCore and moved all of the data classes into it - medium.
 		.4 - Changed the build target to .NET 4.0 - medium.
 		.5 - Moved some of the code for calculations to the BareMinimumCore.Calculations static class - small.
-			r1 - Fixed an issue with the math (Sections that don't have any Grades to be used in the calculation are now ignore) - medium.
+			r1 - Fixed an issue with the math (Sections that don't have any Grades to be used in the calculation are now ignored) - medium.
 			r2 - Fixed an issue with serialization (the 4.5 targetted version didn't need to serialize Level, but the 4.0 one does) - small.
 
 Version 0.3

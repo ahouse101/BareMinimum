@@ -174,7 +174,7 @@ namespace BareMinimum
 			{
 				Section section = (Section)model;
 				if (section.AutoWeighted)
-					DrawTextInCell(g, r, "Auto");
+					DrawTextInCell(g, r, "Auto (" + section.Weight.ToString("0.##") + "%)");
 				else
 					DrawTextInCell(g, r, (section.Weight.ToString("0.##") + "%"));
 			}
@@ -213,6 +213,7 @@ namespace BareMinimum
 			{
 				section.AutoWeighted = false;
 				section.Weight = newValue;
+				SelectedScenario.CalculateAutoSectionWeights();
 			}
 			else
 			{
@@ -750,6 +751,7 @@ namespace BareMinimum
 			{
 				CalculateNeeded();
 				ScenarioList.RefreshObject(SelectedScenario);
+				ScenarioTree.RefreshObjects(SelectedScenario.Items);
 			}
 		}
 

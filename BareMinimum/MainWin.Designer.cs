@@ -281,7 +281,7 @@
 			this.ItemWeightColumn.AspectName = "Weight";
 			this.ItemWeightColumn.AspectToStringFormat = "";
 			this.ItemWeightColumn.Text = "Weight";
-			this.ItemWeightColumn.Width = 50;
+			this.ItemWeightColumn.Width = 80;
 			// 
 			// ItemEarnedColumn
 			// 
