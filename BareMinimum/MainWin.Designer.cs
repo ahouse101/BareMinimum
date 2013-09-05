@@ -39,7 +39,6 @@
 			this.ScenarioAverageColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.ScenarioTargetColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.DeleteItemButton = new System.Windows.Forms.Button();
-			this.CalculationTypeComboBox = new System.Windows.Forms.ComboBox();
 			this.AddGradeButton = new System.Windows.Forms.Button();
 			this.AddSectionButton = new System.Windows.Forms.Button();
 			this.ScenarioTree = new BrightIdeasSoftware.TreeListView();
@@ -57,7 +56,6 @@
 			this.OpenFileButton = new System.Windows.Forms.ToolStripButton();
 			this.SaveFileButton = new System.Windows.Forms.ToolStripButton();
 			this.SaveAsFileButton = new System.Windows.Forms.ToolStripButton();
-			this.OptionsButton = new System.Windows.Forms.ToolStripButton();
 			this.FileLabel = new System.Windows.Forms.ToolStripLabel();
 			this.HelpToolbarButton = new System.Windows.Forms.ToolStripButton();
 			((System.ComponentModel.ISupportInitialize)(this.MainSplit)).BeginInit();
@@ -89,7 +87,6 @@
 			// MainSplit.Panel2
 			// 
 			this.MainSplit.Panel2.Controls.Add(this.DeleteItemButton);
-			this.MainSplit.Panel2.Controls.Add(this.CalculationTypeComboBox);
 			this.MainSplit.Panel2.Controls.Add(this.AddGradeButton);
 			this.MainSplit.Panel2.Controls.Add(this.AddSectionButton);
 			this.MainSplit.Panel2.Controls.Add(this.ScenarioTree);
@@ -197,22 +194,6 @@
 			this.DeleteItemButton.Text = "Delete";
 			this.DeleteItemButton.UseVisualStyleBackColor = true;
 			this.DeleteItemButton.Click += new System.EventHandler(this.DeleteItemButton_Click);
-			// 
-			// CalculationTypeComboBox
-			// 
-			this.CalculationTypeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.CalculationTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.CalculationTypeComboBox.Enabled = false;
-			this.CalculationTypeComboBox.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.CalculationTypeComboBox.FormattingEnabled = true;
-			this.CalculationTypeComboBox.ItemHeight = 15;
-			this.CalculationTypeComboBox.Items.AddRange(new object[] {
-            "Even",
-            "Most Zeros"});
-			this.CalculationTypeComboBox.Location = new System.Drawing.Point(415, 375);
-			this.CalculationTypeComboBox.Name = "CalculationTypeComboBox";
-			this.CalculationTypeComboBox.Size = new System.Drawing.Size(106, 23);
-			this.CalculationTypeComboBox.TabIndex = 8;
 			// 
 			// AddGradeButton
 			// 
@@ -371,7 +352,6 @@
             this.OpenFileButton,
             this.SaveFileButton,
             this.SaveAsFileButton,
-            this.OptionsButton,
             this.FileLabel,
             this.HelpToolbarButton});
 			this.FileToolbar.Location = new System.Drawing.Point(0, 0);
@@ -388,6 +368,7 @@
 			this.NewFileButton.Name = "NewFileButton";
 			this.NewFileButton.Size = new System.Drawing.Size(51, 20);
 			this.NewFileButton.Text = "New";
+			this.NewFileButton.Click += new System.EventHandler(this.NewFileButton_Click);
 			// 
 			// OpenFileButton
 			// 
@@ -415,14 +396,6 @@
 			this.SaveAsFileButton.Size = new System.Drawing.Size(76, 20);
 			this.SaveAsFileButton.Text = "Save As...";
 			this.SaveAsFileButton.Click += new System.EventHandler(this.SaveAsFileButton_Click);
-			// 
-			// OptionsButton
-			// 
-			this.OptionsButton.Image = global::BareMinimum.Properties.Resources.gear;
-			this.OptionsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.OptionsButton.Name = "OptionsButton";
-			this.OptionsButton.Size = new System.Drawing.Size(69, 20);
-			this.OptionsButton.Text = "Options";
 			// 
 			// FileLabel
 			// 
@@ -484,8 +457,7 @@
         private System.Windows.Forms.ToolStripButton NewFileButton;
         private System.Windows.Forms.ToolStripButton OpenFileButton;
         private System.Windows.Forms.ToolStripButton SaveFileButton;
-        private System.Windows.Forms.ToolStripButton SaveAsFileButton;
-        private System.Windows.Forms.ToolStripButton OptionsButton;
+		private System.Windows.Forms.ToolStripButton SaveAsFileButton;
         private System.Windows.Forms.ToolStripLabel FileLabel;
         private BrightIdeasSoftware.OLVColumn ScenarioNameColumn;
         private BrightIdeasSoftware.OLVColumn ScenarioAverageColumn;
@@ -496,7 +468,6 @@
         private BrightIdeasSoftware.OLVColumn ItemNeededColumn;
         private BrightIdeasSoftware.OLVColumn ItemNotesColumn;
 		private BrightIdeasSoftware.OLVColumn ItemMarkedColumn;
-        private System.Windows.Forms.ComboBox CalculationTypeComboBox;
         private System.Windows.Forms.Button DeleteScenarioButton;
         private System.Windows.Forms.Button DeleteItemButton;
         private System.Windows.Forms.ToolStripButton HelpToolbarButton;

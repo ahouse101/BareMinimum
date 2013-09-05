@@ -25,6 +25,22 @@ namespace BareMinimum
 		private string filePath;
 		private string defaultScenarioName = "Untitled";
 
+		private string FilePath
+		{
+			get
+			{
+				return filePath;
+			}
+			set
+			{
+				filePath = value;
+				if (String.IsNullOrWhiteSpace(filePath))
+					FileLabel.Text = "Unsaved File";
+				else
+					FileLabel.Text = Path.GetFileName(filePath);
+			}
+		}
+
         public Scenario SelectedScenario
         {
             get
@@ -98,7 +114,7 @@ namespace BareMinimum
 			ScenarioTree.HotItemStyle.Decoration = hotItemDecoration;
 
             // Set the drop down:
-            CalculationTypeComboBox.SelectedItem = "Even";
+            // CalculationTypeComboBox.SelectedItem = "Even";
 
 			// Set up JsonSettings:
 			JsonSettings = new JsonSerializerSettings
@@ -359,8 +375,8 @@ namespace BareMinimum
 
 		private void SaveFile()
 		{
-			if (filePath != null)
-				SaveFile(filePath);
+			if (!String.IsNullOrWhiteSpace(FilePath))
+				SaveFile(FilePath);
 			else
 				SaveFileAs();
 		}
@@ -374,9 +390,8 @@ namespace BareMinimum
 			dialog.DefaultExt = "bmin";
 			if (dialog.ShowDialog() == DialogResult.OK)
 			{
-				filePath = dialog.FileName;
-				FileLabel.Text = Path.GetFileName(filePath);
-				SaveFile(filePath);
+				FilePath = dialog.FileName;
+				SaveFile(FilePath);
 			}
 		}
 
@@ -412,7 +427,6 @@ namespace BareMinimum
 			{
 				path = dialog.FileName;
 				OpenFile(path);
-				filePath = path;
 			}
 		}
 
@@ -431,7 +445,7 @@ namespace BareMinimum
 				RegisterEvents(list);
 				ScenarioList.SetObjects(list);
 				ScenarioList.SelectedIndex = 0;
-				ScenarioTree.ExpandAll();
+				FilePath = filePath;
 			}
 			catch (IOException e)
 			{
@@ -443,9 +457,21 @@ namespace BareMinimum
 			}
 		}
 
+		private void NewFile()
+		{
+			ScenarioTree.SetObjects(null);
+			ScenarioList.ClearObjects();
+			FilePath = null;
+		}
+
 		#endregion
 
 		#region Event Handlers
+
+		private void NewFileButton_Click(object sender, EventArgs e)
+		{
+			NewFile();
+		}
 
 		private void OpenFileButton_Click(object sender, EventArgs e)
 		{

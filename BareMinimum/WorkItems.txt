@@ -1,6 +1,7 @@
 ﻿Future Plans:
+	- Add templates, custom calculation modes, and options.
 	- Add miscellaneous calculations, such as GPA, into a separate menu.
-	
+
 Version 1.0 - Release!
 	The application is ready for distribution!
 
@@ -16,8 +17,14 @@ Version 0.7 - Beta
 Version 0.6
 	Goal: Polish existing features, get rid of hacks if possible, create help, and publish the Codeplex project.
 
-Version 0.5
-	Goal: Add templates, custom calculation modes, and options. Also, improve the editing workflow.
+Version 0.5 - Active
+	Goal: Improve the editing workflow.
+		.0 - Removed the CalculationTypeComboBox and the OptionsToolbarButton - small.
+
+	Work Items:
+		- Rework the way AutoWeighted Section Weights are calculated and displayed - active.
+		- Add some sort of decoration around editable fields to make it more obvious what you can edit.
+		- Add more keyboard support.
 
 Version 0.4
 	Goal: Add file support.
@@ -29,9 +36,6 @@ Version 0.4
 		.5 - Moved some of the code for calculations to the BareMinimumCore.Calculations static class - small.
 			r1 - Fixed an issue with the math (Sections that don't have any Grades to be used in the calculation are now ignore) - medium.
 			r2 - Fixed an issue with serialization (the 4.5 targetted version didn't need to serialize Level, but the 4.0 one does) - small.
-
-	Work Items:
-		- Add the ability to create new files.
 
 Version 0.3
 	Goal: Add the methods that will do the calculations, and make sure they are called at the right times.
