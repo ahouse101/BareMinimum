@@ -23,7 +23,10 @@ namespace BareMinimum
 		private TextOverlay emptyOverlay = new TextOverlay();
 		private Font controlFont;
 		private string filePath;
-		private string defaultScenarioName = "Untitled";
+		private int listEditingColumnIndex;
+		private int treeEditingColumnIndex;
+		private int listEditingRowIndex;
+		private int treeEditingRowIndex;
 
 		private string FilePath
 		{
@@ -467,7 +470,60 @@ namespace BareMinimum
 
 		#endregion
 
+		#region Editing Methods
+
+		private void MoveTreeEditorUp()
+		{
+
+		}
+
+		private void MoveTreeEditorDown()
+		{
+
+		}
+
+		private void MoveListEditorUp()
+		{
+			if (ScenarioList.SelectedIndex > 0)
+			{
+				ScenarioList.FinishCellEdit();
+				ScenarioList.StartCellEdit((OLVListItem)(ScenarioList.Items[listEditingRowIndex - 1]), listEditingColumnIndex);
+			}
+		}
+
+		private void MoveListEditorDown()
+		{
+			if (ScenarioList.SelectedIndex < ScenarioList.Items.Count - 1)
+			{
+				ScenarioList.FinishCellEdit();
+				ScenarioList.StartCellEdit((OLVListItem)(ScenarioList.Items[listEditingRowIndex + 1]), listEditingColumnIndex);
+			}
+		}
+
+		#endregion
+
 		#region Event Handlers
+
+		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+		{
+			if (ScenarioList.IsCellEditing)
+			{
+				if (keyData.In(Keys.Up, Keys.Down))
+				{
+					ScenarioList_KeyDown(ScenarioList, new KeyEventArgs(keyData));
+					return true;
+				}
+			}
+			else if (ScenarioTree.IsCellEditing)
+			{
+				if (keyData.In(Keys.Up, Keys.Down))
+				{
+					ScenarioTree_KeyDown(ScenarioList, new KeyEventArgs(keyData));
+					return true;
+				}
+			}
+ 			return base.ProcessCmdKey(ref msg, keyData);
+		}
 
 		private void NewFileButton_Click(object sender, EventArgs e)
 		{
@@ -563,15 +619,31 @@ namespace BareMinimum
             DeleteItem();
         }
 
+		private void ScenarioList_CellEditStarting(object sender, CellEditEventArgs e)
+		{
+			listEditingColumnIndex = e.SubItemIndex;
+			listEditingRowIndex = e.ListViewItem.Index;
+		}
+
         private void ScenarioList_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Delete)
-            {
-                if (SelectedScenario != null)
-                {
-                    DeleteScenario(SelectedScenario);
-                }
-            }
+			switch (e.KeyCode)
+			{
+				case Keys.Down:
+					MoveListEditorDown();
+					break;
+				case Keys.Up:
+					MoveListEditorUp();
+					break;
+				case Keys.Delete:
+					if (SelectedScenario != null)
+					{
+						DeleteScenario(SelectedScenario);
+					}
+					break;
+				default:
+					break;
+			}
         }
 
         private void ScenarioList_SelectionChanged(object sender, EventArgs e)
@@ -631,33 +703,50 @@ namespace BareMinimum
 
         private void ScenarioTree_FormatCell(object sender, FormatCellEventArgs e)
         {
-            if (e.ColumnIndex == 4 && e.Model is Section)
+            if (e.Model is Section)
             {
-				CellBorderDecoration background = new CellBorderDecoration();
-				background.FillBrush = Brushes.White;
-                background.BorderPen = null;
-                background.CornerRounding = 0F;
-                background.BoundsPadding = new Size(0, -1);
-                CellBorderDecoration highlight= new CellBorderDecoration();
-				highlight.FillBrush = new SolidBrush(Color.FromArgb(50, 0, 150, 255));
-                highlight.BorderPen = null;
-                highlight.CornerRounding = 0F;
-                highlight.BoundsPadding = new Size(0, -1);
-                e.SubItem.Decorations.Add(background);
-				e.SubItem.Decorations.Add(highlight);
+				if (e.Column == ItemMarkedColumn)
+				{
+					CellBorderDecoration background = new CellBorderDecoration();
+					background.FillBrush = Brushes.White;
+					background.BorderPen = null;
+					background.CornerRounding = 0F;
+					background.BoundsPadding = new Size(0, -1);
+					CellBorderDecoration highlight = new CellBorderDecoration();
+					highlight.FillBrush = new SolidBrush(Color.FromArgb(50, 0, 150, 255));
+					highlight.BorderPen = null;
+					highlight.CornerRounding = 0F;
+					highlight.BoundsPadding = new Size(0, -1);
+					e.SubItem.Decorations.Add(background);
+					e.SubItem.Decorations.Add(highlight);
+				}
+				else
+				{
+					e.SubItem.Decorations.Clear();
+				}
             }
-            else
+            else if (e.Model is Grade)
             {
-                e.SubItem.Decorations.Clear();
+				e.SubItem.Decorations.Clear();
             }
         }
 
         private void ScenarioTree_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Delete)
-            {
-                DeleteItem();
-            }
+			switch (e.KeyCode)
+			{
+				case Keys.Down:
+					MoveTreeEditorDown();
+					break;
+				case Keys.Up:
+					MoveTreeEditorUp();
+					break;
+				case Keys.Delete:
+					DeleteItem();
+					break;
+				default:
+					break;
+			}
         }
 
         private void ScenarioTree_SelectionChanged(object sender, EventArgs e)
@@ -717,6 +806,8 @@ namespace BareMinimum
 
         private void ScenarioTree_CellEditStarting(object sender, BrightIdeasSoftware.CellEditEventArgs e)
         {
+			treeEditingColumnIndex = e.SubItemIndex;
+			treeEditingRowIndex = e.ListViewItem.Index;
             if (e.RowObject is Section)
             {
                 switch (e.Column.Index)

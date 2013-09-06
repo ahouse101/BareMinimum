@@ -21,11 +21,11 @@ Version 0.5 - Active
 	Goal: Improve the editing workflow.
 		.0 - Removed the CalculationTypeComboBox and the OptionsToolbarButton - small.
 		.1 - Fixed some bugs with the auto-weighted section feature (also, the interface now shows the weight) - small.
-
+		.2 - Made Up/Down arrow keys change the cell being edited in the ScenarioList - medium.
+			(The built in CellEditKeyEngine doesn't seem to work, so I had no choice but to use ProcessCmdKey())
 
 	Work Items:
-		- Add some sort of decoration around editable fields to make it more obvious what you can edit - active.
-		- Add more keyboard support.
+		- Add more keyboard support - active.
 
 Version 0.4
 	Goal: Add file support.
@@ -42,7 +42,7 @@ Version 0.3
 	Goal: Add the methods that will do the calculations, and make sure they are called at the right times.
 	Work Items:
 		1. Implemented Scenario.Average and Section.PointsEarned - medium (moved to ItemContainer.PointsEarned with work item 2.2).
-		2. Reded the class heirarchy - large.
+		2. Redid the class heirarchy - large.
 			1. Changed the Item class to an interface - medium.
 			2. Created the ItemContainer class - medium.
 			3. Made Section and Scenario inherit from ItemContainer - small.
@@ -73,7 +73,7 @@ Version 0.3
 				r1. Fixed an issue with ItemContainer.PointsEarned that caused it to be much larger than the real value when Sections were present in the tree - small - fix.
 				r2. Moved MarkedGrades to ItemContainer and modified it, because it needs to traverse the tree to find out - medium - change.
 				r3. Fixed an issue with CalculateOverallGradeWeights() that caused it to throw an exception whenever Sections were present in the tree - small - fix.
-		7. Fix some of the issues with the current CalculateNeeded() - medium - in progress.
+		7. Fix some of the issues with the current CalculateNeeded() - medium - done.
 			1. Make sure that CalculateNeeded is called whenever the tree is updated - medium - done.
 				(Added INotifyPropertyChanged to the Section class for the Weight property)
 				(Made the Grade class throw the PropertyChanged event for PointsPossible and PointsEarned)

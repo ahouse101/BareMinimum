@@ -158,6 +158,7 @@
 			this.ScenarioList.UseTranslucentHotItem = true;
 			this.ScenarioList.UseTranslucentSelection = true;
 			this.ScenarioList.View = System.Windows.Forms.View.Details;
+			this.ScenarioList.CellEditStarting += new BrightIdeasSoftware.CellEditEventHandler(this.ScenarioList_CellEditStarting);
 			this.ScenarioList.SelectionChanged += new System.EventHandler(this.ScenarioList_SelectionChanged);
 			this.ScenarioList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ScenarioList_KeyDown);
 			// 
@@ -367,7 +368,7 @@
 			this.NewFileButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.NewFileButton.Name = "NewFileButton";
 			this.NewFileButton.Size = new System.Drawing.Size(51, 20);
-			this.NewFileButton.Text = "New";
+			this.NewFileButton.Text = "&New";
 			this.NewFileButton.Click += new System.EventHandler(this.NewFileButton_Click);
 			// 
 			// OpenFileButton
@@ -376,7 +377,7 @@
 			this.OpenFileButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.OpenFileButton.Name = "OpenFileButton";
 			this.OpenFileButton.Size = new System.Drawing.Size(56, 20);
-			this.OpenFileButton.Text = "Open";
+			this.OpenFileButton.Text = "&Open";
 			this.OpenFileButton.Click += new System.EventHandler(this.OpenFileButton_Click);
 			// 
 			// SaveFileButton
@@ -385,7 +386,7 @@
 			this.SaveFileButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.SaveFileButton.Name = "SaveFileButton";
 			this.SaveFileButton.Size = new System.Drawing.Size(51, 20);
-			this.SaveFileButton.Text = "Save";
+			this.SaveFileButton.Text = "&Save";
 			this.SaveFileButton.Click += new System.EventHandler(this.SaveFileButton_Click);
 			// 
 			// SaveAsFileButton
@@ -412,7 +413,7 @@
 			this.HelpToolbarButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.HelpToolbarButton.Name = "HelpToolbarButton";
 			this.HelpToolbarButton.Size = new System.Drawing.Size(52, 20);
-			this.HelpToolbarButton.Text = "Help";
+			this.HelpToolbarButton.Text = "&Help";
 			// 
 			// MainWin
 			// 
