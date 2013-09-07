@@ -475,12 +475,138 @@ namespace BareMinimum
 
 		private void MoveTreeEditorUp()
 		{
-
+			switch (treeEditingColumnIndex)
+			{
+				case 0: // Name
+				case 6: // Notes
+					if (treeEditingRowIndex > 0)
+					{
+						ScenarioTree.FinishCellEdit();
+						ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[treeEditingRowIndex - 1]), treeEditingColumnIndex);
+					}
+					break;
+				case 1: // Weight
+					if (treeEditingRowIndex > 0)
+					{
+						int nextIndex = treeEditingRowIndex;
+						int upIndex = 0;
+						bool canMove = false;
+						while (true)
+						{
+							nextIndex--;
+							if (nextIndex < 0)
+								break;
+							if (((OLVListItem)ScenarioTree.Items[nextIndex]).RowObject is Section)
+							{
+								upIndex = nextIndex;
+								canMove = true;
+								break;
+							}
+						}
+						if (canMove)
+						{
+							ScenarioTree.FinishCellEdit();
+							ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[upIndex]), treeEditingColumnIndex);
+						}
+					}
+					break;
+				case 2: // PointsEarned
+				case 3: // PointsPossible
+					if (treeEditingRowIndex > 0)
+					{
+						int nextIndex = treeEditingRowIndex;
+						int upIndex = 0;
+						bool canMove = false;
+						while (true)
+						{
+							nextIndex--;
+							if (nextIndex < 0)
+								break;
+							if (((OLVListItem)ScenarioTree.Items[nextIndex]).RowObject is Grade)
+							{
+								upIndex = nextIndex;
+								canMove = true;
+								break;
+							}
+						}
+						if (canMove)
+						{
+							ScenarioTree.FinishCellEdit();
+							ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[upIndex]), treeEditingColumnIndex);
+						}
+					}
+					break;
+				default:
+					break;
+			}
 		}
 
 		private void MoveTreeEditorDown()
 		{
-
+			switch (treeEditingColumnIndex)
+			{
+				case 0: // Name
+				case 6: // Notes
+					if (treeEditingRowIndex < ScenarioTree.Items.Count - 1)
+					{
+						ScenarioTree.FinishCellEdit();
+						ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[treeEditingRowIndex + 1]), treeEditingColumnIndex);
+					}
+					break;
+				case 1: // Weight
+					if (treeEditingRowIndex < ScenarioTree.Items.Count - 1)
+					{
+						int nextIndex = treeEditingRowIndex;
+						int downIndex = 0;
+						bool canMove = false;
+						while (true)
+						{
+							nextIndex++;
+							if (nextIndex > ScenarioTree.Items.Count - 1)
+								break;
+							if (((OLVListItem)ScenarioTree.Items[nextIndex]).RowObject is Section)
+							{
+								downIndex = nextIndex;
+								canMove = true;
+								break;
+							}
+						}
+						if (canMove)
+						{
+							ScenarioTree.FinishCellEdit();
+							ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[downIndex]), treeEditingColumnIndex);
+						}
+					}
+					break;
+				case 2: // PointsEarned
+				case 3: // PointsPossible
+					if (treeEditingRowIndex < ScenarioTree.Items.Count - 1)
+					{
+						int nextIndex = treeEditingRowIndex;
+						int downIndex = 0;
+						bool canMove = false;
+						while (true)
+						{
+							nextIndex++;
+							if (nextIndex > ScenarioTree.Items.Count - 1)
+								break;
+							if (((OLVListItem)ScenarioTree.Items[nextIndex]).RowObject is Grade)
+							{
+								downIndex = nextIndex;
+								canMove = true;
+								break;
+							}
+						}
+						if (canMove)
+						{
+							ScenarioTree.FinishCellEdit();
+							ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[downIndex]), treeEditingColumnIndex);
+						}
+					}
+					break;
+				default:
+					break;
+			}
 		}
 
 		private void MoveListEditorUp()
@@ -815,6 +941,7 @@ namespace BareMinimum
                 {
                     case 2:
                     case 3:
+					case 4:
                     case 5:
                         e.Cancel = true;
                         break;
@@ -827,8 +954,8 @@ namespace BareMinimum
                 switch (e.Column.Index)
                 {
                     case 1:
+					case 4:
                     case 5:
-                        // ((Grade)e.RowObject).Marked = !((Grade)e.RowObject).Marked;
                         e.Cancel = true;
                         break;
                     default:

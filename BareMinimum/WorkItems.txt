@@ -14,20 +14,17 @@ Version 0.8 - Alpha
 Version 0.7 - Beta
 	Goal: Fix bugs, do a limited release.
 
-Version 0.6
+Version 0.6 - Active
 	Goal: Polish existing features, get rid of hacks if possible, create help, and publish the Codeplex project.
 
-Version 0.5 - Active
+Version 0.5
 	Goal: Improve the editing workflow.
 		.0 - Removed the CalculationTypeComboBox and the OptionsToolbarButton - small.
 		.1 - Fixed some bugs with the auto-weighted section feature (also, the interface now shows the weight) - small.
 		.2 - Made Up/Down arrow keys change the cell being edited in the ScenarioList - medium.
 			(The built in CellEditKeyEngine doesn't seem to work, so I had no choice but to use ProcessCmdKey())
 			r1 - Made the minimum window size smaller, so I can fit screenshots on the CodePlex page without resizing the images.
-
-
-	Work Items:
-		- Add more keyboard support - active.
+		.3 - Made Up/Down arrow keys change the cell being edited in the ScenarioTree - medium.
 
 Version 0.4
 	Goal: Add file support.
