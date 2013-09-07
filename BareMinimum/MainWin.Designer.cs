@@ -414,6 +414,7 @@
 			this.HelpToolbarButton.Name = "HelpToolbarButton";
 			this.HelpToolbarButton.Size = new System.Drawing.Size(52, 20);
 			this.HelpToolbarButton.Text = "&Help";
+			this.HelpToolbarButton.Click += new System.EventHandler(this.HelpToolbarButton_Click);
 			// 
 			// MainWin
 			// 
@@ -424,7 +425,7 @@
 			this.Controls.Add(this.FileToolbar);
 			this.Controls.Add(this.ScenarioTitleLabel);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-			this.MinimumSize = new System.Drawing.Size(751, 400);
+			this.MinimumSize = new System.Drawing.Size(650, 400);
 			this.Name = "MainWin";
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
 			this.Text = "BareMinimum";

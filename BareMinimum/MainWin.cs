@@ -13,6 +13,7 @@ using BrightIdeasSoftware;
 using Newtonsoft.Json;
 using Microsoft.VisualBasic;
 using BareMinimumCore;
+using System.Diagnostics;
 
 namespace BareMinimum
 {
@@ -484,7 +485,7 @@ namespace BareMinimum
 
 		private void MoveListEditorUp()
 		{
-			if (ScenarioList.SelectedIndex > 0)
+			if (listEditingRowIndex > 0)
 			{
 				ScenarioList.FinishCellEdit();
 				ScenarioList.StartCellEdit((OLVListItem)(ScenarioList.Items[listEditingRowIndex - 1]), listEditingColumnIndex);
@@ -493,7 +494,7 @@ namespace BareMinimum
 
 		private void MoveListEditorDown()
 		{
-			if (ScenarioList.SelectedIndex < ScenarioList.Items.Count - 1)
+			if (listEditingRowIndex < ScenarioList.Items.Count - 1)
 			{
 				ScenarioList.FinishCellEdit();
 				ScenarioList.StartCellEdit((OLVListItem)(ScenarioList.Items[listEditingRowIndex + 1]), listEditingColumnIndex);
@@ -874,6 +875,11 @@ namespace BareMinimum
 				default:
 					break;
 			}
+		}
+
+		private void HelpToolbarButton_Click(object sender, EventArgs e)
+		{
+			Process.Start("http://bareminimum.codeplex.com/documentation");
 		}
 
 		#endregion

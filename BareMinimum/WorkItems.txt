@@ -23,6 +23,8 @@ Version 0.5 - Active
 		.1 - Fixed some bugs with the auto-weighted section feature (also, the interface now shows the weight) - small.
 		.2 - Made Up/Down arrow keys change the cell being edited in the ScenarioList - medium.
 			(The built in CellEditKeyEngine doesn't seem to work, so I had no choice but to use ProcessCmdKey())
+			r1 - Made the minimum window size smaller, so I can fit screenshots on the CodePlex page without resizing the images.
+
 
 	Work Items:
 		- Add more keyboard support - active.
