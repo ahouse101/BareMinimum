@@ -1,6 +1,9 @@
 ﻿Future Plans:
-	- Add templates, more/custom calculation modes, and options.
-	- Add miscellaneous calculations, such as GPA, into a separate menu.
+	- Add scenario templates
+	- Add more/custom calculation modes
+	- Add color/theme options
+	- Add undo/redo
+	- Add the capability to export to other gradebook formats
 
 Version 1.0 - Release!
 	The application is ready for distribution!
@@ -16,6 +19,14 @@ Version 0.7 - Beta
 
 Version 0.6 - Active
 	Goal: Polish existing features, get rid of hacks if possible, create help, and publish the Codeplex project.
+	Change Log:
+		.1 - Added a dialog that asks if you'd like to save changes, modified the data classes so that you can monitor changes better, 
+			 redid the serialization to serialize in OptIn mode, and added a little window that is brought up during saving/opening to
+			 show progress. Also, fixed a bug that started an edit when you hit an arrow key.
+
+	Work Items:
+		- Add a right click menu to the ScenarioListView.
+		- Add a right click menu to the ScenarioTreeView.
 
 Version 0.5
 	Goal: Improve the editing workflow.

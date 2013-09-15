@@ -158,6 +158,7 @@
 			this.ScenarioList.UseTranslucentHotItem = true;
 			this.ScenarioList.UseTranslucentSelection = true;
 			this.ScenarioList.View = System.Windows.Forms.View.Details;
+			this.ScenarioList.CellEditFinishing += new BrightIdeasSoftware.CellEditEventHandler(this.ScenarioList_CellEditFinishing);
 			this.ScenarioList.CellEditStarting += new BrightIdeasSoftware.CellEditEventHandler(this.ScenarioList_CellEditStarting);
 			this.ScenarioList.SelectionChanged += new System.EventHandler(this.ScenarioList_SelectionChanged);
 			this.ScenarioList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ScenarioList_KeyDown);
@@ -165,10 +166,10 @@
 			// ScenarioNameColumn
 			// 
 			this.ScenarioNameColumn.AspectName = "Name";
-			this.ScenarioNameColumn.FillsFreeSpace = true;
 			this.ScenarioNameColumn.Hideable = false;
 			this.ScenarioNameColumn.MinimumWidth = 40;
 			this.ScenarioNameColumn.Text = "Name";
+			this.ScenarioNameColumn.Width = 85;
 			// 
 			// ScenarioAverageColumn
 			// 
@@ -182,7 +183,7 @@
 			// 
 			this.ScenarioTargetColumn.AspectName = "Target";
 			this.ScenarioTargetColumn.Text = "Target";
-			this.ScenarioTargetColumn.Width = 55;
+			this.ScenarioTargetColumn.Width = 50;
 			// 
 			// DeleteItemButton
 			// 
@@ -265,6 +266,7 @@
 			this.ScenarioTree.UseTranslucentSelection = true;
 			this.ScenarioTree.View = System.Windows.Forms.View.Details;
 			this.ScenarioTree.VirtualMode = true;
+			this.ScenarioTree.CellEditFinishing += new BrightIdeasSoftware.CellEditEventHandler(this.ScenarioTree_CellEditFinishing);
 			this.ScenarioTree.CellEditStarting += new BrightIdeasSoftware.CellEditEventHandler(this.ScenarioTree_CellEditStarting);
 			this.ScenarioTree.FormatCell += new System.EventHandler<BrightIdeasSoftware.FormatCellEventArgs>(this.ScenarioTree_FormatCell);
 			this.ScenarioTree.FormatRow += new System.EventHandler<BrightIdeasSoftware.FormatRowEventArgs>(this.ScenarioTree_FormatRow);
@@ -429,6 +431,7 @@
 			this.Name = "MainWin";
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
 			this.Text = "BareMinimum";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWin_FormClosing);
 			this.MainSplit.Panel1.ResumeLayout(false);
 			this.MainSplit.Panel1.PerformLayout();
 			this.MainSplit.Panel2.ResumeLayout(false);

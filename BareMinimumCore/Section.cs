@@ -1,27 +1,68 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Newtonsoft.Json;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using Newtonsoft.Json;
 
 namespace BareMinimumCore
 {
+	[JsonObject(MemberSerialization.OptIn)]
     public class Section : ItemContainer, IItem, INotifyPropertyChanged
     {
+		[JsonProperty]
 		private decimal weight;
+		[JsonProperty]
+		private string notes;
+		[JsonProperty]
+		private bool autoWeighted;
+		[JsonProperty]
+		private ItemContainer parent;
+		[JsonProperty]
+		private int level;
 
-		public bool AutoWeighted { get; set; }
         // Sections can't be marked, yet, but the TreeListView control runs slowly if the property you set in AspectName isn't present.
-		[JsonIgnore]
 		public bool Marked { get { return false; } }
-		[JsonIgnore]
 		public decimal ModifiedWeight { get; set; } // This property allows the internal weight for calculation purposes to ignore empty sections.
 
-		public string Notes { get; set; }
+		public ItemContainer Parent
+		{
+			get
+			{
+				return parent;
+			}
+		}
 
-		public ItemContainer Parent { get; set; }
-		public int Level { get; set; }
+		public int Level
+		{
+			get
+			{
+				return level;
+			}
+		}
+
+		public string Notes 
+		{
+			get
+			{
+				return notes;
+			}
+			set
+			{
+				notes = value;
+				NotifyPropertyChanged("Notes");
+			}
+		}
+
+		public bool AutoWeighted 
+		{
+			get
+			{
+				return autoWeighted;
+			}
+			set
+			{
+				autoWeighted = value;
+				NotifyPropertyChanged("AutoWeighted");
+			}
+		}
 
 		public decimal Weight 
 		{
@@ -36,13 +77,11 @@ namespace BareMinimumCore
 			}
 		}
 
-		[JsonIgnore]
 		public string PointsPossible
 		{
 			get { return ""; }
 		}
 
-		[JsonIgnore]
 		public decimal? PointsNeeded
 		{
 			get { return null; }
@@ -56,29 +95,22 @@ namespace BareMinimumCore
 		{ }
 
 		public Section(ItemContainer parent, string name)
-			: this(parent, name, true, 0, ItemType.None, new List<IItem>(), "")
+			: this(parent, name, true, 0, ItemType.None, new ObservableCollection<IItem>(), "")
 		{ }
 
-		public Section(ItemContainer parent, string name, bool autoWeighted, decimal weight, ItemType itemType, List<IItem> items, string notes)
+		public Section(ItemContainer parent, string name, bool autoWeighted, decimal weight, ItemType itemType, ObservableCollection<IItem> items, string notes)
 		{
-			this.Parent = parent;
+			this.parent = parent;
 			if (parent is Scenario)
-				Level = 0;
+				level = 0;
 			else
-				Level = ((Section)parent).Level + 1;
-			this.Name = name;
+				level = ((Section)parent).level + 1;
+			this.name = name;
 			this.weight = weight;
-			this.AutoWeighted = autoWeighted;
-			this.ItemType = itemType;
-			this.Items = items;
-			this.Notes = notes;
-		}
-
-		public event PropertyChangedEventHandler PropertyChanged;
-		private void NotifyPropertyChanged(String propertyName = "")
-		{
-			if (PropertyChanged != null)
-				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			this.autoWeighted = autoWeighted;
+			this.itemType = itemType;
+			this.items = items;
+			this.notes = notes;
 		}
     }
 }

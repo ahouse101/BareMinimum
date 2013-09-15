@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BareMinimumCore
+﻿namespace BareMinimumCore
 {
     public interface IItem
     {
@@ -11,7 +7,7 @@ namespace BareMinimumCore
         string Notes { get; set; }
 		
 		// Non-display properties:
-		ItemContainer Parent { get; set; }
-		int Level { get; set; }
+		ItemContainer Parent { get; }
+		int Level { get; }
     }
 }

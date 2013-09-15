@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using BareMinimumCore;
+using BrightIdeasSoftware;
+using Microsoft.VisualBasic;
+using Newtonsoft.Json;
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using BrightIdeasSoftware;
-using Newtonsoft.Json;
-using Microsoft.VisualBasic;
-using BareMinimumCore;
-using System.Diagnostics;
 
 namespace BareMinimum
 {
@@ -28,6 +25,9 @@ namespace BareMinimum
 		private int treeEditingColumnIndex;
 		private int listEditingRowIndex;
 		private int treeEditingRowIndex;
+		private bool treeIsEditing = false;
+		private bool listIsEditing = false;
+		private bool fileIsSaved = false;
 
 		private string FilePath
 		{
@@ -57,7 +57,7 @@ namespace BareMinimum
 
 		#endregion
 
-		#region Constructor and Delegates
+		#region Constructor and Overrides
 
 		public MainWin()
         {
@@ -128,28 +128,53 @@ namespace BareMinimum
 			};
         }
 
-        // Delegate that tells the ScenarioTree when it can expand an item:
-        private bool CanExpand(object item)
-        {
-            if (item is Section)
-            {
-                if (((Section)item).Items.Count < 1)
-                    return false;
-                else
-                    return true;
-            }
-            else
-                return false;
-        }
+		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+		{
+			if (listIsEditing)
+			{
+				if (keyData.In(Keys.Up, Keys.Down))
+				{
+					ScenarioList_KeyDown(ScenarioList, new KeyEventArgs(keyData));
+					return true;
+				}
+			}
+			else if (treeIsEditing)
+			{
+				if (keyData.In(Keys.Up, Keys.Down))
+				{
+					ScenarioTree_KeyDown(ScenarioList, new KeyEventArgs(keyData));
+					return true;
+				}
+			}
+			return base.ProcessCmdKey(ref msg, keyData);
+		}
 
-        // Delegate that returns the children of a given item to the ScenarioTree:
-        private ArrayList GetChildren(object item)
-        {
-            if (item is Section)
-                return new ArrayList(((Section)item).Items);
-            else
-                return new ArrayList();
-        }
+		#endregion
+
+		#region Delegates
+
+		// Delegate that tells the ScenarioTree when it can expand an item:
+		private bool CanExpand(object item)
+		{
+			if (item is Section)
+			{
+				if (((Section)item).Items.Count < 1)
+					return false;
+				else
+					return true;
+			}
+			else
+				return false;
+		}
+
+		// Delegate that returns the children of a given item to the ScenarioTree:
+		private ArrayList GetChildren(object item)
+		{
+			if (item is Section)
+				return new ArrayList(((Section)item).Items);
+			else
+				return new ArrayList();
+		}
 
 		// AspectToStringConverter for ScenarioAverageColumn
 		private string ConvertScenarioAverageToString(object x)
@@ -252,6 +277,10 @@ namespace BareMinimum
 				scenario.Target = newValue;
 		}
 
+		#endregion
+
+		#region Drawing Methods
+
 		private void DrawTextInCell(Graphics g, Rectangle r, String text)
 		{
 			// Fill backgroud:
@@ -298,6 +327,7 @@ namespace BareMinimum
 				else
 					ScenarioList.SelectedIndex = 0;
 			}
+			fileIsSaved = false;
         }
 
         private void DeleteItem()
@@ -330,12 +360,14 @@ namespace BareMinimum
                 DeleteScenarioButton.Enabled = false;
             }
 			ScenarioList.RefreshObject(SelectedScenario);
+			fileIsSaved = false;
         }
 
 		private void RegisterEvents(List<Scenario> list)
 		{
 			foreach (Scenario scenario in list)
 			{
+				scenario.Items.CollectionChanged += Items_CollectionChanged;
 				if (scenario.Items.Count < 1)
 					return;
 				if (scenario.ItemType == ItemType.Section)
@@ -354,7 +386,8 @@ namespace BareMinimum
 		private void RegisterEvents(Section section)
 		{
 			section.PropertyChanged += Section_PropertyChanged;
-			
+			section.Items.CollectionChanged += Items_CollectionChanged;
+
 			if (section.Items.Count < 1)
 				return;
 			if (section.ItemType == ItemType.Section)
@@ -402,13 +435,15 @@ namespace BareMinimum
 
 		private void SaveFile(string filePath)
 		{
+			InfoBox infoBox = InfoBox.ShowMessage("Saving \"" + Path.GetFileName(filePath) + "\"...", "Saving...", this);
 			try
 			{
 				string serialized = JsonConvert.SerializeObject(
 					new List<Scenario>(ScenarioList.Objects.Cast<Scenario>()),
 					Formatting.Indented,
 					JsonSettings);
-				File.WriteAllText(filePath, "BareMinimum File Format (Development)\n" + serialized);
+				File.WriteAllText(filePath, "BareMinimum File Format (Development v2)\n" + serialized);
+				fileIsSaved = true;
 			}
 			catch (IOException e)
 			{
@@ -417,6 +452,10 @@ namespace BareMinimum
 			catch (JsonSerializationException e)
 			{
 				MessageBox.Show("JSON Serialization Error:\n" + e.Message);
+			}
+			finally
+			{
+				infoBox.Close();
 			}
 		}
 
@@ -437,6 +476,7 @@ namespace BareMinimum
 
 		private void OpenFile(string filePath)
 		{
+			InfoBox infoBox = InfoBox.ShowMessage("Opening \"" + Path.GetFileName(filePath) + "\"...", "Opening...", this);
 			try
 			{
 				List<string> fileContents = new List<string>(File.ReadAllLines(filePath));
@@ -447,10 +487,15 @@ namespace BareMinimum
 				foreach (string line in fileContents)
 					json += "\n" + line;
 				List<Scenario> list = JsonConvert.DeserializeObject<List<Scenario>>(json, JsonSettings);
+				foreach (Scenario scenario in list)
+				{
+					Calculations.CalculateNeeded(scenario);
+				}
 				RegisterEvents(list);
 				ScenarioList.SetObjects(list);
 				ScenarioList.SelectedIndex = 0;
 				FilePath = filePath;
+				fileIsSaved = true;
 			}
 			catch (IOException e)
 			{
@@ -460,6 +505,10 @@ namespace BareMinimum
 			{
 				MessageBox.Show("JSON Serialization Error:\n" + e.Message);
 			}
+			finally
+			{
+				infoBox.Close();
+			}
 		}
 
 		private void NewFile()
@@ -467,6 +516,7 @@ namespace BareMinimum
 			ScenarioTree.SetObjects(null);
 			ScenarioList.ClearObjects();
 			FilePath = null;
+			fileIsSaved = false;
 		}
 
 		#endregion
@@ -475,155 +525,167 @@ namespace BareMinimum
 
 		private void MoveTreeEditorUp()
 		{
-			switch (treeEditingColumnIndex)
+			if (treeIsEditing)
 			{
-				case 0: // Name
-				case 6: // Notes
-					if (treeEditingRowIndex > 0)
-					{
-						ScenarioTree.FinishCellEdit();
-						ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[treeEditingRowIndex - 1]), treeEditingColumnIndex);
-					}
-					break;
-				case 1: // Weight
-					if (treeEditingRowIndex > 0)
-					{
-						int nextIndex = treeEditingRowIndex;
-						int upIndex = 0;
-						bool canMove = false;
-						while (true)
-						{
-							nextIndex--;
-							if (nextIndex < 0)
-								break;
-							if (((OLVListItem)ScenarioTree.Items[nextIndex]).RowObject is Section)
-							{
-								upIndex = nextIndex;
-								canMove = true;
-								break;
-							}
-						}
-						if (canMove)
+				switch (treeEditingColumnIndex)
+				{
+					case 0: // Name
+					case 6: // Notes
+						if (treeEditingRowIndex > 0)
 						{
 							ScenarioTree.FinishCellEdit();
-							ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[upIndex]), treeEditingColumnIndex);
+							ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[treeEditingRowIndex - 1]), treeEditingColumnIndex);
 						}
-					}
-					break;
-				case 2: // PointsEarned
-				case 3: // PointsPossible
-					if (treeEditingRowIndex > 0)
-					{
-						int nextIndex = treeEditingRowIndex;
-						int upIndex = 0;
-						bool canMove = false;
-						while (true)
+						break;
+					case 1: // Weight
+						if (treeEditingRowIndex > 0)
 						{
-							nextIndex--;
-							if (nextIndex < 0)
-								break;
-							if (((OLVListItem)ScenarioTree.Items[nextIndex]).RowObject is Grade)
+							int nextIndex = treeEditingRowIndex;
+							int upIndex = 0;
+							bool canMove = false;
+							while (true)
 							{
-								upIndex = nextIndex;
-								canMove = true;
-								break;
+								nextIndex--;
+								if (nextIndex < 0)
+									break;
+								if (((OLVListItem)ScenarioTree.Items[nextIndex]).RowObject is Section)
+								{
+									upIndex = nextIndex;
+									canMove = true;
+									break;
+								}
+							}
+							if (canMove)
+							{
+								ScenarioTree.FinishCellEdit();
+								ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[upIndex]), treeEditingColumnIndex);
 							}
 						}
-						if (canMove)
+						break;
+					case 2: // PointsEarned
+					case 3: // PointsPossible
+						if (treeEditingRowIndex > 0)
 						{
-							ScenarioTree.FinishCellEdit();
-							ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[upIndex]), treeEditingColumnIndex);
+							int nextIndex = treeEditingRowIndex;
+							int upIndex = 0;
+							bool canMove = false;
+							while (true)
+							{
+								nextIndex--;
+								if (nextIndex < 0)
+									break;
+								if (((OLVListItem)ScenarioTree.Items[nextIndex]).RowObject is Grade)
+								{
+									upIndex = nextIndex;
+									canMove = true;
+									break;
+								}
+							}
+							if (canMove)
+							{
+								ScenarioTree.FinishCellEdit();
+								ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[upIndex]), treeEditingColumnIndex);
+							}
 						}
-					}
-					break;
-				default:
-					break;
+						break;
+					default:
+						break;
+				}
 			}
 		}
 
 		private void MoveTreeEditorDown()
 		{
-			switch (treeEditingColumnIndex)
+			if (treeIsEditing)
 			{
-				case 0: // Name
-				case 6: // Notes
-					if (treeEditingRowIndex < ScenarioTree.Items.Count - 1)
-					{
-						ScenarioTree.FinishCellEdit();
-						ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[treeEditingRowIndex + 1]), treeEditingColumnIndex);
-					}
-					break;
-				case 1: // Weight
-					if (treeEditingRowIndex < ScenarioTree.Items.Count - 1)
-					{
-						int nextIndex = treeEditingRowIndex;
-						int downIndex = 0;
-						bool canMove = false;
-						while (true)
-						{
-							nextIndex++;
-							if (nextIndex > ScenarioTree.Items.Count - 1)
-								break;
-							if (((OLVListItem)ScenarioTree.Items[nextIndex]).RowObject is Section)
-							{
-								downIndex = nextIndex;
-								canMove = true;
-								break;
-							}
-						}
-						if (canMove)
+				switch (treeEditingColumnIndex)
+				{
+					case 0: // Name
+					case 6: // Notes
+						if (treeEditingRowIndex < ScenarioTree.Items.Count - 1)
 						{
 							ScenarioTree.FinishCellEdit();
-							ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[downIndex]), treeEditingColumnIndex);
+							ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[treeEditingRowIndex + 1]), treeEditingColumnIndex);
 						}
-					}
-					break;
-				case 2: // PointsEarned
-				case 3: // PointsPossible
-					if (treeEditingRowIndex < ScenarioTree.Items.Count - 1)
-					{
-						int nextIndex = treeEditingRowIndex;
-						int downIndex = 0;
-						bool canMove = false;
-						while (true)
+						break;
+					case 1: // Weight
+						if (treeEditingRowIndex < ScenarioTree.Items.Count - 1)
 						{
-							nextIndex++;
-							if (nextIndex > ScenarioTree.Items.Count - 1)
-								break;
-							if (((OLVListItem)ScenarioTree.Items[nextIndex]).RowObject is Grade)
+							int nextIndex = treeEditingRowIndex;
+							int downIndex = 0;
+							bool canMove = false;
+							while (true)
 							{
-								downIndex = nextIndex;
-								canMove = true;
-								break;
+								nextIndex++;
+								if (nextIndex > ScenarioTree.Items.Count - 1)
+									break;
+								if (((OLVListItem)ScenarioTree.Items[nextIndex]).RowObject is Section)
+								{
+									downIndex = nextIndex;
+									canMove = true;
+									break;
+								}
+							}
+							if (canMove)
+							{
+								ScenarioTree.FinishCellEdit();
+								ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[downIndex]), treeEditingColumnIndex);
 							}
 						}
-						if (canMove)
+						break;
+					case 2: // PointsEarned
+					case 3: // PointsPossible
+						if (treeEditingRowIndex < ScenarioTree.Items.Count - 1)
 						{
-							ScenarioTree.FinishCellEdit();
-							ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[downIndex]), treeEditingColumnIndex);
+							int nextIndex = treeEditingRowIndex;
+							int downIndex = 0;
+							bool canMove = false;
+							while (true)
+							{
+								nextIndex++;
+								if (nextIndex > ScenarioTree.Items.Count - 1)
+									break;
+								if (((OLVListItem)ScenarioTree.Items[nextIndex]).RowObject is Grade)
+								{
+									downIndex = nextIndex;
+									canMove = true;
+									break;
+								}
+							}
+							if (canMove)
+							{
+								ScenarioTree.FinishCellEdit();
+								ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[downIndex]), treeEditingColumnIndex);
+							}
 						}
-					}
-					break;
-				default:
-					break;
+						break;
+					default:
+						break;
+				}
 			}
 		}
 
 		private void MoveListEditorUp()
 		{
-			if (listEditingRowIndex > 0)
+			if (listIsEditing)
 			{
-				ScenarioList.FinishCellEdit();
-				ScenarioList.StartCellEdit((OLVListItem)(ScenarioList.Items[listEditingRowIndex - 1]), listEditingColumnIndex);
+				if (listEditingRowIndex > 0)
+				{
+					ScenarioList.FinishCellEdit();
+					ScenarioList.StartCellEdit((OLVListItem)(ScenarioList.Items[listEditingRowIndex - 1]), listEditingColumnIndex);
+				}
 			}
 		}
 
 		private void MoveListEditorDown()
 		{
-			if (listEditingRowIndex < ScenarioList.Items.Count - 1)
+			if (listIsEditing)
 			{
-				ScenarioList.FinishCellEdit();
-				ScenarioList.StartCellEdit((OLVListItem)(ScenarioList.Items[listEditingRowIndex + 1]), listEditingColumnIndex);
+				if (listEditingRowIndex < ScenarioList.Items.Count - 1)
+				{
+					ScenarioList.FinishCellEdit();
+					ScenarioList.StartCellEdit((OLVListItem)(ScenarioList.Items[listEditingRowIndex + 1]), listEditingColumnIndex);
+				}
 			}
 		}
 
@@ -631,25 +693,25 @@ namespace BareMinimum
 
 		#region Event Handlers
 
-		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+		private void MainWin_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			if (ScenarioList.IsCellEditing)
+			if (!fileIsSaved)
 			{
-				if (keyData.In(Keys.Up, Keys.Down))
+				switch (MessageBox.Show("Save " + FileLabel.Text + "?", "Save File?", MessageBoxButtons.YesNoCancel))
 				{
-					ScenarioList_KeyDown(ScenarioList, new KeyEventArgs(keyData));
-					return true;
+					case DialogResult.Yes:
+						SaveFile();
+						break;
+					case DialogResult.No:
+						// Nothing to do here.
+						break;
+					case DialogResult.Cancel:
+						e.Cancel = true;
+						break;
+					default:
+						break;
 				}
 			}
-			else if (ScenarioTree.IsCellEditing)
-			{
-				if (keyData.In(Keys.Up, Keys.Down))
-				{
-					ScenarioTree_KeyDown(ScenarioList, new KeyEventArgs(keyData));
-					return true;
-				}
-			}
- 			return base.ProcessCmdKey(ref msg, keyData);
 		}
 
 		private void NewFileButton_Click(object sender, EventArgs e)
@@ -680,6 +742,7 @@ namespace BareMinimum
             ScenarioList.SelectObject(newScenario);
             emptyOverlay.Text = "Add some items to this scenario.";
             DeleteScenarioButton.Enabled = true;
+			fileIsSaved = false;
         }
 
         private void AddSectionButton_Click(object sender, EventArgs e)
@@ -705,6 +768,7 @@ namespace BareMinimum
                 if (!ScenarioTree.IsExpanded(container))
                     ScenarioTree.Expand(container);
             }
+			fileIsSaved = false;
 			SelectedScenario.CalculateAutoSectionWeights();
             AddGradeButton.Enabled = false;
         }
@@ -733,6 +797,7 @@ namespace BareMinimum
                 if (!ScenarioTree.IsExpanded(container))
                     ScenarioTree.Expand(container);
             }
+			fileIsSaved = false;
             AddSectionButton.Enabled = false;
         }
 
@@ -750,6 +815,12 @@ namespace BareMinimum
 		{
 			listEditingColumnIndex = e.SubItemIndex;
 			listEditingRowIndex = e.ListViewItem.Index;
+			listIsEditing = true;
+		}
+
+		private void ScenarioList_CellEditFinishing(object sender, CellEditEventArgs e)
+		{
+			listIsEditing = false;
 		}
 
         private void ScenarioList_KeyDown(object sender, KeyEventArgs e)
@@ -962,6 +1033,18 @@ namespace BareMinimum
                         break;
                 }
             }
+			if (!e.Cancel)
+				treeIsEditing = true;
+		}
+
+		private void ScenarioTree_CellEditFinishing(object sender, CellEditEventArgs e)
+		{
+			treeIsEditing = false;
+		}
+
+		private void Items_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+		{
+			fileIsSaved = false;
 		}
 
 		private void Section_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -972,6 +1055,7 @@ namespace BareMinimum
 				ScenarioList.RefreshObject(SelectedScenario);
 				ScenarioTree.RefreshObjects(SelectedScenario.Items);
 			}
+			fileIsSaved = false;
 		}
 
 		private void Grade_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -987,6 +1071,7 @@ namespace BareMinimum
 				default:
 					break;
 			}
+			fileIsSaved = false;
 		}
 
 		private void Scenario_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -1002,6 +1087,7 @@ namespace BareMinimum
 				default:
 					break;
 			}
+			fileIsSaved = false;
 		}
 
 		private void HelpToolbarButton_Click(object sender, EventArgs e)

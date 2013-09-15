@@ -1,19 +1,56 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace BareMinimumCore
 {
+	[JsonObject(MemberSerialization.OptIn)]
 	public abstract class ItemContainer
 	{
-		public ItemType ItemType { get; set; }
-		public List<IItem> Items { get; set; }
-		public string Name { get; set; }
+		[JsonProperty]
+		protected ObservableCollection<IItem> items;
+		[JsonProperty]
+		protected ItemType itemType;
+		[JsonProperty]
+		protected string name;
 
-		[JsonIgnore]
+		public ItemType ItemType
+		{
+			get
+			{
+				return itemType;
+			}
+			set
+			{
+				itemType = value;
+				NotifyPropertyChanged("ItemType");	
+			}
+		}
+
+		public ObservableCollection<IItem> Items 
+		{
+			get
+			{
+				return items;
+			}
+		}
+
+		public string Name
+		{
+			get
+			{
+				return name;
+			}
+			set
+			{
+				name = value;
+				NotifyPropertyChanged("Name");
+			}
+		}
+
 		public decimal? PointsEarned
 		{
 			get
@@ -128,6 +165,13 @@ namespace BareMinimumCore
 					}
 				}
 			}
+		}
+
+		public event PropertyChangedEventHandler PropertyChanged;
+		protected void NotifyPropertyChanged(String propertyName = "")
+		{
+			if (PropertyChanged != null)
+				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 		}
 	}
 }

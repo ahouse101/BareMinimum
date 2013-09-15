@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace BareMinimumCore
+﻿namespace BareMinimumCore
 {
     public enum ItemType
     {

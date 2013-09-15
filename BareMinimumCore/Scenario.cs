@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Newtonsoft.Json;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using Newtonsoft.Json;
 
 namespace BareMinimumCore
 {
+	[JsonObject(MemberSerialization.OptIn)]
     public class Scenario : ItemContainer, INotifyPropertyChanged
     {
+		[JsonProperty]
 		private decimal target;
 
         public decimal Target 
@@ -36,22 +35,15 @@ namespace BareMinimumCore
 		{ }
 
 		public Scenario(decimal target, string name)
-			: this(target, name, new List<IItem>(), ItemType.None)
+			: this(target, name, new ObservableCollection<IItem>(), ItemType.None)
 		{ }
 
-		public Scenario(decimal target, string name, List<IItem> items, ItemType itemType)
+		public Scenario(decimal target, string name, ObservableCollection<IItem> items, ItemType itemType)
 		{
 			this.target = target;
-			this.Name = name;
-			this.Items = items;
-			this.ItemType = itemType;
-		}
-
-		public event PropertyChangedEventHandler PropertyChanged;
-		private void NotifyPropertyChanged(String propertyName = "")
-		{
-			if (PropertyChanged != null)
-				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			base.name = name;
+			base.items = items;
+			base.itemType = itemType;
 		}
     }
 }

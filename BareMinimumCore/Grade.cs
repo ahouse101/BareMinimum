@@ -1,20 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
+﻿using Newtonsoft.Json;
+using System;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using Newtonsoft.Json;
 
 namespace BareMinimumCore
 {
+	[JsonObject(MemberSerialization.OptIn)]
     public class Grade : IItem, INotifyPropertyChanged
     {
+		[JsonProperty]
 		private bool marked;
+		[JsonProperty]
 		private decimal? pointsEarned;
+		[JsonProperty]
 		private decimal pointsPossible;
+		[JsonProperty]
+		private ItemContainer parent;
+		[JsonProperty]
+		private int level;
+		[JsonProperty]
+		private decimal weight;
+		[JsonProperty]
+		private string name;
+		[JsonProperty]
+		private string notes;
 
-		public bool Marked 
+		public bool Marked
 		{
 			get
 			{
@@ -55,14 +65,63 @@ namespace BareMinimumCore
 			}
 		}
 
-		public decimal? PointsNeeded { get; set; }
-		public decimal Weight { get; set; }
-		public decimal OverallWeight { get; set; }
-		public string Name { get; set; }
-		public string Notes { get; set; }
+		public decimal Weight
+		{
+			get
+			{
+				return weight;
+			}
+			set
+			{
+				weight = value;
+				NotifyPropertyChanged("Weight");
+			}
+		}
 
-		public ItemContainer Parent { get; set; }
-		public int Level { get; set; }
+		public string Name 
+		{
+			get
+			{
+				return name;
+			}
+			set
+			{
+				name = value;
+				NotifyPropertyChanged("Name");
+			}
+		}
+
+		public string Notes
+		{
+			get
+			{
+				return notes;
+			}
+			set
+			{
+				notes = value;
+				NotifyPropertyChanged("Notes");
+			}
+		}
+
+		public decimal? PointsNeeded { get; set; }
+		public decimal OverallWeight { get; set; }
+
+		public ItemContainer Parent
+		{
+			get
+			{
+				return parent;
+			}
+		}
+
+		public int Level
+		{
+			get
+			{
+				return level;
+			}
+		}
 
 		public decimal GetPercent()
 		{
@@ -85,11 +144,11 @@ namespace BareMinimumCore
 
 		public Grade(ItemContainer parent, string name, decimal pointsPossible, decimal? pointsEarned, decimal? pointsNeeded, bool marked, string notes)
 		{
-			this.Parent = parent;
+			this.parent = parent;
 			if (parent is Scenario)
-				Level = 0;
+				level = 0;
 			else
-				Level = ((Section)parent).Level + 1;
+				level = ((Section)parent).Level + 1;
 			this.Name = name;
 			this.pointsPossible = pointsPossible;
 			this.pointsEarned = pointsEarned;
