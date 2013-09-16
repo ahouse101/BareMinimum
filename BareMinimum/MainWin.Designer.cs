@@ -57,7 +57,9 @@
 			this.SaveFileButton = new System.Windows.Forms.ToolStripButton();
 			this.SaveAsFileButton = new System.Windows.Forms.ToolStripButton();
 			this.FileLabel = new System.Windows.Forms.ToolStripLabel();
-			this.HelpToolbarButton = new System.Windows.Forms.ToolStripButton();
+			this.HelpToolbarButton = new System.Windows.Forms.ToolStripDropDownButton();
+			this.onlineHelpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.bugReportMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.MainSplit)).BeginInit();
 			this.MainSplit.Panel1.SuspendLayout();
 			this.MainSplit.Panel2.SuspendLayout();
@@ -411,12 +413,28 @@
 			// 
 			// HelpToolbarButton
 			// 
+			this.HelpToolbarButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.onlineHelpMenuItem,
+            this.bugReportMenuItem});
 			this.HelpToolbarButton.Image = global::BareMinimum.Properties.Resources.help;
 			this.HelpToolbarButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.HelpToolbarButton.Name = "HelpToolbarButton";
-			this.HelpToolbarButton.Size = new System.Drawing.Size(52, 20);
+			this.HelpToolbarButton.Size = new System.Drawing.Size(61, 20);
 			this.HelpToolbarButton.Text = "&Help";
-			this.HelpToolbarButton.Click += new System.EventHandler(this.HelpToolbarButton_Click);
+			// 
+			// onlineHelpMenuItem
+			// 
+			this.onlineHelpMenuItem.Name = "onlineHelpMenuItem";
+			this.onlineHelpMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.onlineHelpMenuItem.Text = "Help (online)";
+			this.onlineHelpMenuItem.Click += new System.EventHandler(this.OnlineHelpMenuItem_Click);
+			// 
+			// bugReportMenuItem
+			// 
+			this.bugReportMenuItem.Name = "bugReportMenuItem";
+			this.bugReportMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.bugReportMenuItem.Text = "Report a bug";
+			this.bugReportMenuItem.Click += new System.EventHandler(this.BugReportMenuItem_Click);
 			// 
 			// MainWin
 			// 
@@ -474,9 +492,11 @@
         private BrightIdeasSoftware.OLVColumn ItemNotesColumn;
 		private BrightIdeasSoftware.OLVColumn ItemMarkedColumn;
         private System.Windows.Forms.Button DeleteScenarioButton;
-        private System.Windows.Forms.Button DeleteItemButton;
-        private System.Windows.Forms.ToolStripButton HelpToolbarButton;
+		private System.Windows.Forms.Button DeleteItemButton;
 		private BrightIdeasSoftware.OLVColumn ScenarioTargetColumn;
+		private System.Windows.Forms.ToolStripDropDownButton HelpToolbarButton;
+		private System.Windows.Forms.ToolStripMenuItem onlineHelpMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem bugReportMenuItem;
     }
 }
 

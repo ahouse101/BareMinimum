@@ -442,7 +442,7 @@ namespace BareMinimum
 					new List<Scenario>(ScenarioList.Objects.Cast<Scenario>()),
 					Formatting.Indented,
 					JsonSettings);
-				File.WriteAllText(filePath, "BareMinimum File Format (Development v2)\n" + serialized);
+				File.WriteAllText(filePath, "BareMinimum JSON Format v1\n" + serialized);
 				fileIsSaved = true;
 			}
 			catch (IOException e)
@@ -1090,9 +1090,14 @@ namespace BareMinimum
 			fileIsSaved = false;
 		}
 
-		private void HelpToolbarButton_Click(object sender, EventArgs e)
+		private void OnlineHelpMenuItem_Click(object sender, EventArgs e)
 		{
-			Process.Start("http://bareminimum.codeplex.com/documentation");
+			Process.Start("https://bareminimum.codeplex.com/documentation");
+		}
+
+		private void BugReportMenuItem_Click(object sender, EventArgs e)
+		{
+			Process.Start("https://bareminimum.codeplex.com/discussions");
 		}
 
 		#endregion

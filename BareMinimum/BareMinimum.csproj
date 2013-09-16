@@ -121,7 +121,7 @@
     <Content Include="Resources\checkbox_no.png" />
     <Content Include="Resources\checkbox_yes.png" />
     <None Include="Resources\help_contents.png" />
-    <Content Include="WorkItems.txt" />
+    <Content Include="ChangeLog.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BareMinimumCore\BareMinimumCore.csproj">

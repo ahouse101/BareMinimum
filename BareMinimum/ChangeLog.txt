@@ -4,6 +4,7 @@
 	- Add color/theme options
 	- Add undo/redo
 	- Add the capability to export to other gradebook formats
+	- Add right click menus
 
 Version 1.0 - Release!
 	The application is ready for distribution!
@@ -11,22 +12,18 @@ Version 1.0 - Release!
 Version 0.9 - Final Steps
 	Goal: Do the final tests, package the application, and ready for distribution. 
 
-Version 0.8 - Alpha
+Version 0.8 - Beta (feature complete)
 	Goal: Do a more complete release and fix bugs that arise.
 
-Version 0.7 - Beta
+Version 0.7 - Alpha (initial outside testing) - Active
 	Goal: Fix bugs, do a limited release.
 
-Version 0.6 - Active
-	Goal: Polish existing features, get rid of hacks if possible, create help, and publish the Codeplex project.
+Version 0.6
+	Goal: Polish existing features, get rid of hacks if possible, start creating help and documentation, prepare for testing, and publish the Codeplex project.
 	Change Log:
 		.1 - Added a dialog that asks if you'd like to save changes, modified the data classes so that you can monitor changes better, 
 			 redid the serialization to serialize in OptIn mode, and added a little window that is brought up during saving/opening to
 			 show progress. Also, fixed a bug that started an edit when you hit an arrow key.
-
-	Work Items:
-		- Add a right click menu to the ScenarioListView.
-		- Add a right click menu to the ScenarioTreeView.
 
 Version 0.5
 	Goal: Improve the editing workflow.
