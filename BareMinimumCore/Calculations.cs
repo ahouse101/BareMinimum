@@ -23,7 +23,7 @@ namespace BareMinimumCore
 			decimal distance = scenario.Target - currentGradeWithMarked;
 			decimal needed = (distance / markedPercent) * 100;
 			foreach (Grade grade in markedGrades)
-				grade.PointsNeeded = needed;
+				grade.PointsNeeded = (needed / 100) * grade.PointsPossible;
 		}
 
 		public static void CalculateOverallGradeWeights(List<Grade> gradeList)
