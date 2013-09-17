@@ -52,13 +52,12 @@ namespace BareMinimumCore
 
 			if (container.ItemType == ItemType.Section)
 			{
-				decimal emptyWeight = 0;
+				decimal nonEmptyWeight = 0;
 				foreach (Section section in container.Items)
-					if (GetGradesForCalculation(section).Count < 1)
-						emptyWeight += section.Weight;
-				if (emptyWeight != 100)
-				{
-					decimal nonEmptyWeight = 100 - emptyWeight;
+					if (GetGradesForCalculation(section).Count > 0)
+						nonEmptyWeight += section.Weight;
+				if (nonEmptyWeight != 0)
+				{;
 					foreach (Section section in container.Items)
 						section.ModifiedWeight = section.Weight / (nonEmptyWeight / 100);
 				}

@@ -19,6 +19,9 @@ Version 0.7 - Alpha (initial outside testing) - Active
 	Goal: Fix bugs, do a limited release.
 	Change Log:
 		.1 - Made the FileLabel show an asterisk if the file isn't saved.
+			r1 - Fixed an issue with the needed calculation that showed huge numbers in the needed column when the Section.Weights didn't add up to 100%.
+	
+	Work Items:
 
 Version 0.6
 	Goal: Polish existing features, get rid of hacks if possible, start creating help and documentation, prepare for testing, and publish the Codeplex project.
