@@ -18,6 +18,9 @@ namespace BareMinimum
 	{
 		#region Properties and Fields
 
+		private string noScenariosText = "Add a scenario to get started.";
+		private string scenarioEmptyText = "Add some items to this scenario.";
+
 		private TextOverlay emptyOverlay = new TextOverlay();
 		private Font controlFont;
 		private string filePath;
@@ -104,7 +107,7 @@ namespace BareMinimum
             emptyOverlay.BorderWidth = 0.0F;
             emptyOverlay.TextColor = Color.Black;
             emptyOverlay.Font = ScenarioTree.Font;
-			emptyOverlay.Text = "Add a scenario to get started.";
+			emptyOverlay.Text = noScenariosText;
             ScenarioList.EmptyListMsgOverlay = emptyOverlay;
             ScenarioTree.EmptyListMsgOverlay = emptyOverlay;
 
@@ -532,10 +535,11 @@ namespace BareMinimum
 
 		private void NewFile()
 		{
+			emptyOverlay.Text = noScenariosText;
 			ScenarioTree.SetObjects(null);
 			ScenarioList.ClearObjects();
 			FilePath = null;
-			FileIsSaved = false;
+			FileIsSaved = true;
 		}
 
 		#endregion
@@ -716,7 +720,7 @@ namespace BareMinimum
 		{
 			if (!FileIsSaved)
 			{
-				switch (MessageBox.Show("Save " + FileLabel.Text + "?", "Save File?", MessageBoxButtons.YesNoCancel))
+				switch (MessageBox.Show("Save " + FileLabel.Text.TrimEnd('*') + "?", "Save File?", MessageBoxButtons.YesNoCancel))
 				{
 					case DialogResult.Yes:
 						SaveFile();
@@ -759,7 +763,7 @@ namespace BareMinimum
             Scenario newScenario = new Scenario(name);
             ScenarioList.AddObject(newScenario);
             ScenarioList.SelectObject(newScenario);
-            emptyOverlay.Text = "Add some items to this scenario.";
+            emptyOverlay.Text = scenarioEmptyText;
             DeleteScenarioButton.Enabled = true;
 			FileIsSaved = false;
         }

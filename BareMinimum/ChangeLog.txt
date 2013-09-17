@@ -4,23 +4,27 @@
 	- Add color/theme options
 	- Add undo/redo
 	- Add the capability to export to other gradebook formats
+	- Add some extra GPA capabilities (Rehak)
 	- Add right click menus
+	- Add scenario sharing/merging (Miranda)
 
 Version 1.0 - Release!
 	The application is ready for distribution!
-
-Version 0.9 - Final Steps
-	Goal: Do the final tests, package the application, and ready for distribution. 
-
-Version 0.8 - Beta (feature complete)
+	
+Version 0.9 - Beta (feature complete)
 	Goal: Do a more complete release and fix bugs that arise.
+
+Version 0.8 - Alpha 2
+	Goal: Do a second limited release with bug fixes from the first alpha.
 
 Version 0.7 - Alpha (initial outside testing) - Active
 	Goal: Fix bugs, do a limited release.
 	Change Log:
 		.1 - Made the FileLabel show an asterisk if the file isn't saved.
 			r1 - Fixed an issue with the needed calculation that showed huge numbers in the needed column when the Section.Weights didn't add up to 100%.
-	
+			r2 - Fixed an issue with the needed calculation (the needed variable is a percentage, but now displays as points, as it should).
+			r3 - Fixed an issue in which the emptyOverlay.Text wouldn't change when I new file was created. Also, the save confirmation doesn't include an asterisk at the end of the filename anymore.
+
 	Work Items:
 
 Version 0.6
