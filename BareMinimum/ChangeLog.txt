@@ -17,6 +17,8 @@ Version 0.8 - Beta (feature complete)
 
 Version 0.7 - Alpha (initial outside testing) - Active
 	Goal: Fix bugs, do a limited release.
+	Change Log:
+		.1 - Made the FileLabel show an asterisk if the file isn't saved.
 
 Version 0.6
 	Goal: Polish existing features, get rid of hacks if possible, start creating help and documentation, prepare for testing, and publish the Codeplex project.

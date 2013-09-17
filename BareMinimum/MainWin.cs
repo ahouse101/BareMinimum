@@ -27,7 +27,17 @@ namespace BareMinimum
 		private int treeEditingRowIndex;
 		private bool treeIsEditing = false;
 		private bool listIsEditing = false;
-		private bool fileIsSaved = false;
+		private bool fileIsSaved = true;
+
+		public bool FileIsSaved
+		{
+			get { return fileIsSaved; }
+			set 
+			{
+				fileIsSaved = value;
+				SetFileText();
+			}
+		}
 
 		private string FilePath
 		{
@@ -38,10 +48,7 @@ namespace BareMinimum
 			set
 			{
 				filePath = value;
-				if (String.IsNullOrWhiteSpace(filePath))
-					FileLabel.Text = "Unsaved File";
-				else
-					FileLabel.Text = Path.GetFileName(filePath);
+				SetFileText();
 			}
 		}
 
@@ -279,7 +286,7 @@ namespace BareMinimum
 
 		#endregion
 
-		#region Drawing Methods
+		#region GUI Methods
 
 		private void DrawTextInCell(Graphics g, Rectangle r, String text)
 		{
@@ -294,6 +301,18 @@ namespace BareMinimum
 
 			// Draw the text:
 			g.DrawString(text, controlFont, Brushes.Black, r, format);
+		}
+
+		private void SetFileText()
+		{
+			string text;
+			if (String.IsNullOrWhiteSpace(filePath))
+				text = "Unsaved File";
+			else
+				text = Path.GetFileName(filePath);
+			if (!fileIsSaved)
+				text += "*";
+			FileLabel.Text = text;
 		}
 
 		#endregion
@@ -327,7 +346,7 @@ namespace BareMinimum
 				else
 					ScenarioList.SelectedIndex = 0;
 			}
-			fileIsSaved = false;
+			FileIsSaved = false;
         }
 
         private void DeleteItem()
@@ -360,7 +379,7 @@ namespace BareMinimum
                 DeleteScenarioButton.Enabled = false;
             }
 			ScenarioList.RefreshObject(SelectedScenario);
-			fileIsSaved = false;
+			FileIsSaved = false;
         }
 
 		private void RegisterEvents(List<Scenario> list)
@@ -443,7 +462,7 @@ namespace BareMinimum
 					Formatting.Indented,
 					JsonSettings);
 				File.WriteAllText(filePath, "BareMinimum JSON Format v1\n" + serialized);
-				fileIsSaved = true;
+				FileIsSaved = true;
 			}
 			catch (IOException e)
 			{
@@ -495,7 +514,7 @@ namespace BareMinimum
 				ScenarioList.SetObjects(list);
 				ScenarioList.SelectedIndex = 0;
 				FilePath = filePath;
-				fileIsSaved = true;
+				FileIsSaved = true;
 			}
 			catch (IOException e)
 			{
@@ -516,7 +535,7 @@ namespace BareMinimum
 			ScenarioTree.SetObjects(null);
 			ScenarioList.ClearObjects();
 			FilePath = null;
-			fileIsSaved = false;
+			FileIsSaved = false;
 		}
 
 		#endregion
@@ -695,7 +714,7 @@ namespace BareMinimum
 
 		private void MainWin_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			if (!fileIsSaved)
+			if (!FileIsSaved)
 			{
 				switch (MessageBox.Show("Save " + FileLabel.Text + "?", "Save File?", MessageBoxButtons.YesNoCancel))
 				{
@@ -742,7 +761,7 @@ namespace BareMinimum
             ScenarioList.SelectObject(newScenario);
             emptyOverlay.Text = "Add some items to this scenario.";
             DeleteScenarioButton.Enabled = true;
-			fileIsSaved = false;
+			FileIsSaved = false;
         }
 
         private void AddSectionButton_Click(object sender, EventArgs e)
@@ -768,7 +787,7 @@ namespace BareMinimum
                 if (!ScenarioTree.IsExpanded(container))
                     ScenarioTree.Expand(container);
             }
-			fileIsSaved = false;
+			FileIsSaved = false;
 			SelectedScenario.CalculateAutoSectionWeights();
             AddGradeButton.Enabled = false;
         }
@@ -797,7 +816,7 @@ namespace BareMinimum
                 if (!ScenarioTree.IsExpanded(container))
                     ScenarioTree.Expand(container);
             }
-			fileIsSaved = false;
+			FileIsSaved = false;
             AddSectionButton.Enabled = false;
         }
 
@@ -1044,7 +1063,7 @@ namespace BareMinimum
 
 		private void Items_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
 		{
-			fileIsSaved = false;
+			FileIsSaved = false;
 		}
 
 		private void Section_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -1055,7 +1074,7 @@ namespace BareMinimum
 				ScenarioList.RefreshObject(SelectedScenario);
 				ScenarioTree.RefreshObjects(SelectedScenario.Items);
 			}
-			fileIsSaved = false;
+			FileIsSaved = false;
 		}
 
 		private void Grade_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -1071,7 +1090,7 @@ namespace BareMinimum
 				default:
 					break;
 			}
-			fileIsSaved = false;
+			FileIsSaved = false;
 		}
 
 		private void Scenario_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -1087,7 +1106,7 @@ namespace BareMinimum
 				default:
 					break;
 			}
-			fileIsSaved = false;
+			FileIsSaved = false;
 		}
 
 		private void OnlineHelpMenuItem_Click(object sender, EventArgs e)
