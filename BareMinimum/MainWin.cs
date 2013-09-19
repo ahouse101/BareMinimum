@@ -76,6 +76,8 @@ namespace BareMinimum
 			
 			controlFont = ScenarioTree.Font;
 
+			ScenarioList.PrimarySortColumn = ScenarioNameColumn;
+
             // Set up the TreeListView for display:
             ScenarioTree.CanExpandGetter = CanExpand;
             ScenarioTree.ChildrenGetter = GetChildren;

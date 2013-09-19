@@ -170,6 +170,8 @@
 			// ScenarioNameColumn
 			// 
 			this.ScenarioNameColumn.AspectName = "Name";
+			this.ScenarioNameColumn.AutoCompleteEditor = false;
+			this.ScenarioNameColumn.AutoCompleteEditorMode = System.Windows.Forms.AutoCompleteMode.None;
 			this.ScenarioNameColumn.Hideable = false;
 			this.ScenarioNameColumn.MinimumWidth = 40;
 			this.ScenarioNameColumn.Text = "Name";
@@ -179,6 +181,8 @@
 			// 
 			this.ScenarioAverageColumn.AspectName = "PointsEarned";
 			this.ScenarioAverageColumn.AspectToStringFormat = "";
+			this.ScenarioAverageColumn.AutoCompleteEditor = false;
+			this.ScenarioAverageColumn.AutoCompleteEditorMode = System.Windows.Forms.AutoCompleteMode.None;
 			this.ScenarioAverageColumn.IsEditable = false;
 			this.ScenarioAverageColumn.Text = "Average";
 			this.ScenarioAverageColumn.Width = 55;
@@ -186,6 +190,8 @@
 			// ScenarioTargetColumn
 			// 
 			this.ScenarioTargetColumn.AspectName = "Target";
+			this.ScenarioTargetColumn.AutoCompleteEditor = false;
+			this.ScenarioTargetColumn.AutoCompleteEditorMode = System.Windows.Forms.AutoCompleteMode.None;
 			this.ScenarioTargetColumn.Text = "Target";
 			this.ScenarioTargetColumn.Width = 50;
 			// 
@@ -280,6 +286,8 @@
 			// ItemNameColumn
 			// 
 			this.ItemNameColumn.AspectName = "Name";
+			this.ItemNameColumn.AutoCompleteEditor = false;
+			this.ItemNameColumn.AutoCompleteEditorMode = System.Windows.Forms.AutoCompleteMode.None;
 			this.ItemNameColumn.Text = "Name";
 			this.ItemNameColumn.Width = 120;
 			// 
@@ -287,24 +295,32 @@
 			// 
 			this.ItemWeightColumn.AspectName = "Weight";
 			this.ItemWeightColumn.AspectToStringFormat = "";
+			this.ItemWeightColumn.AutoCompleteEditor = false;
+			this.ItemWeightColumn.AutoCompleteEditorMode = System.Windows.Forms.AutoCompleteMode.None;
 			this.ItemWeightColumn.Text = "Weight";
 			this.ItemWeightColumn.Width = 80;
 			// 
 			// ItemEarnedColumn
 			// 
 			this.ItemEarnedColumn.AspectName = "PointsEarned";
+			this.ItemEarnedColumn.AutoCompleteEditor = false;
+			this.ItemEarnedColumn.AutoCompleteEditorMode = System.Windows.Forms.AutoCompleteMode.None;
 			this.ItemEarnedColumn.Text = "Earned";
 			this.ItemEarnedColumn.Width = 50;
 			// 
 			// ItemPossibleColumn
 			// 
 			this.ItemPossibleColumn.AspectName = "PointsPossible";
+			this.ItemPossibleColumn.AutoCompleteEditor = false;
+			this.ItemPossibleColumn.AutoCompleteEditorMode = System.Windows.Forms.AutoCompleteMode.None;
 			this.ItemPossibleColumn.Text = "Possible";
 			this.ItemPossibleColumn.Width = 55;
 			// 
 			// ItemMarkedColumn
 			// 
 			this.ItemMarkedColumn.AspectName = "Marked";
+			this.ItemMarkedColumn.AutoCompleteEditor = false;
+			this.ItemMarkedColumn.AutoCompleteEditorMode = System.Windows.Forms.AutoCompleteMode.None;
 			this.ItemMarkedColumn.CheckBoxes = true;
 			this.ItemMarkedColumn.HeaderImageKey = "(none)";
 			this.ItemMarkedColumn.HeaderTextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -318,12 +334,16 @@
 			// 
 			this.ItemNeededColumn.AspectName = "PointsNeeded";
 			this.ItemNeededColumn.AspectToStringFormat = "";
+			this.ItemNeededColumn.AutoCompleteEditor = false;
+			this.ItemNeededColumn.AutoCompleteEditorMode = System.Windows.Forms.AutoCompleteMode.None;
 			this.ItemNeededColumn.Text = "Needed";
 			this.ItemNeededColumn.Width = 55;
 			// 
 			// ItemNotesColumn
 			// 
 			this.ItemNotesColumn.AspectName = "Notes";
+			this.ItemNotesColumn.AutoCompleteEditor = false;
+			this.ItemNotesColumn.AutoCompleteEditorMode = System.Windows.Forms.AutoCompleteMode.None;
 			this.ItemNotesColumn.FillsFreeSpace = true;
 			this.ItemNotesColumn.MinimumWidth = 50;
 			this.ItemNotesColumn.Text = "Notes";
