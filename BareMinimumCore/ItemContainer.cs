@@ -26,7 +26,7 @@ namespace BareMinimumCore
 				else if (items[0] is Grade)
 					return ItemType.Grade;
 				else
-					throw new ApplicationException("Invalid Scenario data.");
+					throw new Exception("Invalid Scenario data.");
 			}
 		}
 

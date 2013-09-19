@@ -95,10 +95,10 @@ namespace BareMinimumCore
 		{ }
 
 		public Section(ItemContainer parent, string name)
-			: this(parent, name, true, 0, ItemType.None, new ObservableCollection<IItem>(), "")
+			: this(parent, name, true, 0, new ObservableCollection<IItem>(), "")
 		{ }
 
-		public Section(ItemContainer parent, string name, bool autoWeighted, decimal weight, ItemType itemType, ObservableCollection<IItem> items, string notes)
+		public Section(ItemContainer parent, string name, bool autoWeighted, decimal weight, ObservableCollection<IItem> items, string notes)
 		{
 			this.parent = parent;
 			if (parent is Scenario)
@@ -108,7 +108,6 @@ namespace BareMinimumCore
 			this.name = name;
 			this.weight = weight;
 			this.autoWeighted = autoWeighted;
-			this.itemType = itemType;
 			this.items = items;
 			this.notes = notes;
 		}

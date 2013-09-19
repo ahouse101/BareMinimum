@@ -245,7 +245,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.ScenarioTree.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.DoubleClick;
-			this.ScenarioTree.CheckedAspectName = "Marked";
+			this.ScenarioTree.CheckedAspectName = "";
 			this.ScenarioTree.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.ItemNameColumn,
             this.ItemWeightColumn,

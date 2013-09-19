@@ -28,6 +28,7 @@ namespace BareMinimum
 		private int treeEditingColumnIndex;
 		private int listEditingRowIndex;
 		private int treeEditingRowIndex;
+		private object editingObject;
 		private bool treeIsEditing = false;
 		private bool listIsEditing = false;
 		private bool fileIsSaved = true;
@@ -144,7 +145,7 @@ namespace BareMinimum
 		{
 			if (listIsEditing)
 			{
-				if (keyData.In(Keys.Up, Keys.Down))
+				if (keyData.In(Keys.Up, Keys.Down, Keys.Tab, Keys.Shift | Keys.Tab))
 				{
 					ScenarioList_KeyDown(ScenarioList, new KeyEventArgs(keyData));
 					return true;
@@ -152,7 +153,7 @@ namespace BareMinimum
 			}
 			else if (treeIsEditing)
 			{
-				if (keyData.In(Keys.Up, Keys.Down))
+				if (keyData.In(Keys.Up, Keys.Down, Keys.Tab, Keys.Shift|Keys.Tab))
 				{
 					ScenarioTree_KeyDown(ScenarioList, new KeyEventArgs(keyData));
 					return true;
@@ -719,6 +720,126 @@ namespace BareMinimum
 			}
 		}
 
+		private void MoveTreeEditorLeft()
+		{
+			if (treeIsEditing)
+			{
+				if (editingObject != null)
+				{
+					if (editingObject is Section)
+					{
+						switch (treeEditingColumnIndex)
+						{
+							case 0:
+								if (treeEditingRowIndex > 0)
+								{
+									ScenarioTree.FinishCellEdit();
+									ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[treeEditingRowIndex - 1]), 6);
+								}
+								break;
+							case 1:
+								ScenarioTree.FinishCellEdit();
+								ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[treeEditingRowIndex]), 0);
+								break;
+							case 6:
+								ScenarioTree.FinishCellEdit();
+								ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[treeEditingRowIndex]), 1);
+								break;
+							default:
+								break;
+						}
+					}
+					else if (editingObject is Grade)
+					{
+						switch (treeEditingColumnIndex)
+						{
+							case 0:
+								if (treeEditingRowIndex > 0)
+								{
+									ScenarioTree.FinishCellEdit();
+									ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[treeEditingRowIndex - 1]), 6);
+								}
+								break;
+							case 2:
+								ScenarioTree.FinishCellEdit();
+								ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[treeEditingRowIndex]), 0);
+								break;
+							case 3:
+								ScenarioTree.FinishCellEdit();
+								ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[treeEditingRowIndex]), 2);
+								break;
+							case 6:
+								ScenarioTree.FinishCellEdit();
+								ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[treeEditingRowIndex]), 3);
+								break;
+							default:
+								break;
+						}
+					}
+				}
+			}
+		}
+
+		private void MoveTreeEditorRight()
+		{
+			if (treeIsEditing)
+			{
+				if (editingObject != null)
+				{
+					if (editingObject is Section)
+					{
+						switch (treeEditingColumnIndex)
+						{
+							case 0:
+								ScenarioTree.FinishCellEdit();
+								ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[treeEditingRowIndex]), 1);
+								break;
+							case 1:
+								ScenarioTree.FinishCellEdit();
+								ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[treeEditingRowIndex]), 6);
+								break;
+							case 6:
+								if (treeEditingRowIndex < ScenarioTree.Items.Count - 1)
+								{
+									ScenarioTree.FinishCellEdit();
+									ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[treeEditingRowIndex+1]), 0);
+								}
+									break;
+							default:
+								break;
+						}
+					}
+					else if (editingObject is Grade)
+					{
+						switch (treeEditingColumnIndex)
+						{
+							case 0:
+								ScenarioTree.FinishCellEdit();
+								ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[treeEditingRowIndex]), 2);
+								break;
+							case 2:
+								ScenarioTree.FinishCellEdit();
+								ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[treeEditingRowIndex]), 3);
+								break;
+							case 3:
+								ScenarioTree.FinishCellEdit();
+								ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[treeEditingRowIndex]), 6);
+								break;
+							case 6:
+								if (treeEditingRowIndex < ScenarioTree.Items.Count - 1)
+								{
+									ScenarioTree.FinishCellEdit();
+									ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[treeEditingRowIndex + 1]), 0);
+								}
+								break;
+							default:
+								break;
+						}
+					}
+				}
+			}
+		}
+
 		private void MoveListEditorUp()
 		{
 			if (listIsEditing)
@@ -739,6 +860,46 @@ namespace BareMinimum
 				{
 					ScenarioList.FinishCellEdit();
 					ScenarioList.StartCellEdit((OLVListItem)(ScenarioList.Items[listEditingRowIndex + 1]), listEditingColumnIndex);
+				}
+			}
+		}
+
+		private void MoveListEditorLeft()
+		{
+			if (listIsEditing)
+			{
+				if (listEditingColumnIndex == 0)
+				{
+					if (listEditingRowIndex > 0)
+					{
+						ScenarioList.FinishCellEdit();
+						ScenarioList.StartCellEdit((OLVListItem)(ScenarioList.Items[listEditingRowIndex - 1]), 2);
+					}
+				}
+				else if (listEditingColumnIndex == 2)
+				{
+					ScenarioList.FinishCellEdit();
+					ScenarioList.StartCellEdit((OLVListItem)(ScenarioList.Items[listEditingRowIndex]), 0);
+				}
+			}
+		}
+
+		private void MoveListEditorRight()
+		{
+			if (listIsEditing)
+			{
+				if (listEditingColumnIndex == 0)
+				{
+					ScenarioList.FinishCellEdit();
+					ScenarioList.StartCellEdit((OLVListItem)(ScenarioList.Items[listEditingRowIndex]), 2);
+				}
+				else if (listEditingColumnIndex == 2)
+				{
+					if (listEditingRowIndex < ScenarioList.Items.Count - 1)
+					{
+						ScenarioList.FinishCellEdit();
+						ScenarioList.StartCellEdit((OLVListItem)(ScenarioList.Items[listEditingRowIndex + 1]), 0);
+					}
 				}
 			}
 		}
@@ -790,8 +951,7 @@ namespace BareMinimum
 
 		private void AddScenarioButton_Click(object sender, EventArgs e)
         {
-            string name = Interaction.InputBox("Type a name for the new scenario.", "New Scenario", "Untitled");
-            Scenario newScenario = new Scenario(name);
+            Scenario newScenario = new Scenario("Untitled");
             ScenarioList.AddObject(newScenario);
             ScenarioList.SelectObject(newScenario);
             emptyOverlay.Text = scenarioEmptyText;
@@ -866,6 +1026,7 @@ namespace BareMinimum
 			listEditingColumnIndex = e.SubItemIndex;
 			listEditingRowIndex = e.ListViewItem.Index;
 			listIsEditing = true;
+			editingObject = e.RowObject;
 		}
 
 		private void ScenarioList_CellEditFinishing(object sender, CellEditEventArgs e)
@@ -875,13 +1036,19 @@ namespace BareMinimum
 
         private void ScenarioList_KeyDown(object sender, KeyEventArgs e)
         {
-			switch (e.KeyCode)
+			switch (e.KeyData)
 			{
 				case Keys.Down:
 					MoveListEditorDown();
 					break;
 				case Keys.Up:
 					MoveListEditorUp();
+					break;
+				case Keys.Shift | Keys.Tab:
+					MoveListEditorLeft();
+					break;
+				case Keys.Tab:
+					MoveListEditorRight();
 					break;
 				case Keys.Delete:
 					if (SelectedScenario != null)
@@ -981,13 +1148,19 @@ namespace BareMinimum
 
         private void ScenarioTree_KeyDown(object sender, KeyEventArgs e)
         {
-			switch (e.KeyCode)
+			switch (e.KeyData)
 			{
 				case Keys.Down:
 					MoveTreeEditorDown();
 					break;
 				case Keys.Up:
 					MoveTreeEditorUp();
+					break;
+				case Keys.Shift | Keys.Tab:
+					MoveTreeEditorLeft();
+					break;
+				case Keys.Tab:
+					MoveTreeEditorRight();
 					break;
 				case Keys.Delete:
 					DeleteItem();
@@ -1056,6 +1229,7 @@ namespace BareMinimum
         {
 			treeEditingColumnIndex = e.SubItemIndex;
 			treeEditingRowIndex = e.ListViewItem.Index;
+			editingObject = e.RowObject;
             if (e.RowObject is Section)
             {
                 switch (e.Column.Index)

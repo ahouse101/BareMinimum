@@ -35,15 +35,14 @@ namespace BareMinimumCore
 		{ }
 
 		public Scenario(decimal target, string name)
-			: this(target, name, new ObservableCollection<IItem>(), ItemType.None)
+			: this(target, name, new ObservableCollection<IItem>())
 		{ }
 
-		public Scenario(decimal target, string name, ObservableCollection<IItem> items, ItemType itemType)
+		public Scenario(decimal target, string name, ObservableCollection<IItem> items)
 		{
 			this.target = target;
 			base.name = name;
 			base.items = items;
-			base.itemType = itemType;
 		}
     }
 }

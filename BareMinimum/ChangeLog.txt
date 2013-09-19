@@ -27,9 +27,10 @@ Version 0.7 - Alpha (initial outside testing) - Active
 			r4 - Made some changes to the opening and saving of files, and stopped using NuGet.
 			r5 - Turned off all autocomplete, and made the ScenarioList sort by name by default.
 			r6 - Rewrote ItemContainer.ItemType as a readonly property (fixed a bug in the process).
-			 
+			r7 - Removed the prompt that asks for a name for every new scenario (it was inconsistent with adding items).
+		.2 - Rewrote the Tab / Shift-Tab navigation, so it works properly now in both the ScenarioList and ScenarioTree.
+
 	Work Items:
-		- Make Tab / Shift-Tab properly skip columns - Active.
 		- Rework the delete system (only one delete button should be needed).
 		- Add an about box.
 		- Add common keyboard shortcuts (Ctrl+N, Ctrl+S, Ctrl+O, F1, etc.). 
