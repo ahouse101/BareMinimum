@@ -26,10 +26,10 @@ Version 0.7 - Alpha (initial outside testing) - Active
 			r3 - Fixed an issue in which the emptyOverlay.Text wouldn't change when I new file was created. Also, the save confirmation doesn't include an asterisk at the end of the filename anymore.
 			r4 - Made some changes to the opening and saving of files, and stopped using NuGet.
 			r5 - Turned off all autocomplete, and made the ScenarioList sort by name by default.
-	
+			r6 - Rewrote ItemContainer.ItemType as a readonly property (fixed a bug in the process).
+			 
 	Work Items:
-		- Fix the issue that prevents the Section.ItemType from changing to ItemType.None - Active.
-		- Make Tab / Shift-Tab properly skip columns.
+		- Make Tab / Shift-Tab properly skip columns - Active.
 		- Rework the delete system (only one delete button should be needed).
 		- Add an about box.
 		- Add common keyboard shortcuts (Ctrl+N, Ctrl+S, Ctrl+O, F1, etc.). 

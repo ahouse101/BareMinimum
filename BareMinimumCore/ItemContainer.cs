@@ -13,20 +13,20 @@ namespace BareMinimumCore
 		[JsonProperty]
 		protected ObservableCollection<IItem> items;
 		[JsonProperty]
-		protected ItemType itemType;
-		[JsonProperty]
 		protected string name;
 
 		public ItemType ItemType
 		{
 			get
 			{
-				return itemType;
-			}
-			set
-			{
-				itemType = value;
-				NotifyPropertyChanged("ItemType");	
+				if (items.Count < 1)
+					return ItemType.None;
+				else if (items[0] is Section)
+					return ItemType.Section;
+				else if (items[0] is Grade)
+					return ItemType.Grade;
+				else
+					throw new ApplicationException("Invalid Scenario data.");
 			}
 		}
 

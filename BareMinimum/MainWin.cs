@@ -370,18 +370,23 @@ namespace BareMinimum
             {
                 SelectedScenario.Items.Remove(item);
                 ScenarioTree.RemoveObject(item);
+				if (ScenarioTree.Items.Count < 1)
+				{
+					AddGradeButton.Enabled = true;
+					AddSectionButton.Enabled = true;
+					DeleteItemButton.Enabled = false;
+				}
             }
             else
             {
                 parent.Items.Remove(item);
                 ScenarioTree.RefreshObject(parent);
-            }
-            if (ScenarioTree.Items.Count < 1)
-            {
-                AddGradeButton.Enabled = true;
-                AddSectionButton.Enabled = true;
-                SelectedScenario.ItemType = ItemType.None;
-                DeleteScenarioButton.Enabled = false;
+				if (parent.Items.Count < 1)
+				{
+					AddGradeButton.Enabled = true;
+					AddSectionButton.Enabled = true;
+					DeleteItemButton.Enabled = false;
+				}
             }
 			ScenarioList.RefreshObject(SelectedScenario);
 			FileIsSaved = false;
@@ -466,7 +471,7 @@ namespace BareMinimum
 					new List<Scenario>(ScenarioList.Objects.Cast<Scenario>()),
 					Formatting.Indented,
 					JsonSettings);
-				File.WriteAllText(filePath, "1\n" + serialized);
+				File.WriteAllText(filePath, "1.1\n" + serialized);
 				FileIsSaved = true;
 			}
 			catch (IOException e)
@@ -521,6 +526,11 @@ namespace BareMinimum
 					MessageBox.Show("This file is from a newer version of BareMinimum. Download the newest version of BareMinimum to open it.");
 					goto DoneOpening;
 				}
+			}
+			else
+			{
+				MessageBox.Show("This file is from a pre-release version of BareMinimum and cannot be read.");
+				goto DoneOpening;
 			}
 			fileContents.RemoveAt(0);
 			string json = fileContents[0];
@@ -794,8 +804,7 @@ namespace BareMinimum
             // Determine if the scenario or a section is selected, and act accordingly:
             if (ScenarioTree.SelectedObject == null)
             {
-                // Add a new Grade to the Scenario:
-                SelectedScenario.ItemType = ItemType.Section;
+                // Add a new Section to the Scenario:
 				Section newSection = new Section(SelectedScenario);
 				newSection.PropertyChanged += Section_PropertyChanged;
                 SelectedScenario.Items.Add(newSection);
@@ -804,7 +813,6 @@ namespace BareMinimum
             else
             {
                 Section container = ((Section)ScenarioTree.SelectedObject);
-                container.ItemType = ItemType.Section;
 				Section newSection = new Section(container);
 				newSection.PropertyChanged += Section_PropertyChanged;
                 container.Items.Add(newSection);
@@ -824,7 +832,6 @@ namespace BareMinimum
             {
                 Scenario container = SelectedScenario;
                 // Add a new Grade to the Scenario:
-                container.ItemType = ItemType.Grade;
 				Grade newGrade = new Grade(SelectedScenario);
 				newGrade.PropertyChanged += Grade_PropertyChanged;
                 container.Items.Add(newGrade);
@@ -833,7 +840,6 @@ namespace BareMinimum
             else
             {
                 Section container = ((Section)ScenarioTree.SelectedObject);
-                container.ItemType = ItemType.Grade;
 				Grade newGrade = new Grade(container);
 				newGrade.PropertyChanged += Grade_PropertyChanged;
 				container.Items.Add(newGrade);
