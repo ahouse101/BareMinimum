@@ -60,6 +60,8 @@
 			this.HelpToolbarButton = new System.Windows.Forms.ToolStripDropDownButton();
 			this.onlineHelpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.bugReportMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.aboutBareMinimumToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.MainSplit)).BeginInit();
 			this.MainSplit.Panel1.SuspendLayout();
 			this.MainSplit.Panel2.SuspendLayout();
@@ -415,7 +417,9 @@
 			// 
 			this.HelpToolbarButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.onlineHelpMenuItem,
-            this.bugReportMenuItem});
+            this.bugReportMenuItem,
+            this.toolStripSeparator1,
+            this.aboutBareMinimumToolStripMenuItem});
 			this.HelpToolbarButton.Image = global::BareMinimum.Properties.Resources.help;
 			this.HelpToolbarButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.HelpToolbarButton.Name = "HelpToolbarButton";
@@ -425,16 +429,27 @@
 			// onlineHelpMenuItem
 			// 
 			this.onlineHelpMenuItem.Name = "onlineHelpMenuItem";
-			this.onlineHelpMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.onlineHelpMenuItem.Size = new System.Drawing.Size(186, 22);
 			this.onlineHelpMenuItem.Text = "Help (online)";
 			this.onlineHelpMenuItem.Click += new System.EventHandler(this.OnlineHelpMenuItem_Click);
 			// 
 			// bugReportMenuItem
 			// 
 			this.bugReportMenuItem.Name = "bugReportMenuItem";
-			this.bugReportMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.bugReportMenuItem.Size = new System.Drawing.Size(186, 22);
 			this.bugReportMenuItem.Text = "Report a bug";
 			this.bugReportMenuItem.Click += new System.EventHandler(this.BugReportMenuItem_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(183, 6);
+			// 
+			// aboutBareMinimumToolStripMenuItem
+			// 
+			this.aboutBareMinimumToolStripMenuItem.Name = "aboutBareMinimumToolStripMenuItem";
+			this.aboutBareMinimumToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+			this.aboutBareMinimumToolStripMenuItem.Text = "About BareMinimum";
 			// 
 			// MainWin
 			// 
@@ -448,7 +463,7 @@
 			this.MinimumSize = new System.Drawing.Size(650, 400);
 			this.Name = "MainWin";
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-			this.Text = "BareMinimum";
+			this.Text = "BareMinimum (Pre-Release)";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWin_FormClosing);
 			this.MainSplit.Panel1.ResumeLayout(false);
 			this.MainSplit.Panel1.PerformLayout();
@@ -497,6 +512,8 @@
 		private System.Windows.Forms.ToolStripDropDownButton HelpToolbarButton;
 		private System.Windows.Forms.ToolStripMenuItem onlineHelpMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem bugReportMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.ToolStripMenuItem aboutBareMinimumToolStripMenuItem;
     }
 }
 

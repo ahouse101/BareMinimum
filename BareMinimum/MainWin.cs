@@ -464,7 +464,7 @@ namespace BareMinimum
 					new List<Scenario>(ScenarioList.Objects.Cast<Scenario>()),
 					Formatting.Indented,
 					JsonSettings);
-				File.WriteAllText(filePath, "BareMinimum JSON Format v1\n" + serialized);
+				File.WriteAllText(filePath, "1\n" + serialized);
 				FileIsSaved = true;
 			}
 			catch (IOException e)
@@ -499,38 +499,57 @@ namespace BareMinimum
 		private void OpenFile(string filePath)
 		{
 			InfoBox infoBox = InfoBox.ShowMessage("Opening \"" + Path.GetFileName(filePath) + "\"...", "Opening...", this);
+			List<string> fileContents;
 			try
 			{
-				List<string> fileContents = new List<string>(File.ReadAllLines(filePath));
-				string versionText = fileContents[0];
-				fileContents.RemoveAt(0);
-				string json = fileContents[0];
-				fileContents.RemoveAt(0);
-				foreach (string line in fileContents)
-					json += "\n" + line;
-				List<Scenario> list = JsonConvert.DeserializeObject<List<Scenario>>(json, JsonSettings);
-				foreach (Scenario scenario in list)
-				{
-					Calculations.CalculateNeeded(scenario);
-				}
-				RegisterEvents(list);
-				ScenarioList.SetObjects(list);
-				ScenarioList.SelectedIndex = 0;
-				FilePath = filePath;
-				FileIsSaved = true;
+				fileContents = new List<string>(File.ReadAllLines(filePath));
 			}
 			catch (IOException e)
 			{
 				MessageBox.Show("I/O Error:\n" + e.Message);
+				goto DoneOpening;
+			}
+
+			string versionText = fileContents[0];
+			double version;
+			if (Double.TryParse(versionText.Trim(), out version))
+			{
+				if (version > 1)
+				{
+					MessageBox.Show("This file is from a newer version of BareMinimum. Download the newest version of BareMinimum to open it.");
+					goto DoneOpening;
+				}
+			}
+			fileContents.RemoveAt(0);
+			string json = fileContents[0];
+			fileContents.RemoveAt(0);
+			foreach (string line in fileContents)
+				json += "\n" + line;
+			List<Scenario> list;
+
+			try
+			{
+				list = JsonConvert.DeserializeObject<List<Scenario>>(json, JsonSettings);
 			}
 			catch (JsonSerializationException e)
 			{
 				MessageBox.Show("JSON Serialization Error:\n" + e.Message);
+				goto DoneOpening;
 			}
-			finally
+
+			foreach (Scenario scenario in list)
 			{
-				infoBox.Close();
+				Calculations.CalculateNeeded(scenario);
 			}
+			RegisterEvents(list);
+			ScenarioList.SetObjects(list);
+			ScenarioList.SelectedIndex = 0;
+			FilePath = filePath;
+			FileIsSaved = true;
+			
+		DoneOpening:
+			infoBox.Close();
+			return;
 		}
 
 		private void NewFile()

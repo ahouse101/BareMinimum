@@ -24,8 +24,11 @@ Version 0.7 - Alpha (initial outside testing) - Active
 			r1 - Fixed an issue with the needed calculation that showed huge numbers in the needed column when the Section.Weights didn't add up to 100%.
 			r2 - Fixed an issue with the needed calculation (the needed variable is a percentage, but now displays as points, as it should).
 			r3 - Fixed an issue in which the emptyOverlay.Text wouldn't change when I new file was created. Also, the save confirmation doesn't include an asterisk at the end of the filename anymore.
+			r4 - Made some changes to the opening and saving of files, and stopped using NuGet.
 
 	Work Items:
+		- Add an about box - Active.
+		- Add common keyboard shortcuts (Ctrl+N, Ctrl+S, Ctrl+O, F1, etc.). 
 
 Version 0.6
 	Goal: Polish existing features, get rid of hacks if possible, start creating help and documentation, prepare for testing, and publish the Codeplex project.
