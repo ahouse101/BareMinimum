@@ -31,16 +31,11 @@
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWin));
 			this.MainSplit = new System.Windows.Forms.SplitContainer();
-			this.DeleteScenarioButton = new System.Windows.Forms.Button();
-			this.AddScenarioButton = new System.Windows.Forms.Button();
 			this.ScenarioListLabel = new System.Windows.Forms.Label();
 			this.ScenarioList = new BrightIdeasSoftware.ObjectListView();
 			this.ScenarioNameColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.ScenarioAverageColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.ScenarioTargetColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-			this.DeleteItemButton = new System.Windows.Forms.Button();
-			this.AddGradeButton = new System.Windows.Forms.Button();
-			this.AddSectionButton = new System.Windows.Forms.Button();
 			this.ScenarioTree = new BrightIdeasSoftware.TreeListView();
 			this.ItemNameColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.ItemWeightColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -51,12 +46,20 @@
 			this.ItemNotesColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.SelectedScenarioLabel = new System.Windows.Forms.Label();
 			this.ScenarioTitleLabel = new System.Windows.Forms.Label();
+			this.DataToolbar = new BareMinimum.ToolbarEx();
+			this.AddScenarioButton = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.AddSectionButton = new System.Windows.Forms.ToolStripButton();
+			this.AddGradeButton = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+			this.DeleteButton = new System.Windows.Forms.ToolStripButton();
 			this.FileToolbar = new BareMinimum.ToolbarEx();
 			this.NewFileButton = new System.Windows.Forms.ToolStripButton();
 			this.OpenFileButton = new System.Windows.Forms.ToolStripButton();
 			this.SaveFileButton = new System.Windows.Forms.ToolStripButton();
 			this.SaveAsFileButton = new System.Windows.Forms.ToolStripButton();
 			this.FileLabel = new System.Windows.Forms.ToolStripLabel();
+			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
 			this.HelpToolbarButton = new System.Windows.Forms.ToolStripDropDownButton();
 			this.onlineHelpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.bugReportMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -68,6 +71,7 @@
 			this.MainSplit.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ScenarioList)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.ScenarioTree)).BeginInit();
+			this.DataToolbar.SuspendLayout();
 			this.FileToolbar.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -82,17 +86,12 @@
 			// 
 			// MainSplit.Panel1
 			// 
-			this.MainSplit.Panel1.Controls.Add(this.DeleteScenarioButton);
-			this.MainSplit.Panel1.Controls.Add(this.AddScenarioButton);
 			this.MainSplit.Panel1.Controls.Add(this.ScenarioListLabel);
 			this.MainSplit.Panel1.Controls.Add(this.ScenarioList);
 			this.MainSplit.Panel1MinSize = 150;
 			// 
 			// MainSplit.Panel2
 			// 
-			this.MainSplit.Panel2.Controls.Add(this.DeleteItemButton);
-			this.MainSplit.Panel2.Controls.Add(this.AddGradeButton);
-			this.MainSplit.Panel2.Controls.Add(this.AddSectionButton);
 			this.MainSplit.Panel2.Controls.Add(this.ScenarioTree);
 			this.MainSplit.Panel2.Controls.Add(this.SelectedScenarioLabel);
 			this.MainSplit.Panel2MinSize = 420;
@@ -100,35 +99,13 @@
 			this.MainSplit.SplitterDistance = 200;
 			this.MainSplit.TabIndex = 2;
 			// 
-			// DeleteScenarioButton
-			// 
-			this.DeleteScenarioButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.DeleteScenarioButton.Enabled = false;
-			this.DeleteScenarioButton.Location = new System.Drawing.Point(135, 375);
-			this.DeleteScenarioButton.Name = "DeleteScenarioButton";
-			this.DeleteScenarioButton.Size = new System.Drawing.Size(65, 25);
-			this.DeleteScenarioButton.TabIndex = 3;
-			this.DeleteScenarioButton.Text = "Delete";
-			this.DeleteScenarioButton.UseVisualStyleBackColor = true;
-			this.DeleteScenarioButton.Click += new System.EventHandler(this.DeleteScenarioButton_Click);
-			// 
-			// AddScenarioButton
-			// 
-			this.AddScenarioButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.AddScenarioButton.Location = new System.Drawing.Point(50, 375);
-			this.AddScenarioButton.Name = "AddScenarioButton";
-			this.AddScenarioButton.Size = new System.Drawing.Size(80, 25);
-			this.AddScenarioButton.TabIndex = 2;
-			this.AddScenarioButton.Text = "Add Scenario";
-			this.AddScenarioButton.UseVisualStyleBackColor = true;
-			this.AddScenarioButton.Click += new System.EventHandler(this.AddScenarioButton_Click);
-			// 
 			// ScenarioListLabel
 			// 
 			this.ScenarioListLabel.AutoSize = true;
+			this.ScenarioListLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.ScenarioListLabel.Location = new System.Drawing.Point(0, 0);
 			this.ScenarioListLabel.Name = "ScenarioListLabel";
-			this.ScenarioListLabel.Size = new System.Drawing.Size(71, 13);
+			this.ScenarioListLabel.Size = new System.Drawing.Size(74, 13);
 			this.ScenarioListLabel.TabIndex = 1;
 			this.ScenarioListLabel.Text = "Scenario List:";
 			// 
@@ -154,8 +131,9 @@
 			this.ScenarioList.Name = "ScenarioList";
 			this.ScenarioList.OwnerDraw = true;
 			this.ScenarioList.RowHeight = 25;
+			this.ScenarioList.ShowCommandMenuOnRightClick = true;
 			this.ScenarioList.ShowGroups = false;
-			this.ScenarioList.Size = new System.Drawing.Size(200, 355);
+			this.ScenarioList.Size = new System.Drawing.Size(200, 385);
 			this.ScenarioList.TabIndex = 0;
 			this.ScenarioList.UseCompatibleStateImageBehavior = false;
 			this.ScenarioList.UseHotItem = true;
@@ -164,8 +142,10 @@
 			this.ScenarioList.View = System.Windows.Forms.View.Details;
 			this.ScenarioList.CellEditFinishing += new BrightIdeasSoftware.CellEditEventHandler(this.ScenarioList_CellEditFinishing);
 			this.ScenarioList.CellEditStarting += new BrightIdeasSoftware.CellEditEventHandler(this.ScenarioList_CellEditStarting);
+			this.ScenarioList.FormatRow += new System.EventHandler<BrightIdeasSoftware.FormatRowEventArgs>(this.ScenarioList_FormatRow);
 			this.ScenarioList.SelectionChanged += new System.EventHandler(this.ScenarioList_SelectionChanged);
 			this.ScenarioList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ScenarioList_KeyDown);
+			this.ScenarioList.Leave += new System.EventHandler(this.ScenarioList_Leave);
 			// 
 			// ScenarioNameColumn
 			// 
@@ -194,42 +174,6 @@
 			this.ScenarioTargetColumn.AutoCompleteEditorMode = System.Windows.Forms.AutoCompleteMode.None;
 			this.ScenarioTargetColumn.Text = "Target";
 			this.ScenarioTargetColumn.Width = 50;
-			// 
-			// DeleteItemButton
-			// 
-			this.DeleteItemButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.DeleteItemButton.Enabled = false;
-			this.DeleteItemButton.Location = new System.Drawing.Point(170, 375);
-			this.DeleteItemButton.Name = "DeleteItemButton";
-			this.DeleteItemButton.Size = new System.Drawing.Size(65, 25);
-			this.DeleteItemButton.TabIndex = 9;
-			this.DeleteItemButton.Text = "Delete";
-			this.DeleteItemButton.UseVisualStyleBackColor = true;
-			this.DeleteItemButton.Click += new System.EventHandler(this.DeleteItemButton_Click);
-			// 
-			// AddGradeButton
-			// 
-			this.AddGradeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.AddGradeButton.Enabled = false;
-			this.AddGradeButton.Location = new System.Drawing.Point(85, 375);
-			this.AddGradeButton.Name = "AddGradeButton";
-			this.AddGradeButton.Size = new System.Drawing.Size(80, 25);
-			this.AddGradeButton.TabIndex = 5;
-			this.AddGradeButton.Text = "Add Grade";
-			this.AddGradeButton.UseVisualStyleBackColor = true;
-			this.AddGradeButton.Click += new System.EventHandler(this.AddGradeButton_Click);
-			// 
-			// AddSectionButton
-			// 
-			this.AddSectionButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.AddSectionButton.Enabled = false;
-			this.AddSectionButton.Location = new System.Drawing.Point(0, 375);
-			this.AddSectionButton.Name = "AddSectionButton";
-			this.AddSectionButton.Size = new System.Drawing.Size(80, 25);
-			this.AddSectionButton.TabIndex = 4;
-			this.AddSectionButton.Text = "Add Section";
-			this.AddSectionButton.UseVisualStyleBackColor = true;
-			this.AddSectionButton.Click += new System.EventHandler(this.AddSectionButton_Click);
 			// 
 			// ScenarioTree
 			// 
@@ -266,7 +210,7 @@
 			this.ScenarioTree.RowHeight = 25;
 			this.ScenarioTree.ShowGroups = false;
 			this.ScenarioTree.ShowImagesOnSubItems = true;
-			this.ScenarioTree.Size = new System.Drawing.Size(521, 355);
+			this.ScenarioTree.Size = new System.Drawing.Size(521, 385);
 			this.ScenarioTree.TabIndex = 3;
 			this.ScenarioTree.UseCellFormatEvents = true;
 			this.ScenarioTree.UseCompatibleStateImageBehavior = false;
@@ -282,6 +226,7 @@
 			this.ScenarioTree.FormatRow += new System.EventHandler<BrightIdeasSoftware.FormatRowEventArgs>(this.ScenarioTree_FormatRow);
 			this.ScenarioTree.SelectionChanged += new System.EventHandler(this.ScenarioTree_SelectionChanged);
 			this.ScenarioTree.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ScenarioTree_KeyDown);
+			this.ScenarioTree.Leave += new System.EventHandler(this.ScenarioTree_Leave);
 			// 
 			// ItemNameColumn
 			// 
@@ -324,6 +269,7 @@
 			this.ItemMarkedColumn.CheckBoxes = true;
 			this.ItemMarkedColumn.HeaderImageKey = "(none)";
 			this.ItemMarkedColumn.HeaderTextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.ItemMarkedColumn.Hideable = false;
 			this.ItemMarkedColumn.MaximumWidth = 20;
 			this.ItemMarkedColumn.MinimumWidth = 20;
 			this.ItemMarkedColumn.Text = "";
@@ -352,9 +298,10 @@
 			// SelectedScenarioLabel
 			// 
 			this.SelectedScenarioLabel.AutoSize = true;
+			this.SelectedScenarioLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.SelectedScenarioLabel.Location = new System.Drawing.Point(0, 0);
 			this.SelectedScenarioLabel.Name = "SelectedScenarioLabel";
-			this.SelectedScenarioLabel.Size = new System.Drawing.Size(97, 13);
+			this.SelectedScenarioLabel.Size = new System.Drawing.Size(100, 13);
 			this.SelectedScenarioLabel.TabIndex = 2;
 			this.SelectedScenarioLabel.Text = "Selected Scenario:";
 			// 
@@ -362,13 +309,88 @@
 			// 
 			this.ScenarioTitleLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.ScenarioTitleLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F);
+			this.ScenarioTitleLabel.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.ScenarioTitleLabel.Location = new System.Drawing.Point(0, 25);
 			this.ScenarioTitleLabel.Name = "ScenarioTitleLabel";
 			this.ScenarioTitleLabel.Size = new System.Drawing.Size(735, 30);
 			this.ScenarioTitleLabel.TabIndex = 0;
 			this.ScenarioTitleLabel.Text = "No Scenario Selected";
 			this.ScenarioTitleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// DataToolbar
+			// 
+			this.DataToolbar.ClickThrough = true;
+			this.DataToolbar.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.DataToolbar.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+			this.DataToolbar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.AddScenarioButton,
+            this.toolStripSeparator2,
+            this.AddSectionButton,
+            this.AddGradeButton,
+            this.toolStripSeparator3,
+            this.DeleteButton});
+			this.DataToolbar.Location = new System.Drawing.Point(0, 460);
+			this.DataToolbar.Name = "DataToolbar";
+			this.DataToolbar.Padding = new System.Windows.Forms.Padding(5, 1, 5, 1);
+			this.DataToolbar.Size = new System.Drawing.Size(735, 25);
+			this.DataToolbar.TabIndex = 3;
+			// 
+			// AddScenarioButton
+			// 
+			this.AddScenarioButton.AutoToolTip = false;
+			this.AddScenarioButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.AddScenarioButton.Image = ((System.Drawing.Image)(resources.GetObject("AddScenarioButton.Image")));
+			this.AddScenarioButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.AddScenarioButton.Name = "AddScenarioButton";
+			this.AddScenarioButton.Size = new System.Drawing.Size(81, 20);
+			this.AddScenarioButton.Text = "Add Scenario";
+			this.AddScenarioButton.Click += new System.EventHandler(this.AddScenarioButton_Click);
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 23);
+			// 
+			// AddSectionButton
+			// 
+			this.AddSectionButton.AutoToolTip = false;
+			this.AddSectionButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.AddSectionButton.Enabled = false;
+			this.AddSectionButton.Image = ((System.Drawing.Image)(resources.GetObject("AddSectionButton.Image")));
+			this.AddSectionButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.AddSectionButton.Name = "AddSectionButton";
+			this.AddSectionButton.Size = new System.Drawing.Size(75, 20);
+			this.AddSectionButton.Text = "Add Section";
+			this.AddSectionButton.Click += new System.EventHandler(this.AddSectionButton_Click);
+			// 
+			// AddGradeButton
+			// 
+			this.AddGradeButton.AutoToolTip = false;
+			this.AddGradeButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.AddGradeButton.Enabled = false;
+			this.AddGradeButton.Image = ((System.Drawing.Image)(resources.GetObject("AddGradeButton.Image")));
+			this.AddGradeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.AddGradeButton.Name = "AddGradeButton";
+			this.AddGradeButton.Size = new System.Drawing.Size(67, 20);
+			this.AddGradeButton.Text = "Add Grade";
+			this.AddGradeButton.Click += new System.EventHandler(this.AddGradeButton_Click);
+			// 
+			// toolStripSeparator3
+			// 
+			this.toolStripSeparator3.Name = "toolStripSeparator3";
+			this.toolStripSeparator3.Size = new System.Drawing.Size(6, 23);
+			// 
+			// DeleteButton
+			// 
+			this.DeleteButton.AutoToolTip = false;
+			this.DeleteButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.DeleteButton.Enabled = false;
+			this.DeleteButton.Image = ((System.Drawing.Image)(resources.GetObject("DeleteButton.Image")));
+			this.DeleteButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.DeleteButton.Name = "DeleteButton";
+			this.DeleteButton.Size = new System.Drawing.Size(44, 20);
+			this.DeleteButton.Text = "Delete";
+			this.DeleteButton.Click += new System.EventHandler(this.DeleteButton_Click);
 			// 
 			// FileToolbar
 			// 
@@ -380,16 +402,17 @@
             this.SaveFileButton,
             this.SaveAsFileButton,
             this.FileLabel,
+            this.toolStripSeparator4,
             this.HelpToolbarButton});
 			this.FileToolbar.Location = new System.Drawing.Point(0, 0);
 			this.FileToolbar.Name = "FileToolbar";
 			this.FileToolbar.Padding = new System.Windows.Forms.Padding(5, 1, 5, 1);
 			this.FileToolbar.Size = new System.Drawing.Size(735, 25);
 			this.FileToolbar.TabIndex = 1;
-			this.FileToolbar.Text = "File";
 			// 
 			// NewFileButton
 			// 
+			this.NewFileButton.AutoToolTip = false;
 			this.NewFileButton.Image = global::BareMinimum.Properties.Resources.filenew;
 			this.NewFileButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.NewFileButton.Name = "NewFileButton";
@@ -399,6 +422,7 @@
 			// 
 			// OpenFileButton
 			// 
+			this.OpenFileButton.AutoToolTip = false;
 			this.OpenFileButton.Image = global::BareMinimum.Properties.Resources.fileopen;
 			this.OpenFileButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.OpenFileButton.Name = "OpenFileButton";
@@ -408,6 +432,7 @@
 			// 
 			// SaveFileButton
 			// 
+			this.SaveFileButton.AutoToolTip = false;
 			this.SaveFileButton.Image = global::BareMinimum.Properties.Resources.filesave;
 			this.SaveFileButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.SaveFileButton.Name = "SaveFileButton";
@@ -417,6 +442,7 @@
 			// 
 			// SaveAsFileButton
 			// 
+			this.SaveAsFileButton.AutoToolTip = false;
 			this.SaveAsFileButton.Image = global::BareMinimum.Properties.Resources.filesaveas;
 			this.SaveAsFileButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.SaveAsFileButton.Name = "SaveAsFileButton";
@@ -433,8 +459,14 @@
 			this.FileLabel.Text = "Unsaved File";
 			this.FileLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
+			// toolStripSeparator4
+			// 
+			this.toolStripSeparator4.Name = "toolStripSeparator4";
+			this.toolStripSeparator4.Size = new System.Drawing.Size(6, 23);
+			// 
 			// HelpToolbarButton
 			// 
+			this.HelpToolbarButton.AutoToolTip = false;
 			this.HelpToolbarButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.onlineHelpMenuItem,
             this.bugReportMenuItem,
@@ -475,7 +507,8 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(735, 460);
+			this.ClientSize = new System.Drawing.Size(735, 485);
+			this.Controls.Add(this.DataToolbar);
 			this.Controls.Add(this.MainSplit);
 			this.Controls.Add(this.FileToolbar);
 			this.Controls.Add(this.ScenarioTitleLabel);
@@ -493,6 +526,8 @@
 			this.MainSplit.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.ScenarioList)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.ScenarioTree)).EndInit();
+			this.DataToolbar.ResumeLayout(false);
+			this.DataToolbar.PerformLayout();
 			this.FileToolbar.ResumeLayout(false);
 			this.FileToolbar.PerformLayout();
 			this.ResumeLayout(false);
@@ -506,12 +541,9 @@
         private ToolbarEx FileToolbar;
         private System.Windows.Forms.SplitContainer MainSplit;
         private System.Windows.Forms.Label ScenarioListLabel;
-        private BrightIdeasSoftware.ObjectListView ScenarioList;
-        private System.Windows.Forms.Button AddScenarioButton;
+		private BrightIdeasSoftware.ObjectListView ScenarioList;
         private BrightIdeasSoftware.TreeListView ScenarioTree;
-        private System.Windows.Forms.Label SelectedScenarioLabel;
-        private System.Windows.Forms.Button AddGradeButton;
-        private System.Windows.Forms.Button AddSectionButton;
+		private System.Windows.Forms.Label SelectedScenarioLabel;
         private System.Windows.Forms.ToolStripButton NewFileButton;
         private System.Windows.Forms.ToolStripButton OpenFileButton;
         private System.Windows.Forms.ToolStripButton SaveFileButton;
@@ -526,14 +558,20 @@
         private BrightIdeasSoftware.OLVColumn ItemNeededColumn;
         private BrightIdeasSoftware.OLVColumn ItemNotesColumn;
 		private BrightIdeasSoftware.OLVColumn ItemMarkedColumn;
-        private System.Windows.Forms.Button DeleteScenarioButton;
-		private System.Windows.Forms.Button DeleteItemButton;
 		private BrightIdeasSoftware.OLVColumn ScenarioTargetColumn;
 		private System.Windows.Forms.ToolStripDropDownButton HelpToolbarButton;
 		private System.Windows.Forms.ToolStripMenuItem onlineHelpMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem bugReportMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripMenuItem aboutBareMinimumToolStripMenuItem;
+		private ToolbarEx DataToolbar;
+		private System.Windows.Forms.ToolStripButton AddScenarioButton;
+		private System.Windows.Forms.ToolStripButton AddSectionButton;
+		private System.Windows.Forms.ToolStripButton AddGradeButton;
+		private System.Windows.Forms.ToolStripButton DeleteButton;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
     }
 }
 

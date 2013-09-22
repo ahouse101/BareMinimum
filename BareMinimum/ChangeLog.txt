@@ -8,6 +8,9 @@
 	- Add right click menus
 	- Add scenario sharing/merging (Miranda)
 
+Bugs:
+	- ExpandAll() doesn't seem to work - suggested fix is to save the state in the file, and load it when it is opened. 
+
 Version 1.0 - Release!
 	The application is ready for distribution!
 	
@@ -29,11 +32,17 @@ Version 0.7 - Alpha (initial outside testing) - Active
 			r6 - Rewrote ItemContainer.ItemType as a readonly property (fixed a bug in the process).
 			r7 - Removed the prompt that asks for a name for every new scenario (it was inconsistent with adding items).
 		.2 - Rewrote the Tab / Shift-Tab navigation, so it works properly now in both the ScenarioList and ScenarioTree.
+		.3 - Rewrote the way objects are selected, and the delete system with it. 
+			- Turned off AutoTooltips on the buttons (the tooltips are redundant and annoying in this case).
+			- Changed some of the UI fonts to Segoe UI.
+			- Added a decoration to the "current" scenario (a highlight and an arrow).
+			- Restructured some code to make it more elegant.
+			- Slightly changed the way positioning works on the InfoBox (it's more correct now).
 
 	Work Items:
-		- Rework the delete system (only one delete button should be needed).
+		- Fix the bug that prevents AutoWeighted sections from recalculating their weights when a section is deleted.
 		- Add an about box.
-		- Add common keyboard shortcuts (Ctrl+N, Ctrl+S, Ctrl+O, F1, etc.). 
+		- Add common keyboard shortcuts (Ctrl+N, Ctrl+S, Ctrl+O). 
 
 Version 0.6
 	Goal: Polish existing features, get rid of hacks if possible, start creating help and documentation, prepare for testing, and publish the Codeplex project.
@@ -47,7 +56,7 @@ Version 0.5
 		.0 - Removed the CalculationTypeComboBox and the OptionsToolbarButton - small.
 		.1 - Fixed some bugs with the auto-weighted section feature (also, the interface now shows the weight) - small.
 		.2 - Made Up/Down arrow keys change the cell being edited in the ScenarioList - medium.
-			(The built in CellEditKeyEngine doesn't seem to work, so I had no choice but to use ProcessCmdKey())
+			(ObjectListView's CellEditKeyEngine doesn't seem to work, so I had no choice but to override ProcessCmdKey() on the form)
 			r1 - Made the minimum window size smaller, so I can fit screenshots on the CodePlex page without resizing the images.
 		.3 - Made Up/Down arrow keys change the cell being edited in the ScenarioTree - medium.
 

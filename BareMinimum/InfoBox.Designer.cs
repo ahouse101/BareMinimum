@@ -55,7 +55,7 @@
 			this.Name = "InfoBox";
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
-			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "InfoBox";
 			this.ResumeLayout(false);
 

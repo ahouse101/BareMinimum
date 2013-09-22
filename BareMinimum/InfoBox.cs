@@ -16,8 +16,8 @@ namespace BareMinimum
 			box.Text = caption;
 			int x = (parent.DesktopLocation.X + (parent.Width / 2)) - (box.Width / 2);
 			int y = (parent.DesktopLocation.Y + (parent.Height / 2)) - (box.Height / 2);
-			box.Show();
 			box.SetDesktopLocation(x, y);
+			box.Show();
 			box.Refresh();
 			return box;
 		}

@@ -119,6 +119,7 @@
     <Content Include="Proto1.ico" />
     <Content Include="Resources\checkbox_no.png" />
     <Content Include="Resources\checkbox_yes.png" />
+    <Content Include="Resources\rightarrow.png" />
     <None Include="Resources\help_contents.png" />
     <Content Include="ChangeLog.txt" />
   </ItemGroup>

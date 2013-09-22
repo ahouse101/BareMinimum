@@ -32,6 +32,7 @@ namespace BareMinimum
 		private bool treeIsEditing = false;
 		private bool listIsEditing = false;
 		private bool fileIsSaved = true;
+		private Scenario currentScenario;
 
 		public bool FileIsSaved
 		{
@@ -56,6 +57,55 @@ namespace BareMinimum
 			}
 		}
 
+		public Scenario CurrentScenario
+		{
+			get
+			{
+				return currentScenario;
+			}
+			set
+			{
+				currentScenario = value;
+				if (value == null)
+				{
+					AddGradeButton.Enabled = false;
+					AddSectionButton.Enabled = false;
+					ScenarioTitleLabel.Text = "No Scenario Selected";
+					DeleteButton.Enabled = false;
+					emptyOverlay.Text = "Add a scenario to get started.";
+					ScenarioTree.SetObjects(null);
+				}
+				else
+				{
+					if (LastScenario != null)
+						LastScenario.PropertyChanged -= Scenario_PropertyChanged;
+					SelectedScenario.PropertyChanged += Scenario_PropertyChanged;
+					ScenarioTree.SetObjects(SelectedScenario.Items);
+					switch (SelectedScenario.ItemType)
+					{
+						case ItemType.None:
+							AddGradeButton.Enabled = true;
+							AddSectionButton.Enabled = true;
+							break;
+						case ItemType.Section:
+							AddGradeButton.Enabled = false;
+							AddSectionButton.Enabled = true;
+							break;
+						case ItemType.Grade:
+							AddGradeButton.Enabled = true;
+							AddSectionButton.Enabled = false;
+							break;
+						default:
+							break;
+					}
+					DeleteButton.Enabled = true;
+					ScenarioTitleLabel.Text = SelectedScenario.Name;
+					LastScenario = SelectedScenario;
+				}
+				ScenarioList.RefreshObjects(new List<object>(ScenarioList.Objects.Cast<object>())); // This horrible hack is the only way to force the ScenarioList to refresh row decorations.
+			}
+		}
+
         public Scenario SelectedScenario
         {
             get
@@ -63,7 +113,7 @@ namespace BareMinimum
                 return (Scenario)ScenarioList.SelectedObject;
             }
         }
-		public Scenario LastScenario { get; set; } // When a user attempts a deselect on the ScenarioList, this property allows BareMinimum to role back to the previous selection.
+		public Scenario LastScenario { get; set; } // This property is used to remove events from deselected Scenarios.
 		public JsonSerializerSettings JsonSettings { get; set; }
 
 		#endregion
@@ -121,6 +171,7 @@ namespace BareMinimum
 			selectedDecoration.FillBrush = new SolidBrush(Color.FromArgb(20, 0, 0, 0));
 			selectedDecoration.CornerRounding = 0f;
 			ScenarioTree.SelectedRowDecoration = selectedDecoration;
+			ScenarioList.SelectedRowDecoration = selectedDecoration;
 
 			// Customize the decoration for the hot item:
 			RowBorderDecoration hotItemDecoration = new RowBorderDecoration();
@@ -129,6 +180,7 @@ namespace BareMinimum
 			hotItemDecoration.FillBrush = new SolidBrush(Color.FromArgb(10, 0, 0, 0));
 			hotItemDecoration.CornerRounding = 0f;
 			ScenarioTree.HotItemStyle.Decoration = hotItemDecoration;
+			ScenarioList.HotItemStyle.Decoration = hotItemDecoration;
 
             // Set the drop down:
             // CalculationTypeComboBox.SelectedItem = "Even";
@@ -255,12 +307,12 @@ namespace BareMinimum
 			{
 				section.AutoWeighted = false;
 				section.Weight = newValue;
-				SelectedScenario.CalculateAutoSectionWeights();
+				CurrentScenario.CalculateAutoSectionWeights();
 			}
 			else
 			{
 				section.AutoWeighted = true;
-				SelectedScenario.CalculateAutoSectionWeights();
+				CurrentScenario.CalculateAutoSectionWeights();
 			}
 		}
 
@@ -327,8 +379,8 @@ namespace BareMinimum
 
 		private void CalculateNeeded()
 		{
-			Calculations.CalculateNeeded(SelectedScenario);
-			ScenarioTree.RefreshObjects(SelectedScenario.GetGrades());
+			Calculations.CalculateNeeded(CurrentScenario);
+			ScenarioTree.RefreshObjects(CurrentScenario.GetGrades());
 		}
 
         private void DeleteScenario(Scenario scenario)
@@ -337,13 +389,7 @@ namespace BareMinimum
             ScenarioList.RemoveObject(scenario);
 			if (ScenarioList.Items.Count < 1)
 			{
-				AddGradeButton.Enabled = false;
-				AddSectionButton.Enabled = false;
-				ScenarioTitleLabel.Text = "No Scenario Selected";
-				DeleteScenarioButton.Enabled = false;
-				DeleteItemButton.Enabled = false;
-				emptyOverlay.Text = "Add a scenario to get started.";
-				ScenarioTree.Refresh(); // Changing the emptyOverlay won't trigger a redraw for the ScenarioTree, we want a redraw anyway.
+				CurrentScenario = null;
 			}
 			else
 			{
@@ -357,7 +403,7 @@ namespace BareMinimum
 
         private void DeleteItem()
         {
-            if (SelectedScenario != null && ScenarioTree.SelectedObject != null)
+            if (CurrentScenario != null && ScenarioTree.SelectedObject != null)
             {
                 IItem item = (IItem)ScenarioTree.SelectedObject;
                 Section parent = (Section)ScenarioTree.GetParent(item);
@@ -369,27 +415,17 @@ namespace BareMinimum
         {
             if (parent == null) // The item is a top level item (root).
             {
-                SelectedScenario.Items.Remove(item);
+                CurrentScenario.Items.Remove(item);
                 ScenarioTree.RemoveObject(item);
-				if (ScenarioTree.Items.Count < 1)
-				{
-					AddGradeButton.Enabled = true;
-					AddSectionButton.Enabled = true;
-					DeleteItemButton.Enabled = false;
-				}
+				ScenarioTree_SelectionChanged(ScenarioTree, new EventArgs());
             }
             else
             {
                 parent.Items.Remove(item);
                 ScenarioTree.RefreshObject(parent);
-				if (parent.Items.Count < 1)
-				{
-					AddGradeButton.Enabled = true;
-					AddSectionButton.Enabled = true;
-					DeleteItemButton.Enabled = false;
-				}
+				ScenarioTree_SelectionChanged(ScenarioTree, new EventArgs());
             }
-			ScenarioList.RefreshObject(SelectedScenario);
+			ScenarioList.RefreshObject(CurrentScenario);
 			FileIsSaved = false;
         }
 
@@ -522,7 +558,7 @@ namespace BareMinimum
 			double version;
 			if (Double.TryParse(versionText.Trim(), out version))
 			{
-				if (version > 1)
+				if (version > 1.1)
 				{
 					MessageBox.Show("This file is from a newer version of BareMinimum. Download the newest version of BareMinimum to open it.");
 					goto DoneOpening;
@@ -530,7 +566,7 @@ namespace BareMinimum
 			}
 			else
 			{
-				MessageBox.Show("This file is from a pre-release version of BareMinimum and cannot be read.");
+				MessageBox.Show("This file is from an older version of BareMinimum and cannot be read.");
 				goto DoneOpening;
 			}
 			fileContents.RemoveAt(0);
@@ -955,7 +991,7 @@ namespace BareMinimum
             ScenarioList.AddObject(newScenario);
             ScenarioList.SelectObject(newScenario);
             emptyOverlay.Text = scenarioEmptyText;
-            DeleteScenarioButton.Enabled = true;
+            DeleteButton.Enabled = true;
 			FileIsSaved = false;
         }
 
@@ -965,10 +1001,10 @@ namespace BareMinimum
             if (ScenarioTree.SelectedObject == null)
             {
                 // Add a new Section to the Scenario:
-				Section newSection = new Section(SelectedScenario);
+				Section newSection = new Section(CurrentScenario);
 				newSection.PropertyChanged += Section_PropertyChanged;
-                SelectedScenario.Items.Add(newSection);
-                ScenarioTree.SetObjects(SelectedScenario.Items);
+                CurrentScenario.Items.Add(newSection);
+                ScenarioTree.SetObjects(CurrentScenario.Items);
             }
             else
             {
@@ -981,7 +1017,7 @@ namespace BareMinimum
                     ScenarioTree.Expand(container);
             }
 			FileIsSaved = false;
-			SelectedScenario.CalculateAutoSectionWeights();
+			CurrentScenario.CalculateAutoSectionWeights();
             AddGradeButton.Enabled = false;
         }
 
@@ -990,12 +1026,12 @@ namespace BareMinimum
             // Determine if the scenario or a section is selected, and act accordingly:
             if (ScenarioTree.SelectedObject == null)
             {
-                Scenario container = SelectedScenario;
+                Scenario container = CurrentScenario;
                 // Add a new Grade to the Scenario:
-				Grade newGrade = new Grade(SelectedScenario);
+				Grade newGrade = new Grade(CurrentScenario);
 				newGrade.PropertyChanged += Grade_PropertyChanged;
                 container.Items.Add(newGrade);
-                ScenarioTree.SetObjects(SelectedScenario.Items);
+                ScenarioTree.SetObjects(CurrentScenario.Items);
             }
             else
             {
@@ -1011,15 +1047,33 @@ namespace BareMinimum
             AddSectionButton.Enabled = false;
         }
 
-        private void DeleteScenarioButton_Click(object sender, EventArgs e)
-        {
-            DeleteScenario(SelectedScenario);
-        }
+		private void DeleteButton_Click(object sender, EventArgs e)
+		{
+			if (ScenarioList.SelectedObject != null)
+				DeleteScenario(SelectedScenario);
+			else if (ScenarioTree.SelectedObject != null)
+				DeleteItem();
+		}
 
-        private void DeleteItemButton_Click(object sender, EventArgs e)
-        {
-            DeleteItem();
-        }
+		private void ScenarioList_FormatRow(object sender, FormatRowEventArgs e)
+		{
+			if (e.Model == CurrentScenario)
+			{
+				RowBorderDecoration currentScenarioDecoration = new RowBorderDecoration();
+				currentScenarioDecoration.BorderPen = null;
+				currentScenarioDecoration.CornerRounding = 0F;
+				currentScenarioDecoration.BoundsPadding = new Size(-1, -1);
+				currentScenarioDecoration.FillBrush = new SolidBrush(Color.FromArgb(50, 0, 200, 200));
+				e.Item.Decoration = currentScenarioDecoration;
+
+				ImageDecoration arrowDecoration = new ImageDecoration(Properties.Resources.rightarrow, 256);
+				e.Item.Decorations.Add(arrowDecoration);
+			}
+			else
+			{
+				e.Item.Decorations.Clear();
+			}
+		}
 
 		private void ScenarioList_CellEditStarting(object sender, CellEditEventArgs e)
 		{
@@ -1063,41 +1117,25 @@ namespace BareMinimum
 
         private void ScenarioList_SelectionChanged(object sender, EventArgs e)
         {
-            if (ScenarioList.Items.Count > 0)
-            {
-                // If the user clicks off of an item, but the list isn't empty, ignore it.
+			if (ScenarioList.Items.Count > 0)
+			{
 				if (SelectedScenario != null)
-				{
-					if (LastScenario != null)
-						LastScenario.PropertyChanged -= Scenario_PropertyChanged;
-					SelectedScenario.PropertyChanged += Scenario_PropertyChanged;
-					ScenarioTree.SetObjects(SelectedScenario.Items);
-					switch (SelectedScenario.ItemType)
-					{
-						case ItemType.None:
-							AddGradeButton.Enabled = true;
-							AddSectionButton.Enabled = true;
-							break;
-						case ItemType.Section:
-							AddGradeButton.Enabled = false;
-							AddSectionButton.Enabled = true;
-							break;
-						case ItemType.Grade:
-							AddGradeButton.Enabled = true;
-							AddSectionButton.Enabled = false;
-							break;
-						default:
-							break;
-					}
-					ScenarioTitleLabel.Text = SelectedScenario.Name;
-					LastScenario = SelectedScenario;
-				}
+					CurrentScenario = SelectedScenario;
 				else
-				{
-					ScenarioList.SelectObject(LastScenario);
-				}
-            }
+					DeleteButton.Enabled = false;
+			}
+			else
+			{
+				CurrentScenario = null;
+			}
         }
+
+		private void ScenarioList_Leave(object sender, EventArgs e)
+		{
+			ScenarioList.SelectedItem = null;
+			ScenarioList.Refresh();
+			DeleteButton.Enabled = false;
+		}
 
 		private void ScenarioTree_FormatRow(object sender, FormatRowEventArgs e)
 		{
@@ -1174,9 +1212,9 @@ namespace BareMinimum
         {
             if (ScenarioTree.SelectedObject == null) // Tree is empty, the Scenario is either empty or there are no Scenarios.
             {
-                if (SelectedScenario != null) // Make sure we actually have a Scenario in the tree.
+                if (CurrentScenario != null) // Make sure we actually have a Scenario in the tree.
                 {
-                    switch (SelectedScenario.ItemType)
+                    switch (CurrentScenario.ItemType)
                     {
                         case ItemType.None:
                             AddSectionButton.Enabled = true;
@@ -1194,7 +1232,7 @@ namespace BareMinimum
                             break;
                     }
                 }
-                DeleteItemButton.Enabled = false;
+                DeleteButton.Enabled = false;
             }
             else if (ScenarioTree.SelectedObject is Section)
             {
@@ -1215,13 +1253,13 @@ namespace BareMinimum
                     default:
                         break;
                 }
-                DeleteItemButton.Enabled = true;
+                DeleteButton.Enabled = true;
             }
             else
             {
                 AddSectionButton.Enabled = false;
                 AddGradeButton.Enabled = false;
-                DeleteItemButton.Enabled = true;
+                DeleteButton.Enabled = true;
             }
         }
 
@@ -1266,6 +1304,13 @@ namespace BareMinimum
 			treeIsEditing = false;
 		}
 
+		private void ScenarioTree_Leave(object sender, EventArgs e)
+		{
+			ScenarioTree.SelectedItem = null;
+			ScenarioTree.Refresh();
+			DeleteButton.Enabled = false;
+		}
+
 		private void Items_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
 		{
 			FileIsSaved = false;
@@ -1276,8 +1321,8 @@ namespace BareMinimum
 			if (e.PropertyName == "Weight")
 			{
 				CalculateNeeded();
-				ScenarioList.RefreshObject(SelectedScenario);
-				ScenarioTree.RefreshObjects(SelectedScenario.Items);
+				ScenarioList.RefreshObject(CurrentScenario);
+				ScenarioTree.RefreshObjects(CurrentScenario.Items);
 			}
 			FileIsSaved = false;
 		}
@@ -1290,7 +1335,7 @@ namespace BareMinimum
 				case "PointsEarned":
 				case "PointsPossible":
 					CalculateNeeded();
-					ScenarioList.RefreshObject(SelectedScenario);
+					ScenarioList.RefreshObject(CurrentScenario);
 					break;
 				default:
 					break;
@@ -1303,7 +1348,7 @@ namespace BareMinimum
 			switch (e.PropertyName)
 			{
 				case "Name":
-					ScenarioTitleLabel.Text = SelectedScenario.Name;
+					ScenarioTitleLabel.Text = CurrentScenario.Name;
 					break;
 				case "Target":
 					CalculateNeeded();
