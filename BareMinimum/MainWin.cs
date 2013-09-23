@@ -1371,5 +1371,10 @@ namespace BareMinimum
 		}
 
 		#endregion
+
+		private void aboutBareMinimumToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			AboutBox.ShowAbout();
+		}
 	}
 }

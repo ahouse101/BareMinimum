@@ -65,6 +65,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AboutBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AboutBox.Designer.cs">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="ClickThroughMenu+Toolbar.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -89,6 +95,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AboutBox.resx">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="InfoBox.resx">
       <DependentUpon>InfoBox.cs</DependentUpon>
     </EmbeddedResource>
@@ -120,6 +129,7 @@
     <Content Include="Resources\checkbox_no.png" />
     <Content Include="Resources\checkbox_yes.png" />
     <Content Include="Resources\rightarrow.png" />
+    <None Include="Resources\Test256.png" />
     <None Include="Resources\help_contents.png" />
     <Content Include="ChangeLog.txt" />
   </ItemGroup>

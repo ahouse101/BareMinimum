@@ -453,9 +453,8 @@
 			// FileLabel
 			// 
 			this.FileLabel.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-			this.FileLabel.AutoSize = false;
 			this.FileLabel.Name = "FileLabel";
-			this.FileLabel.Size = new System.Drawing.Size(220, 20);
+			this.FileLabel.Size = new System.Drawing.Size(73, 20);
 			this.FileLabel.Text = "Unsaved File";
 			this.FileLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
@@ -502,6 +501,7 @@
 			this.aboutBareMinimumToolStripMenuItem.Name = "aboutBareMinimumToolStripMenuItem";
 			this.aboutBareMinimumToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
 			this.aboutBareMinimumToolStripMenuItem.Text = "About BareMinimum";
+			this.aboutBareMinimumToolStripMenuItem.Click += new System.EventHandler(this.aboutBareMinimumToolStripMenuItem_Click);
 			// 
 			// MainWin
 			// 

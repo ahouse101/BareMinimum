@@ -39,10 +39,10 @@ Version 0.7 - Alpha (initial outside testing) - Active
 			- Restructured some code to make it more elegant.
 			- Slightly changed the way positioning works on the InfoBox (it's more correct now).
 			r1 - Fixed a bug where AutoWeighted sections didn't recalculate their weights when sections were deleted.
+		.4 - Added an about box.
 
 	Work Items:
-		- Add an about box - Active.
-		- Add common keyboard shortcuts (Ctrl+N, Ctrl+S, Ctrl+O). 
+		- Add common keyboard shortcuts (Ctrl+N, Ctrl+S, Ctrl+O) - Active. 
 
 Version 0.6
 	Goal: Polish existing features, get rid of hacks if possible, start creating help and documentation, prepare for testing, and publish the Codeplex project.
