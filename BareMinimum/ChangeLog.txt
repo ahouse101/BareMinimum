@@ -38,10 +38,10 @@ Version 0.7 - Alpha (initial outside testing) - Active
 			- Added a decoration to the "current" scenario (a highlight and an arrow).
 			- Restructured some code to make it more elegant.
 			- Slightly changed the way positioning works on the InfoBox (it's more correct now).
+			r1 - Fixed a bug where AutoWeighted sections didn't recalculate their weights when sections were deleted.
 
 	Work Items:
-		- Fix the bug that prevents AutoWeighted sections from recalculating their weights when a section is deleted.
-		- Add an about box.
+		- Add an about box - Active.
 		- Add common keyboard shortcuts (Ctrl+N, Ctrl+S, Ctrl+O). 
 
 Version 0.6

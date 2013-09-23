@@ -425,6 +425,7 @@ namespace BareMinimum
                 ScenarioTree.RefreshObject(parent);
 				ScenarioTree_SelectionChanged(ScenarioTree, new EventArgs());
             }
+			CurrentScenario.CalculateAutoSectionWeights();
 			ScenarioList.RefreshObject(CurrentScenario);
 			FileIsSaved = false;
         }
