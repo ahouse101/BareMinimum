@@ -28,7 +28,14 @@ namespace BareMinimum
 		{
 			get
 			{
-				return Assembly.GetExecutingAssembly().GetName().Version.ToString();
+				Version version = Assembly.GetExecutingAssembly().GetName().Version;
+				string versionString;
+				versionString = String.Format("{0}.{1}.{2}", version.Major, version.Minor, version.Build);
+				if (version.Revision != 0)
+				{
+					versionString += String.Format("r{0}", version.Revision);
+				}
+				return versionString;
 			}
 		}
 

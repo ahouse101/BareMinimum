@@ -195,23 +195,33 @@ namespace BareMinimum
 
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
 		{
-			if (listIsEditing)
+			switch (keyData)
 			{
-				if (keyData.In(Keys.Up, Keys.Down, Keys.Tab, Keys.Shift | Keys.Tab))
-				{
-					ScenarioList_KeyDown(ScenarioList, new KeyEventArgs(keyData));
+				case Keys.Control | Keys.O: // Shortcut for "Open File"
+					OpenFile();
 					return true;
-				}
-			}
-			else if (treeIsEditing)
-			{
-				if (keyData.In(Keys.Up, Keys.Down, Keys.Tab, Keys.Shift|Keys.Tab))
-				{
-					ScenarioTree_KeyDown(ScenarioList, new KeyEventArgs(keyData));
+				case Keys.Control | Keys.S: // Shortcut for "Save File"
+					SaveFile();
 					return true;
-				}
+				case Keys.Control | Keys.N: // Shortcut for "New File"
+					NewFile();
+					return true;
+				default:
+					if (keyData.In(Keys.Up, Keys.Down, Keys.Tab, Keys.Shift | Keys.Tab)) // Navigation keys
+					{
+						if (listIsEditing)
+						{
+							ScenarioList_KeyDown(ScenarioList, new KeyEventArgs(keyData));
+							return true;
+						}
+						else if (treeIsEditing)
+						{
+							ScenarioTree_KeyDown(ScenarioTree, new KeyEventArgs(keyData));
+							return true;
+						}
+					}
+					return base.ProcessCmdKey(ref msg, keyData);
 			}
-			return base.ProcessCmdKey(ref msg, keyData);
 		}
 
 		#endregion
@@ -1370,11 +1380,11 @@ namespace BareMinimum
 			Process.Start("https://bareminimum.codeplex.com/discussions");
 		}
 
-		#endregion
-
 		private void aboutBareMinimumToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			AboutBox.ShowAbout();
 		}
+
+		#endregion
 	}
 }

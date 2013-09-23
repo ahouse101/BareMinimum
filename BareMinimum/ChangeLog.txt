@@ -7,6 +7,7 @@
 	- Add some extra GPA capabilities (Rehak)
 	- Add right click menus
 	- Add scenario sharing/merging (Miranda)
+	- Redo the dialog boxes to be overlays on the MainWin (more elegant, and better looking).
 
 Bugs:
 	- ExpandAll() doesn't seem to work - suggested fix is to save the state in the file, and load it when it is opened. 
@@ -17,10 +18,11 @@ Version 1.0 - Release!
 Version 0.9 - Beta (feature complete)
 	Goal: Do a more complete release and fix bugs that arise.
 
-Version 0.8 - Alpha 2
+Version 0.8 - Alpha 2 - Active
 	Goal: Do a second limited release with bug fixes from the first alpha.
+		.0 = 0.7.5
 
-Version 0.7 - Alpha (initial outside testing) - Active
+Version 0.7 - Alpha (initial outside testing)
 	Goal: Fix bugs, do a limited release.
 	Change Log:
 		.1 - Made the FileLabel show an asterisk if the file isn't saved.
@@ -40,9 +42,7 @@ Version 0.7 - Alpha (initial outside testing) - Active
 			- Slightly changed the way positioning works on the InfoBox (it's more correct now).
 			r1 - Fixed a bug where AutoWeighted sections didn't recalculate their weights when sections were deleted.
 		.4 - Added an about box.
-
-	Work Items:
-		- Add common keyboard shortcuts (Ctrl+N, Ctrl+S, Ctrl+O) - Active. 
+		.5 = 0.8.0 - Added the shortcuts "Ctrl+N", "Ctrl+S", and "Ctrl+O".
 
 Version 0.6
 	Goal: Polish existing features, get rid of hacks if possible, start creating help and documentation, prepare for testing, and publish the Codeplex project.
