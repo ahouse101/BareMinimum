@@ -7,11 +7,14 @@ namespace BareMinimum
 {
 	public class InfoOverlay
 	{
+		private Form owner;
 		private GlassPanel background;
 		private ContentPanelOverlay contentPanel;
+		private const int DWMWA_TRANSITIONS_FORCEDISABLED = 3;
 
 		public InfoOverlay(Form formToOverlay, Control contentControl, bool closeOnClick)
 		{
+			this.owner = formToOverlay;
 			this.background = new GlassPanel(formToOverlay, Color.White, 0.75, closeOnClick);
 			this.contentPanel = new ContentPanelOverlay(contentControl, background);
 
@@ -147,7 +150,7 @@ namespace BareMinimum
 			this.Owner.ClientSizeChanged -= Cover_ClientSizeChanged;
 			if (!this.Owner.IsDisposed && Environment.OSVersion.Version.Major >= 6)
 			{
-				int value = 1;
+				int value = 0;
 				DwmSetWindowAttribute(this.Owner.Handle, DWMWA_TRANSITIONS_FORCEDISABLED, ref value, 4);
 			}
 			base.OnFormClosing(e);
