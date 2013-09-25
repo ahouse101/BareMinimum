@@ -21,6 +21,12 @@ Version 0.9 - Beta (feature complete)
 Version 0.8 - Alpha 2 - Active
 	Goal: Do a second limited release with bug fixes from the first alpha.
 		.0 = 0.7.5
+		.1 - Wrote the InfoOverlay class, and replaced all of the dialogs with an InfoOverlay.
+			- Changed the font for everything to Segoe UI. 
+
+	Work Items:
+		- Add a letter grade column to the ScenarioList.
+		- Fix the bug that causes keyboard navigation to fail when columns are hidden.
 
 Version 0.7 - Alpha (initial outside testing)
 	Goal: Fix bugs, do a limited release.

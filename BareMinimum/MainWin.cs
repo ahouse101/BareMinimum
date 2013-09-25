@@ -512,7 +512,8 @@ namespace BareMinimum
 
 		private void SaveFile(string filePath)
 		{
-			InfoBox infoBox = InfoBox.ShowMessage("Saving \"" + Path.GetFileName(filePath) + "\"...", "Saving...", this);
+			//InfoBox infoBox = InfoBox.ShowMessage("Saving \"" + Path.GetFileName(filePath) + "\"...", "Saving...", this);
+			InfoOverlay overlay = new InfoOverlay(this, new Label { Text = "Saving \"" + Path.GetFileName(filePath) + "\"..." }, false);
 			try
 			{
 				string serialized = JsonConvert.SerializeObject(
@@ -532,7 +533,8 @@ namespace BareMinimum
 			}
 			finally
 			{
-				infoBox.Close();
+				//infoBox.Close();
+				overlay.Close();
 			}
 		}
 
@@ -553,7 +555,8 @@ namespace BareMinimum
 
 		private void OpenFile(string filePath)
 		{
-			InfoBox infoBox = InfoBox.ShowMessage("Opening \"" + Path.GetFileName(filePath) + "\"...", "Opening...", this);
+			//InfoBox infoBox = InfoBox.ShowMessage("Opening \"" + Path.GetFileName(filePath) + "\"...", "Opening...", this);
+			InfoOverlay overlay = new InfoOverlay(this, new Label { Text = "Opening \"" + Path.GetFileName(filePath) + "\"..." }, false);
 			List<string> fileContents;
 			try
 			{
@@ -606,9 +609,10 @@ namespace BareMinimum
 			ScenarioList.SelectedIndex = 0;
 			FilePath = filePath;
 			FileIsSaved = true;
-			
+
 		DoneOpening:
-			infoBox.Close();
+			//infoBox.Close();
+			overlay.Close();
 			return;
 		}
 
@@ -1382,7 +1386,7 @@ namespace BareMinimum
 
 		private void aboutBareMinimumToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			AboutBox.ShowAbout();
+			InfoOverlay about = new InfoOverlay(this, new AboutBox(), true);
 		}
 
 		#endregion
