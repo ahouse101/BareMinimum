@@ -65,6 +65,7 @@
 			this.bugReportMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.aboutBareMinimumToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.ScenarioLetterGradeColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			((System.ComponentModel.ISupportInitialize)(this.MainSplit)).BeginInit();
 			this.MainSplit.Panel1.SuspendLayout();
 			this.MainSplit.Panel2.SuspendLayout();
@@ -95,8 +96,8 @@
 			this.MainSplit.Panel2.Controls.Add(this.ScenarioTree);
 			this.MainSplit.Panel2.Controls.Add(this.SelectedScenarioLabel);
 			this.MainSplit.Panel2MinSize = 420;
-			this.MainSplit.Size = new System.Drawing.Size(725, 400);
-			this.MainSplit.SplitterDistance = 200;
+			this.MainSplit.Size = new System.Drawing.Size(775, 400);
+			this.MainSplit.SplitterDistance = 250;
 			this.MainSplit.TabIndex = 2;
 			// 
 			// ScenarioListLabel
@@ -114,6 +115,7 @@
 			this.ScenarioList.AllColumns.Add(this.ScenarioNameColumn);
 			this.ScenarioList.AllColumns.Add(this.ScenarioAverageColumn);
 			this.ScenarioList.AllColumns.Add(this.ScenarioTargetColumn);
+			this.ScenarioList.AllColumns.Add(this.ScenarioLetterGradeColumn);
 			this.ScenarioList.AlternateRowBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
 			this.ScenarioList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
@@ -122,7 +124,8 @@
 			this.ScenarioList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.ScenarioNameColumn,
             this.ScenarioAverageColumn,
-            this.ScenarioTargetColumn});
+            this.ScenarioTargetColumn,
+            this.ScenarioLetterGradeColumn});
 			this.ScenarioList.Cursor = System.Windows.Forms.Cursors.Default;
 			this.ScenarioList.FullRowSelect = true;
 			this.ScenarioList.HeaderUsesThemes = false;
@@ -133,7 +136,7 @@
 			this.ScenarioList.RowHeight = 25;
 			this.ScenarioList.ShowCommandMenuOnRightClick = true;
 			this.ScenarioList.ShowGroups = false;
-			this.ScenarioList.Size = new System.Drawing.Size(200, 385);
+			this.ScenarioList.Size = new System.Drawing.Size(250, 385);
 			this.ScenarioList.TabIndex = 0;
 			this.ScenarioList.UseCompatibleStateImageBehavior = false;
 			this.ScenarioList.UseHotItem = true;
@@ -312,7 +315,7 @@
 			this.ScenarioTitleLabel.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.ScenarioTitleLabel.Location = new System.Drawing.Point(0, 25);
 			this.ScenarioTitleLabel.Name = "ScenarioTitleLabel";
-			this.ScenarioTitleLabel.Size = new System.Drawing.Size(735, 30);
+			this.ScenarioTitleLabel.Size = new System.Drawing.Size(785, 30);
 			this.ScenarioTitleLabel.TabIndex = 0;
 			this.ScenarioTitleLabel.Text = "No Scenario Selected";
 			this.ScenarioTitleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -332,7 +335,7 @@
 			this.DataToolbar.Location = new System.Drawing.Point(0, 460);
 			this.DataToolbar.Name = "DataToolbar";
 			this.DataToolbar.Padding = new System.Windows.Forms.Padding(5, 1, 5, 1);
-			this.DataToolbar.Size = new System.Drawing.Size(735, 25);
+			this.DataToolbar.Size = new System.Drawing.Size(785, 25);
 			this.DataToolbar.TabIndex = 3;
 			// 
 			// AddScenarioButton
@@ -407,7 +410,7 @@
 			this.FileToolbar.Location = new System.Drawing.Point(0, 0);
 			this.FileToolbar.Name = "FileToolbar";
 			this.FileToolbar.Padding = new System.Windows.Forms.Padding(5, 1, 5, 1);
-			this.FileToolbar.Size = new System.Drawing.Size(735, 25);
+			this.FileToolbar.Size = new System.Drawing.Size(785, 25);
 			this.FileToolbar.TabIndex = 1;
 			// 
 			// NewFileButton
@@ -503,11 +506,17 @@
 			this.aboutBareMinimumToolStripMenuItem.Text = "About BareMinimum";
 			this.aboutBareMinimumToolStripMenuItem.Click += new System.EventHandler(this.aboutBareMinimumToolStripMenuItem_Click);
 			// 
+			// ScenarioLetterGradeColumn
+			// 
+			this.ScenarioLetterGradeColumn.AspectName = "PointsEarned";
+			this.ScenarioLetterGradeColumn.Text = "Letter";
+			this.ScenarioLetterGradeColumn.Width = 45;
+			// 
 			// MainWin
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(735, 485);
+			this.ClientSize = new System.Drawing.Size(785, 485);
 			this.Controls.Add(this.DataToolbar);
 			this.Controls.Add(this.MainSplit);
 			this.Controls.Add(this.FileToolbar);
@@ -573,6 +582,7 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+		private BrightIdeasSoftware.OLVColumn ScenarioLetterGradeColumn;
     }
 }
 

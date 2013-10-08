@@ -23,10 +23,14 @@ Version 0.8 - Alpha 2 - Active
 		.0 = 0.7.5
 		.1 - Wrote the InfoOverlay class, and replaced all of the dialogs with an InfoOverlay.
 			- Changed the font for everything to Segoe UI. 
+			r1 - Bugfix: The MainWin now correctly resumes Aero transitions after an overlay has been dismissed.
+		.2 - Added a letter grade column to the ScenarioList, and updated some styling on the AboutBox.
 
 	Work Items:
-		- Add a letter grade column to the ScenarioList.
 		- Fix the bug that causes keyboard navigation to fail when columns are hidden.
+		- Work on file handling (specifically, I want to redo the way file versioning works, and also create a built in system to convert between formats).
+		- Add an area where the user can view the licenses for different components.
+		- Add an update system.
 
 Version 0.7 - Alpha (initial outside testing)
 	Goal: Fix bugs, do a limited release.

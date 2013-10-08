@@ -71,12 +71,6 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="AboutBoxOld.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AboutBoxOld.Designer.cs">
-      <DependentUpon>AboutBoxOld.cs</DependentUpon>
-    </Compile>
     <Compile Include="ClickThroughMenu+Toolbar.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -106,9 +100,6 @@
   <ItemGroup>
     <EmbeddedResource Include="AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AboutBoxOld.resx">
-      <DependentUpon>AboutBoxOld.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="InfoBox.resx">
       <DependentUpon>InfoBox.cs</DependentUpon>

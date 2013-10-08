@@ -134,8 +134,9 @@ namespace BareMinimum
             ScenarioTree.ChildrenGetter = GetChildren;
 
 			// Set the AspectToStringConverters for the ScenarioList/ScenarioTree:
-			ScenarioAverageColumn.AspectToStringConverter = ConvertScenarioAverageToString;
-			ItemNeededColumn.AspectToStringConverter = ConvertPointsNeededToString;
+			ScenarioAverageColumn.AspectToStringConverter = ConvertGradeToString;
+			ScenarioLetterGradeColumn.AspectToStringConverter = ConvertLetterGradeToString;
+			ItemNeededColumn.AspectToStringConverter = ConvertGradeToString;
 
 			// Set the AspectToStringFormats for the ScenarioList/ScenarioTree:
 			string format = "{0:0.##}";
@@ -251,22 +252,30 @@ namespace BareMinimum
 				return new ArrayList();
 		}
 
-		// AspectToStringConverter for ScenarioAverageColumn
-		private string ConvertScenarioAverageToString(object x)
+		// AspectToStringConverter for ScenarioLetterGradeColumn
+		private string ConvertLetterGradeToString(object x)
 		{
-			decimal? average = (decimal?)x;
-			if (average != null)
-				return ((decimal)average).ToString("0.##") + "%";
+			decimal? grade = (decimal?)x;
+			if (grade != null)
+			{
+				string letterGrade;
+				if (grade >= 89.5M) letterGrade = "A"; 
+				else if (grade >= 79.5M) letterGrade = "B";
+				else if (grade >= 69.5M) letterGrade = "C";
+				else if (grade >= 59.5M) letterGrade = "D";
+				else letterGrade = "F";
+				return letterGrade;
+			}
 			else
 				return "n/a";
 		}
 
-		// AspectToStringConverter for ItemNeededColumn
-		private string ConvertPointsNeededToString(object x)
+		// AspectToStringConverter for ItemNeededColumn and ScenarioAverageColumn.
+		private string ConvertGradeToString(object x)
 		{
-			decimal? needed = (decimal?)x;
-			if (needed != null)
-				return ((decimal)needed).ToString("0.##");
+			decimal? grade = (decimal?)x;
+			if (grade != null)
+				return ((decimal)grade).ToString("0.##");
 			else
 				return "";
 		}
@@ -387,6 +396,7 @@ namespace BareMinimum
 
 		#region Data Methods
 
+		// Calls the Calculations class to actually do the "needed" calculation.
 		private void CalculateNeeded()
 		{
 			Calculations.CalculateNeeded(CurrentScenario);
@@ -488,6 +498,7 @@ namespace BareMinimum
 
 		#region File Methods
 
+		// This is called when the save button is pushed or a shortcut is used.
 		private void SaveFile()
 		{
 			if (!String.IsNullOrWhiteSpace(FilePath))
@@ -496,6 +507,7 @@ namespace BareMinimum
 				SaveFileAs();
 		}
 
+		// This is called when the file doesn't yet exist on disk.
 		private void SaveFileAs()
 		{
 			SaveFileDialog dialog = new SaveFileDialog();
@@ -510,10 +522,10 @@ namespace BareMinimum
 			}
 		}
 
+		// The actual save method.
 		private void SaveFile(string filePath)
 		{
-			//InfoBox infoBox = InfoBox.ShowMessage("Saving \"" + Path.GetFileName(filePath) + "\"...", "Saving...", this);
-			InfoOverlay overlay = new InfoOverlay(this, new Label { Text = "Saving \"" + Path.GetFileName(filePath) + "\"..." }, false);
+			InfoOverlay overlay = new InfoOverlay(this, new Label { Text = "Saving " + Path.GetFileName(filePath) + "..." }, false);
 			try
 			{
 				string serialized = JsonConvert.SerializeObject(
@@ -533,7 +545,6 @@ namespace BareMinimum
 			}
 			finally
 			{
-				//infoBox.Close();
 				overlay.Close();
 			}
 		}
@@ -555,8 +566,7 @@ namespace BareMinimum
 
 		private void OpenFile(string filePath)
 		{
-			//InfoBox infoBox = InfoBox.ShowMessage("Opening \"" + Path.GetFileName(filePath) + "\"...", "Opening...", this);
-			InfoOverlay overlay = new InfoOverlay(this, new Label { Text = "Opening \"" + Path.GetFileName(filePath) + "\"..." }, false);
+			InfoOverlay overlay = new InfoOverlay(this, new Label { Text = "Opening " + Path.GetFileName(filePath) + "...", AutoSize = false, Width = 200 }, false);
 			List<string> fileContents;
 			try
 			{
@@ -611,7 +621,6 @@ namespace BareMinimum
 			FileIsSaved = true;
 
 		DoneOpening:
-			//infoBox.Close();
 			overlay.Close();
 			return;
 		}

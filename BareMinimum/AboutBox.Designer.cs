@@ -49,6 +49,7 @@
 			// 
 			// CreditsLabel
 			// 
+			this.CreditsLabel.BackColor = System.Drawing.Color.Transparent;
 			this.CreditsLabel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.CreditsLabel.Location = new System.Drawing.Point(135, 35);
 			this.CreditsLabel.Name = "CreditsLabel";
@@ -58,6 +59,7 @@
 			// 
 			// VersionLabel
 			// 
+			this.VersionLabel.BackColor = System.Drawing.Color.Transparent;
 			this.VersionLabel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.VersionLabel.Location = new System.Drawing.Point(135, 10);
 			this.VersionLabel.Name = "VersionLabel";
@@ -67,6 +69,7 @@
 			// 
 			// LogoPictureBox
 			// 
+			this.LogoPictureBox.BackColor = System.Drawing.Color.Transparent;
 			this.LogoPictureBox.Image = global::BareMinimum.Properties.Resources.Logo;
 			this.LogoPictureBox.Location = new System.Drawing.Point(5, 5);
 			this.LogoPictureBox.Name = "LogoPictureBox";
@@ -77,7 +80,6 @@
 			// 
 			// AboutBox
 			// 
-			this.BackColor = System.Drawing.Color.PaleTurquoise;
 			this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.Controls.Add(this.CreditsTextBox);
 			this.Controls.Add(this.CreditsLabel);
