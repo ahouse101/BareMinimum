@@ -26,6 +26,7 @@ Version 0.8 - Alpha 2 - Active
 			r1 - Bugfix: The MainWin now correctly resumes Aero transitions after an overlay has been dismissed.
 		.2 - Added a letter grade column to the ScenarioList, and updated some styling on the AboutBox.
 		.3 - Rewrote the system that manages keyboard navigation during editing in the tree, and removed the letter grade column (the ScnenarioAverageColumn shows both, now).
+			r1 - Changed the credits box in the AboutBox to a label instead of a textbox.
 
 	Work Items:
 		- Finish rewriting the keyboard navigation system for the ScenarioList (right now you can edit non-editable cells by navigating into them).

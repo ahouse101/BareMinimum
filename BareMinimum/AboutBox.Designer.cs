@@ -28,24 +28,12 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.CreditsTextBox = new System.Windows.Forms.TextBox();
 			this.CreditsLabel = new System.Windows.Forms.Label();
 			this.VersionLabel = new System.Windows.Forms.Label();
 			this.LogoPictureBox = new System.Windows.Forms.PictureBox();
+			this.CreditsText = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.LogoPictureBox)).BeginInit();
 			this.SuspendLayout();
-			// 
-			// CreditsTextBox
-			// 
-			this.CreditsTextBox.Location = new System.Drawing.Point(140, 55);
-			this.CreditsTextBox.Multiline = true;
-			this.CreditsTextBox.Name = "CreditsTextBox";
-			this.CreditsTextBox.ReadOnly = true;
-			this.CreditsTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.CreditsTextBox.Size = new System.Drawing.Size(240, 78);
-			this.CreditsTextBox.TabIndex = 8;
-			this.CreditsTextBox.Text = "Copyright © Alex House 2013\r\nIcon Design by Zac Abbott\r\nJson.NET by James Newton-" +
-    "King\r\nObjectListView by Bright Ideas Software\r\nPlexiglass Class by Hans Passant";
 			// 
 			// CreditsLabel
 			// 
@@ -78,10 +66,20 @@
 			this.LogoPictureBox.TabIndex = 5;
 			this.LogoPictureBox.TabStop = false;
 			// 
+			// CreditsText
+			// 
+			this.CreditsText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.CreditsText.Location = new System.Drawing.Point(140, 60);
+			this.CreditsText.Name = "CreditsText";
+			this.CreditsText.Size = new System.Drawing.Size(240, 73);
+			this.CreditsText.TabIndex = 8;
+			this.CreditsText.Text = "Copyright © Alex House 2013\r\nIcon Design by Zac Abbott\r\nJson.NET by James Newton-" +
+    "King\r\nObjectListView by Bright Ideas Software\r\nPlexiglass Class by Hans Passant";
+			// 
 			// AboutBox
 			// 
 			this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.Controls.Add(this.CreditsTextBox);
+			this.Controls.Add(this.CreditsText);
 			this.Controls.Add(this.CreditsLabel);
 			this.Controls.Add(this.VersionLabel);
 			this.Controls.Add(this.LogoPictureBox);
@@ -90,16 +88,15 @@
 			this.Size = new System.Drawing.Size(387, 140);
 			((System.ComponentModel.ISupportInitialize)(this.LogoPictureBox)).EndInit();
 			this.ResumeLayout(false);
-			this.PerformLayout();
 
 		}
 
 		#endregion
 
-		private System.Windows.Forms.TextBox CreditsTextBox;
 		private System.Windows.Forms.Label CreditsLabel;
 		private System.Windows.Forms.Label VersionLabel;
 		private System.Windows.Forms.PictureBox LogoPictureBox;
+		private System.Windows.Forms.Label CreditsText;
 
 	}
 }
