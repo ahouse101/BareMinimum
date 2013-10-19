@@ -65,7 +65,6 @@
 			this.bugReportMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.aboutBareMinimumToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.ScenarioLetterGradeColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			((System.ComponentModel.ISupportInitialize)(this.MainSplit)).BeginInit();
 			this.MainSplit.Panel1.SuspendLayout();
 			this.MainSplit.Panel2.SuspendLayout();
@@ -115,7 +114,6 @@
 			this.ScenarioList.AllColumns.Add(this.ScenarioNameColumn);
 			this.ScenarioList.AllColumns.Add(this.ScenarioAverageColumn);
 			this.ScenarioList.AllColumns.Add(this.ScenarioTargetColumn);
-			this.ScenarioList.AllColumns.Add(this.ScenarioLetterGradeColumn);
 			this.ScenarioList.AlternateRowBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
 			this.ScenarioList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
@@ -124,8 +122,7 @@
 			this.ScenarioList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.ScenarioNameColumn,
             this.ScenarioAverageColumn,
-            this.ScenarioTargetColumn,
-            this.ScenarioLetterGradeColumn});
+            this.ScenarioTargetColumn});
 			this.ScenarioList.Cursor = System.Windows.Forms.Cursors.Default;
 			this.ScenarioList.FullRowSelect = true;
 			this.ScenarioList.HeaderUsesThemes = false;
@@ -158,7 +155,7 @@
 			this.ScenarioNameColumn.Hideable = false;
 			this.ScenarioNameColumn.MinimumWidth = 40;
 			this.ScenarioNameColumn.Text = "Name";
-			this.ScenarioNameColumn.Width = 85;
+			this.ScenarioNameColumn.Width = 115;
 			// 
 			// ScenarioAverageColumn
 			// 
@@ -506,12 +503,6 @@
 			this.aboutBareMinimumToolStripMenuItem.Text = "About BareMinimum";
 			this.aboutBareMinimumToolStripMenuItem.Click += new System.EventHandler(this.aboutBareMinimumToolStripMenuItem_Click);
 			// 
-			// ScenarioLetterGradeColumn
-			// 
-			this.ScenarioLetterGradeColumn.AspectName = "PointsEarned";
-			this.ScenarioLetterGradeColumn.Text = "Letter";
-			this.ScenarioLetterGradeColumn.Width = 45;
-			// 
 			// MainWin
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -582,7 +573,6 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-		private BrightIdeasSoftware.OLVColumn ScenarioLetterGradeColumn;
     }
 }
 

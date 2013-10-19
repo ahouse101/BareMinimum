@@ -24,8 +24,8 @@ namespace BareMinimum
 		private TextOverlay emptyOverlay = new TextOverlay();
 		private Font controlFont;
 		private string filePath;
-		private int listEditingColumnIndex;
-		private int treeEditingColumnIndex;
+		private OLVColumn listEditingColumn;
+		private OLVColumn treeEditingColumn;
 		private int listEditingRowIndex;
 		private int treeEditingRowIndex;
 		private object editingObject;
@@ -33,6 +33,8 @@ namespace BareMinimum
 		private bool listIsEditing = false;
 		private bool fileIsSaved = true;
 		private Scenario currentScenario;
+		private List<OLVColumn> SectionNonEditableColumns = new List<OLVColumn>();
+		private List<OLVColumn> GradeNonEditableColumns = new List<OLVColumn>();
 
 		public bool FileIsSaved
 		{
@@ -127,6 +129,18 @@ namespace BareMinimum
 			
 			controlFont = ScenarioTree.Font;
 
+			SectionNonEditableColumns.AddRange(new List<OLVColumn> { 
+				ItemEarnedColumn,
+				ItemPossibleColumn, 
+				ItemNeededColumn,
+				ItemMarkedColumn
+			});
+			GradeNonEditableColumns.AddRange(new List<OLVColumn> { 
+				ItemWeightColumn, 
+				ItemNeededColumn,
+				ItemMarkedColumn
+			});
+
 			ScenarioList.PrimarySortColumn = ScenarioNameColumn;
 
             // Set up the TreeListView for display:
@@ -135,7 +149,6 @@ namespace BareMinimum
 
 			// Set the AspectToStringConverters for the ScenarioList/ScenarioTree:
 			ScenarioAverageColumn.AspectToStringConverter = ConvertGradeToString;
-			ScenarioLetterGradeColumn.AspectToStringConverter = ConvertLetterGradeToString;
 			ItemNeededColumn.AspectToStringConverter = ConvertGradeToString;
 
 			// Set the AspectToStringFormats for the ScenarioList/ScenarioTree:
@@ -252,30 +265,27 @@ namespace BareMinimum
 				return new ArrayList();
 		}
 
-		// AspectToStringConverter for ScenarioLetterGradeColumn
-		private string ConvertLetterGradeToString(object x)
-		{
-			decimal? grade = (decimal?)x;
-			if (grade != null)
-			{
-				string letterGrade;
-				if (grade >= 89.5M) letterGrade = "A"; 
-				else if (grade >= 79.5M) letterGrade = "B";
-				else if (grade >= 69.5M) letterGrade = "C";
-				else if (grade >= 59.5M) letterGrade = "D";
-				else letterGrade = "F";
-				return letterGrade;
-			}
-			else
-				return "n/a";
-		}
-
 		// AspectToStringConverter for ItemNeededColumn and ScenarioAverageColumn.
 		private string ConvertGradeToString(object x)
 		{
 			decimal? grade = (decimal?)x;
 			if (grade != null)
-				return ((decimal)grade).ToString("0.##");
+			{
+				string sGrade;
+				string letter;
+				if (grade >= 89.5M)
+					letter = "A";
+				else if (grade >= 79.5M)
+					letter = "B";
+				else if (grade >= 69.5M)
+					letter = "C";
+				else if (grade >= 59.5M)
+					letter = "D";
+				else
+					letter = "F";
+				sGrade = letter + " " + ((decimal)grade).ToString("(0.##)");
+				return sGrade;
+			}
 			else
 				return "";
 		}
@@ -642,69 +652,59 @@ namespace BareMinimum
 		{
 			if (treeIsEditing)
 			{
-				switch (treeEditingColumnIndex)
+				if (treeEditingRowIndex > 0)
 				{
-					case 0: // Name
-					case 6: // Notes
-						if (treeEditingRowIndex > 0)
+					if (!SectionNonEditableColumns.Contains(treeEditingColumn) && !GradeNonEditableColumns.Contains(treeEditingColumn))
+					{
+						ScenarioTree.FinishCellEdit();
+						ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[treeEditingRowIndex - 1]), treeEditingColumn.DisplayIndex);
+					}
+					else if (!SectionNonEditableColumns.Contains(treeEditingColumn))
+					{
+						int nextIndex = treeEditingRowIndex;
+						int upIndex = 0;
+						bool canMove = false;
+						while (true)
+						{
+							nextIndex--;
+							if (nextIndex < 0)
+								break;
+							if (((OLVListItem)ScenarioTree.Items[nextIndex]).RowObject is Section)
+							{
+								upIndex = nextIndex;
+								canMove = true;
+								break;
+							}
+						}
+						if (canMove)
 						{
 							ScenarioTree.FinishCellEdit();
-							ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[treeEditingRowIndex - 1]), treeEditingColumnIndex);
+							ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[upIndex]), treeEditingColumn.DisplayIndex);
 						}
-						break;
-					case 1: // Weight
-						if (treeEditingRowIndex > 0)
+					}
+					else
+					{
+						int nextIndex = treeEditingRowIndex;
+						int upIndex = 0;
+						bool canMove = false;
+						while (true)
 						{
-							int nextIndex = treeEditingRowIndex;
-							int upIndex = 0;
-							bool canMove = false;
-							while (true)
+							nextIndex--;
+							if (nextIndex < 0)
+								break;
+							if (((OLVListItem)ScenarioTree.Items[nextIndex]).RowObject is Grade)
 							{
-								nextIndex--;
-								if (nextIndex < 0)
-									break;
-								if (((OLVListItem)ScenarioTree.Items[nextIndex]).RowObject is Section)
-								{
-									upIndex = nextIndex;
-									canMove = true;
-									break;
-								}
-							}
-							if (canMove)
-							{
-								ScenarioTree.FinishCellEdit();
-								ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[upIndex]), treeEditingColumnIndex);
+								upIndex = nextIndex;
+								canMove = true;
+								break;
 							}
 						}
-						break;
-					case 2: // PointsEarned
-					case 3: // PointsPossible
-						if (treeEditingRowIndex > 0)
+						if (canMove)
 						{
-							int nextIndex = treeEditingRowIndex;
-							int upIndex = 0;
-							bool canMove = false;
-							while (true)
-							{
-								nextIndex--;
-								if (nextIndex < 0)
-									break;
-								if (((OLVListItem)ScenarioTree.Items[nextIndex]).RowObject is Grade)
-								{
-									upIndex = nextIndex;
-									canMove = true;
-									break;
-								}
-							}
-							if (canMove)
-							{
-								ScenarioTree.FinishCellEdit();
-								ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[upIndex]), treeEditingColumnIndex);
-							}
+							ScenarioTree.FinishCellEdit();
+							ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[upIndex]), treeEditingColumn.DisplayIndex);
 						}
-						break;
-					default:
-						break;
+					}
 				}
 			}
 		}
@@ -713,69 +713,59 @@ namespace BareMinimum
 		{
 			if (treeIsEditing)
 			{
-				switch (treeEditingColumnIndex)
+				if (treeEditingRowIndex < ScenarioTree.Items.Count - 1)
 				{
-					case 0: // Name
-					case 6: // Notes
-						if (treeEditingRowIndex < ScenarioTree.Items.Count - 1)
+					if (!SectionNonEditableColumns.Contains(treeEditingColumn) && !GradeNonEditableColumns.Contains(treeEditingColumn))
+					{
+						ScenarioTree.FinishCellEdit();
+						ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[treeEditingRowIndex + 1]), treeEditingColumn.DisplayIndex);
+					}
+					else if (!SectionNonEditableColumns.Contains(treeEditingColumn))
+					{
+						int nextIndex = treeEditingRowIndex;
+						int downIndex = 0;
+						bool canMove = false;
+						while (true)
+						{
+							nextIndex++;
+							if (nextIndex < ScenarioTree.Items.Count - 1)
+								break;
+							if (((OLVListItem)ScenarioTree.Items[nextIndex]).RowObject is Section)
+							{
+								downIndex = nextIndex;
+								canMove = true;
+								break;
+							}
+						}
+						if (canMove)
 						{
 							ScenarioTree.FinishCellEdit();
-							ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[treeEditingRowIndex + 1]), treeEditingColumnIndex);
+							ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[downIndex]), treeEditingColumn.DisplayIndex);
 						}
-						break;
-					case 1: // Weight
-						if (treeEditingRowIndex < ScenarioTree.Items.Count - 1)
+					}
+					else
+					{
+						int nextIndex = treeEditingRowIndex;
+						int downIndex = 0;
+						bool canMove = false;
+						while (true)
 						{
-							int nextIndex = treeEditingRowIndex;
-							int downIndex = 0;
-							bool canMove = false;
-							while (true)
+							nextIndex++;
+							if (nextIndex < ScenarioTree.Items.Count - 1)
+								break;
+							if (((OLVListItem)ScenarioTree.Items[nextIndex]).RowObject is Grade)
 							{
-								nextIndex++;
-								if (nextIndex > ScenarioTree.Items.Count - 1)
-									break;
-								if (((OLVListItem)ScenarioTree.Items[nextIndex]).RowObject is Section)
-								{
-									downIndex = nextIndex;
-									canMove = true;
-									break;
-								}
-							}
-							if (canMove)
-							{
-								ScenarioTree.FinishCellEdit();
-								ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[downIndex]), treeEditingColumnIndex);
+								downIndex = nextIndex;
+								canMove = true;
+								break;
 							}
 						}
-						break;
-					case 2: // PointsEarned
-					case 3: // PointsPossible
-						if (treeEditingRowIndex < ScenarioTree.Items.Count - 1)
+						if (canMove)
 						{
-							int nextIndex = treeEditingRowIndex;
-							int downIndex = 0;
-							bool canMove = false;
-							while (true)
-							{
-								nextIndex++;
-								if (nextIndex > ScenarioTree.Items.Count - 1)
-									break;
-								if (((OLVListItem)ScenarioTree.Items[nextIndex]).RowObject is Grade)
-								{
-									downIndex = nextIndex;
-									canMove = true;
-									break;
-								}
-							}
-							if (canMove)
-							{
-								ScenarioTree.FinishCellEdit();
-								ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[downIndex]), treeEditingColumnIndex);
-							}
+							ScenarioTree.FinishCellEdit();
+							ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[downIndex]), treeEditingColumn.DisplayIndex);
 						}
-						break;
-					default:
-						break;
+					}
 				}
 			}
 		}
@@ -786,120 +776,92 @@ namespace BareMinimum
 			{
 				if (editingObject != null)
 				{
-					if (editingObject is Section)
+					int currentIndex = treeEditingColumn.DisplayIndex;
+					int newRowIndex = treeEditingRowIndex;
+					Type objectType = editingObject.GetType();
+				start:
+					if (currentIndex == 0)
 					{
-						switch (treeEditingColumnIndex)
+						newRowIndex--;
+						if (newRowIndex < 0)
+							return; // We're in the first cell in the first row; there's nowhere to move left to. 
+						currentIndex = ScenarioTree.ColumnsInDisplayOrder.Count;
+						if (((OLVListItem)ScenarioTree.Items[newRowIndex]).RowObject is Grade)
+ 							objectType = typeof(Grade);
+						else if (((OLVListItem)ScenarioTree.Items[newRowIndex]).RowObject is Section)
+							objectType = typeof(Section);
+					}
+					int newColumnIndex;
+					while (true)
+					{
+						OLVColumn potentialColumn = ScenarioTree.ColumnsInDisplayOrder[currentIndex - 1];
+						List<OLVColumn> nonEditableColumns = SectionNonEditableColumns;
+						if (objectType == typeof(Grade))
+							nonEditableColumns = GradeNonEditableColumns;
+						if (!nonEditableColumns.Contains(potentialColumn))
 						{
-							case 0:
-								if (treeEditingRowIndex > 0)
-								{
-									ScenarioTree.FinishCellEdit();
-									ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[treeEditingRowIndex - 1]), 6);
-								}
-								break;
-							case 1:
-								ScenarioTree.FinishCellEdit();
-								ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[treeEditingRowIndex]), 0);
-								break;
-							case 6:
-								ScenarioTree.FinishCellEdit();
-								ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[treeEditingRowIndex]), 1);
-								break;
-							default:
-								break;
+							newColumnIndex = currentIndex - 1;
+							break;
+						}
+						else
+						{
+							currentIndex--;
+							if (currentIndex == 0)
+								goto start;
 						}
 					}
-					else if (editingObject is Grade)
-					{
-						switch (treeEditingColumnIndex)
-						{
-							case 0:
-								if (treeEditingRowIndex > 0)
-								{
-									ScenarioTree.FinishCellEdit();
-									ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[treeEditingRowIndex - 1]), 6);
-								}
-								break;
-							case 2:
-								ScenarioTree.FinishCellEdit();
-								ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[treeEditingRowIndex]), 0);
-								break;
-							case 3:
-								ScenarioTree.FinishCellEdit();
-								ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[treeEditingRowIndex]), 2);
-								break;
-							case 6:
-								ScenarioTree.FinishCellEdit();
-								ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[treeEditingRowIndex]), 3);
-								break;
-							default:
-								break;
-						}
-					}
+					ScenarioTree.FinishCellEdit();
+					ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[newRowIndex]), newColumnIndex);
 				}
 			}
 		}
-
+		
 		private void MoveTreeEditorRight()
 		{
 			if (treeIsEditing)
 			{
 				if (editingObject != null)
 				{
-					if (editingObject is Section)
+					int currentIndex = treeEditingColumn.DisplayIndex;
+					int newRowIndex = treeEditingRowIndex;
+					Type objectType = editingObject.GetType();
+				start:
+					if (currentIndex == ScenarioTree.ColumnsInDisplayOrder.Count - 1)
 					{
-						switch (treeEditingColumnIndex)
+						newRowIndex++;
+						if (newRowIndex >= ScenarioTree.Items.Count)
+							return; // We're in the last cell in the last row; there's nowhere to move right to. 
+						currentIndex = -1;
+						if (((OLVListItem)ScenarioTree.Items[newRowIndex]).RowObject is Grade)
+							objectType = typeof(Grade);
+						else if (((OLVListItem)ScenarioTree.Items[newRowIndex]).RowObject is Section)
+							objectType = typeof(Section);
+					}
+					int newColumnIndex;
+					while (true)
+					{
+						OLVColumn potentialColumn = ScenarioTree.ColumnsInDisplayOrder[currentIndex + 1];
+						List<OLVColumn> nonEditableColumns = SectionNonEditableColumns;
+						if (objectType == typeof(Grade))
+							nonEditableColumns = GradeNonEditableColumns;
+						if (!nonEditableColumns.Contains(potentialColumn))
 						{
-							case 0:
-								ScenarioTree.FinishCellEdit();
-								ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[treeEditingRowIndex]), 1);
-								break;
-							case 1:
-								ScenarioTree.FinishCellEdit();
-								ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[treeEditingRowIndex]), 6);
-								break;
-							case 6:
-								if (treeEditingRowIndex < ScenarioTree.Items.Count - 1)
-								{
-									ScenarioTree.FinishCellEdit();
-									ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[treeEditingRowIndex+1]), 0);
-								}
-									break;
-							default:
-								break;
+							newColumnIndex = currentIndex + 1;
+							break;
+						}
+						else
+						{
+							currentIndex++;
+							if (currentIndex == ScenarioTree.ColumnsInDisplayOrder.Count - 1)
+								goto start;
 						}
 					}
-					else if (editingObject is Grade)
-					{
-						switch (treeEditingColumnIndex)
-						{
-							case 0:
-								ScenarioTree.FinishCellEdit();
-								ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[treeEditingRowIndex]), 2);
-								break;
-							case 2:
-								ScenarioTree.FinishCellEdit();
-								ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[treeEditingRowIndex]), 3);
-								break;
-							case 3:
-								ScenarioTree.FinishCellEdit();
-								ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[treeEditingRowIndex]), 6);
-								break;
-							case 6:
-								if (treeEditingRowIndex < ScenarioTree.Items.Count - 1)
-								{
-									ScenarioTree.FinishCellEdit();
-									ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[treeEditingRowIndex + 1]), 0);
-								}
-								break;
-							default:
-								break;
-						}
-					}
+					ScenarioTree.FinishCellEdit();
+					ScenarioTree.StartCellEdit((OLVListItem)(ScenarioTree.Items[newRowIndex]), newColumnIndex);
 				}
 			}
-		}
-
+		} 
+		
 		private void MoveListEditorUp()
 		{
 			if (listIsEditing)
@@ -907,7 +869,7 @@ namespace BareMinimum
 				if (listEditingRowIndex > 0)
 				{
 					ScenarioList.FinishCellEdit();
-					ScenarioList.StartCellEdit((OLVListItem)(ScenarioList.Items[listEditingRowIndex - 1]), listEditingColumnIndex);
+					ScenarioList.StartCellEdit((OLVListItem)(ScenarioList.Items[listEditingRowIndex - 1]), listEditingColumn.Index);
 				}
 			}
 		}
@@ -919,7 +881,7 @@ namespace BareMinimum
 				if (listEditingRowIndex < ScenarioList.Items.Count - 1)
 				{
 					ScenarioList.FinishCellEdit();
-					ScenarioList.StartCellEdit((OLVListItem)(ScenarioList.Items[listEditingRowIndex + 1]), listEditingColumnIndex);
+					ScenarioList.StartCellEdit((OLVListItem)(ScenarioList.Items[listEditingRowIndex + 1]), listEditingColumn.Index);
 				}
 			}
 		}
@@ -928,15 +890,15 @@ namespace BareMinimum
 		{
 			if (listIsEditing)
 			{
-				if (listEditingColumnIndex == 0)
+				if (listEditingColumn.DisplayIndex == 0)
 				{
 					if (listEditingRowIndex > 0)
 					{
 						ScenarioList.FinishCellEdit();
-						ScenarioList.StartCellEdit((OLVListItem)(ScenarioList.Items[listEditingRowIndex - 1]), 2);
+						ScenarioList.StartCellEdit((OLVListItem)(ScenarioList.Items[listEditingRowIndex - 1]), ScenarioList.Columns.Count - 1);
 					}
 				}
-				else if (listEditingColumnIndex == 2)
+				else if (listEditingColumn.DisplayIndex == ScenarioList.Columns.Count - 1)
 				{
 					ScenarioList.FinishCellEdit();
 					ScenarioList.StartCellEdit((OLVListItem)(ScenarioList.Items[listEditingRowIndex]), 0);
@@ -948,12 +910,12 @@ namespace BareMinimum
 		{
 			if (listIsEditing)
 			{
-				if (listEditingColumnIndex == 0)
+				if (listEditingColumn.DisplayIndex == 0)
 				{
 					ScenarioList.FinishCellEdit();
-					ScenarioList.StartCellEdit((OLVListItem)(ScenarioList.Items[listEditingRowIndex]), 2);
+					ScenarioList.StartCellEdit((OLVListItem)(ScenarioList.Items[listEditingRowIndex]), ScenarioList.Columns.Count - 1);
 				}
-				else if (listEditingColumnIndex == 2)
+				else if (listEditingColumn.DisplayIndex == ScenarioList.Columns.Count - 1)
 				{
 					if (listEditingRowIndex < ScenarioList.Items.Count - 1)
 					{
@@ -1101,7 +1063,7 @@ namespace BareMinimum
 
 		private void ScenarioList_CellEditStarting(object sender, CellEditEventArgs e)
 		{
-			listEditingColumnIndex = e.SubItemIndex;
+			listEditingColumn = e.Column;
 			listEditingRowIndex = e.ListViewItem.Index;
 			listIsEditing = true;
 			editingObject = e.RowObject;
@@ -1289,37 +1251,16 @@ namespace BareMinimum
 
         private void ScenarioTree_CellEditStarting(object sender, BrightIdeasSoftware.CellEditEventArgs e)
         {
-			treeEditingColumnIndex = e.SubItemIndex;
+			treeEditingColumn = e.Column;
 			treeEditingRowIndex = e.ListViewItem.Index;
 			editingObject = e.RowObject;
             if (e.RowObject is Section)
-            {
-                switch (e.Column.Index)
-                {
-                    case 2:
-                    case 3:
-					case 4:
-                    case 5:
-                        e.Cancel = true;
-                        break;
-                    default:
-                        break;
-                }
-            }
+				if (SectionNonEditableColumns.Contains(e.Column))
+					e.Cancel = true;
             else if (e.RowObject is Grade)
-            {
-                switch (e.Column.Index)
-                {
-                    case 1:
-					case 4:
-                    case 5:
-                        e.Cancel = true;
-                        break;
-                    default:
-                        break;
-                }
-            }
-			if (!e.Cancel)
+            	if (GradeNonEditableColumns.Contains(e.Column))
+					e.Cancel = true;
+            if (!e.Cancel)
 				treeIsEditing = true;
 		}
 

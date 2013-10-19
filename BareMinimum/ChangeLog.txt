@@ -25,9 +25,10 @@ Version 0.8 - Alpha 2 - Active
 			- Changed the font for everything to Segoe UI. 
 			r1 - Bugfix: The MainWin now correctly resumes Aero transitions after an overlay has been dismissed.
 		.2 - Added a letter grade column to the ScenarioList, and updated some styling on the AboutBox.
+		.3 - Rewrote the system that manages keyboard navigation during editing in the tree, and removed the letter grade column (the ScnenarioAverageColumn shows both, now).
 
 	Work Items:
-		- Fix the bug that causes keyboard navigation to fail when columns are hidden.
+		- Finish rewriting the keyboard navigation system for the ScenarioList (right now you can edit non-editable cells by navigating into them).
 		- Work on file handling (specifically, I want to redo the way file versioning works, and also create a built in system to convert between formats).
 		- Add an area where the user can view the licenses for different components.
 		- Add an update system.
