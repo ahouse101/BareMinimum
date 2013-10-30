@@ -68,10 +68,10 @@
 			// 
 			// CreditsText
 			// 
-			this.CreditsText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.CreditsText.Location = new System.Drawing.Point(140, 60);
+			this.CreditsText.BackColor = System.Drawing.Color.Transparent;
+			this.CreditsText.Location = new System.Drawing.Point(145, 60);
 			this.CreditsText.Name = "CreditsText";
-			this.CreditsText.Size = new System.Drawing.Size(240, 73);
+			this.CreditsText.Size = new System.Drawing.Size(235, 73);
 			this.CreditsText.TabIndex = 8;
 			this.CreditsText.Text = "Copyright © Alex House 2013\r\nIcon Design by Zac Abbott\r\nJson.NET by James Newton-" +
     "King\r\nObjectListView by Bright Ideas Software\r\nPlexiglass Class by Hans Passant";

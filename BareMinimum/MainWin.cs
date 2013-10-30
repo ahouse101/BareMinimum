@@ -751,7 +751,7 @@ namespace BareMinimum
 						while (true)
 						{
 							nextIndex++;
-							if (nextIndex < ScenarioTree.Items.Count - 1)
+							if (nextIndex > ScenarioTree.Items.Count - 1)
 								break;
 							if (((OLVListItem)ScenarioTree.Items[nextIndex]).RowObject is Grade)
 							{
