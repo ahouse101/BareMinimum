@@ -7,10 +7,11 @@
 	- Add some extra GPA capabilities (Rehak)
 	- Add right click menus
 	- Add scenario sharing/merging (Miranda)
-	- Redo the dialog boxes to be overlays on the MainWin (more elegant, and better looking).
+	- Redo the overlay system (it's interesting, but awkward). 
 
 Bugs:
-	- ExpandAll() doesn't seem to work - suggested fix is to save the state in the file, and load it when it is opened. 
+	- ExpandAll() doesn't seem to work - suggested fix is to save the state in the file, and load it when it is opened.
+	- The PointsNeeded column shows the wrong letter grade if the grade is not out of 100. 
 
 Version 1.0 - Release!
 	The application is ready for distribution!
@@ -27,7 +28,8 @@ Version 0.8 - Alpha 2 - Active
 		.2 - Added a letter grade column to the ScenarioList, and updated some styling on the AboutBox.
 		.3 - Rewrote the system that manages keyboard navigation during editing in the tree, and removed the letter grade column (the ScnenarioAverageColumn shows both, now).
 			r1 - Changed the credits box in the AboutBox to a label instead of a textbox.
-			r2 - Fixed a bug that caused the down arrow key (for navigation) to fail to function during editing. 
+			r2 - Fixed a bug that caused the down arrow key (for navigation) to fail to function during editing.
+			r3 - Fixed a bug that let you edit non-editable cells for Grades (also, added a utility method that is part of another feature and is not yet used). 
 
 	Work Items:
 		- Finish rewriting the keyboard navigation system for the ScenarioList (right now you can edit non-editable cells by navigating into them).
@@ -41,7 +43,7 @@ Version 0.7 - Alpha (initial outside testing)
 		.1 - Made the FileLabel show an asterisk if the file isn't saved.
 			r1 - Fixed an issue with the needed calculation that showed huge numbers in the needed column when the Section.Weights didn't add up to 100%.
 			r2 - Fixed an issue with the needed calculation (the needed variable is a percentage, but now displays as points, as it should).
-			r3 - Fixed an issue in which the emptyOverlay.Text wouldn't change when I new file was created. Also, the save confirmation doesn't include an asterisk at the end of the filename anymore.
+			r3 - Fixed an issue in which the emptyOverlay.Text wouldn't change when a new file was created. Also, the save confirmation doesn't include an asterisk at the end of the filename anymore.
 			r4 - Made some changes to the opening and saving of files, and stopped using NuGet.
 			r5 - Turned off all autocomplete, and made the ScenarioList sort by name by default.
 			r6 - Rewrote ItemContainer.ItemType as a readonly property (fixed a bug in the process).

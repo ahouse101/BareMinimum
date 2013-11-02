@@ -109,5 +109,38 @@ namespace BareMinimumCore
 					markedGrades.Add(grade);
 			return markedGrades;
 		}
+
+		public static string GetLetterGrade(decimal pointsEarned, decimal pointsRecieved, GradeRounding roundingStyle)
+		{
+			decimal percent = pointsEarned / pointsRecieved * 100M;
+			return GetLetterGrade(percent, roundingStyle);
+		}
+
+		public static string GetLetterGrade(decimal percent, GradeRounding roundingStyle)
+		{
+			int grade;
+			switch (roundingStyle)
+			{
+				case GradeRounding.Standard:
+					grade = (int)decimal.Round(percent, System.MidpointRounding.AwayFromZero);
+					break;
+				case GradeRounding.Ceiling:
+					grade = (int)decimal.Ceiling(percent);
+					break;
+				case GradeRounding.Floor:
+				default:
+					grade = (int)decimal.Floor(percent);
+					break;
+			}
+
+			string letter;
+			if (grade >= 90)		letter = "A";
+			else if (grade >= 80)	letter = "B";
+			else if (grade >= 70)	letter = "C";
+			else if (grade >= 60)	letter = "D";
+			else					letter = "F";
+
+			return letter;
+		}
     }
 }

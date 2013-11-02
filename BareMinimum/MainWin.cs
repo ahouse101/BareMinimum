@@ -106,7 +106,7 @@ namespace BareMinimum
 				}
 				ScenarioList.RefreshObjects(new List<object>(ScenarioList.Objects.Cast<object>())); // This horrible hack is the only way to force the ScenarioList to refresh row decorations.
 			}
-		}
+		} // This refers to the Scenario actually "selected" in the interface, regardless of whether it is selected in the ScenarioList.
 
         public Scenario SelectedScenario
         {
@@ -114,7 +114,7 @@ namespace BareMinimum
             {
                 return (Scenario)ScenarioList.SelectedObject;
             }
-        }
+        } // This read-only property is a shortcut to get the Scenario that is selected in the ScenarioList.
 		public Scenario LastScenario { get; set; } // This property is used to remove events from deselected Scenarios.
 		public JsonSerializerSettings JsonSettings { get; set; }
 
@@ -1254,12 +1254,16 @@ namespace BareMinimum
 			treeEditingColumn = e.Column;
 			treeEditingRowIndex = e.ListViewItem.Index;
 			editingObject = e.RowObject;
-            if (e.RowObject is Section)
+			if (e.RowObject is Section)
+			{
 				if (SectionNonEditableColumns.Contains(e.Column))
 					e.Cancel = true;
-            else if (e.RowObject is Grade)
-            	if (GradeNonEditableColumns.Contains(e.Column))
+			}
+			else if (e.RowObject is Grade)
+			{
+				if (GradeNonEditableColumns.Contains(e.Column))
 					e.Cancel = true;
+			}
             if (!e.Cancel)
 				treeIsEditing = true;
 		}
