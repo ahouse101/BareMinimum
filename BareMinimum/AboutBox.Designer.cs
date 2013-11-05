@@ -74,7 +74,7 @@
 			this.CreditsText.Size = new System.Drawing.Size(235, 73);
 			this.CreditsText.TabIndex = 8;
 			this.CreditsText.Text = "Copyright © Alex House 2013\r\nIcon Design by Zac Abbott\r\nJson.NET by James Newton-" +
-    "King\r\nObjectListView by Bright Ideas Software\r\nPlexiglass Class by Hans Passant";
+    "King\r\nObjectListView by Bright Ideas Software";
 			// 
 			// AboutBox
 			// 

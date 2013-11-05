@@ -7,7 +7,7 @@
 	- Add some extra GPA capabilities (Rehak)
 	- Add right click menus
 	- Add scenario sharing/merging (Miranda)
-	- Redo the overlay system (it's interesting, but awkward). 
+	- Add the ability to open files by double clicking them (handle shell arguments).
 
 Bugs:
 	- ExpandAll() doesn't seem to work - suggested fix is to save the state in the file, and load it when it is opened.
@@ -30,8 +30,12 @@ Version 0.8 - Alpha 2 - Active
 			r1 - Changed the credits box in the AboutBox to a label instead of a textbox.
 			r2 - Fixed a bug that caused the down arrow key (for navigation) to fail to function during editing.
 			r3 - Fixed a bug that let you edit non-editable cells for Grades (also, added a utility method that is part of another feature and is not yet used). 
+		.4 - Redid the overlay system (it now lacks translucency, but has much better performance).
+			- The Plastic class is a test, and is left in case I resume work on partially translucent overlays.
+			- The OldInfoOverlay has the old system, which used overlayed Forms. I'm not removing it just yet. 
 
 	Work Items:
+		- Rewrite the text rendering system in the ScenarioTree - Active.
 		- Finish rewriting the keyboard navigation system for the ScenarioList (right now you can edit non-editable cells by navigating into them).
 		- Work on file handling (specifically, I want to redo the way file versioning works, and also create a built in system to convert between formats).
 		- Add an area where the user can view the licenses for different components.

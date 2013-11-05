@@ -71,7 +71,10 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="ClickThroughMenu+Toolbar.cs">
+    <Compile Include="OldInfoOverlay.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modified Controls.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="InfoBox.cs">
@@ -86,8 +89,9 @@
     <Compile Include="MainWin.Designer.cs">
       <DependentUpon>MainWin.cs</DependentUpon>
     </Compile>
-    <Compile Include="InfoOverlay.cs">
-      <SubType>Form</SubType>
+    <Compile Include="InfoOverlay.cs" />
+    <Compile Include="Plastic.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
