@@ -149,7 +149,6 @@ namespace BareMinimum
 
 			// Set the AspectToStringConverters for the ScenarioList/ScenarioTree:
 			ScenarioAverageColumn.AspectToStringConverter = ConvertGradeToString;
-			ItemNeededColumn.AspectToStringConverter = ConvertGradeToString;
 
 			// Set the AspectToStringFormats for the ScenarioList/ScenarioTree:
 			string format = "{0:0.##}";
@@ -159,6 +158,7 @@ namespace BareMinimum
 			ItemWeightColumn.AspectToStringFormat = format;
 
 			// Set the RenderDelegates for the ScenarioTree:
+			ItemNeededColumn.RendererDelegate = RenderItemNeeded;
 			ItemWeightColumn.RendererDelegate = RenderItemWeight;
 			ItemEarnedColumn.RendererDelegate = RenderItemEarned;
 
@@ -328,6 +328,32 @@ namespace BareMinimum
 			return true;
 		}
 
+		// RendererDelegate for ItemNeededColumn
+		private bool RenderItemNeeded(EventArgs e, Graphics g, Rectangle r, object model)
+		{
+			if (model is Section)
+			{
+				g.FillRectangle(Brushes.White, r);
+			}
+			else if (model is Grade)
+			{
+				Grade grade = (Grade)model;
+				if (grade.PointsNeeded == null)
+					g.FillRectangle(Brushes.White, r);
+				else
+				{
+					String gradeText = ((decimal)grade.PointsNeeded).ToString("0.##") +
+						" (" + 
+						Calculations.GetLetterGrade((decimal)grade.PointsNeeded, grade.PointsPossible, GradeRounding.Standard) + 
+						" - " + 
+						Math.Round((decimal)grade.PointsNeeded / grade.PointsPossible * 100) +
+						"%)";
+					DrawTextInCell(g, r, gradeText);
+				}
+			}
+			return true;
+		}
+
 		private void PutWeight(object x, object value)
 		{
 			Section section = (Section)x;
@@ -377,6 +403,11 @@ namespace BareMinimum
 
 		private void DrawTextInCell(Graphics g, Rectangle r, String text)
 		{
+			DrawTextInCell(g, r, text, Color.Black);
+		}
+
+		private void DrawTextInCell(Graphics g, Rectangle r, String text, Color color)
+		{
 			// Fill backgroud:
 			g.FillRectangle(Brushes.White, r);
 			
@@ -387,7 +418,7 @@ namespace BareMinimum
 			format.Trimming = StringTrimming.EllipsisCharacter;
 
 			// Draw the text:
-			g.DrawString(text, controlFont, Brushes.Black, r, format);
+			g.DrawString(text, controlFont, new SolidBrush(color), r, format);
 		}
 
 		private void SetFileText()

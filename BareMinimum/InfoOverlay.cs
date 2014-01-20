@@ -37,6 +37,7 @@ namespace BareMinimum
 			Background.Controls.Add(Content);
 			owner.Controls.Add(Background);
 			Background.BringToFront();
+			Background.Refresh();
 		}
 
 		void Background_Click(object sender, EventArgs e)

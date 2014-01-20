@@ -110,9 +110,9 @@ namespace BareMinimumCore
 			return markedGrades;
 		}
 
-		public static string GetLetterGrade(decimal pointsEarned, decimal pointsRecieved, GradeRounding roundingStyle)
+		public static string GetLetterGrade(decimal pointsEarned, decimal pointsPossible, GradeRounding roundingStyle)
 		{
-			decimal percent = pointsEarned / pointsRecieved * 100M;
+			decimal percent = pointsEarned / pointsPossible * 100M;
 			return GetLetterGrade(percent, roundingStyle);
 		}
 

@@ -283,7 +283,7 @@
 			this.ItemNeededColumn.AutoCompleteEditor = false;
 			this.ItemNeededColumn.AutoCompleteEditorMode = System.Windows.Forms.AutoCompleteMode.None;
 			this.ItemNeededColumn.Text = "Needed";
-			this.ItemNeededColumn.Width = 55;
+			this.ItemNeededColumn.Width = 85;
 			// 
 			// ItemNotesColumn
 			// 
