@@ -16,6 +16,8 @@ namespace BareMinimumCore
 			CalculateModifiedSectionWeight(scenario);
 			CalculateOverallGradeWeights(gradesForCalculation);
 
+			AddExtraCredit();
+
 			decimal markedPercent = 0;
 			foreach (Grade grade in markedGrades)
 				markedPercent += grade.OverallWeight;
@@ -24,6 +26,11 @@ namespace BareMinimumCore
 			decimal needed = (distance / markedPercent) * 100;
 			foreach (Grade grade in markedGrades)
 				grade.PointsNeeded = (needed / 100) * grade.PointsPossible;
+		}
+
+		public static void AddExtraCredit()
+		{
+			
 		}
 
 		public static void CalculateOverallGradeWeights(List<Grade> gradeList)
@@ -110,12 +117,15 @@ namespace BareMinimumCore
 			return markedGrades;
 		}
 
+		// Overload for GetLetterGrade that accepts point values rather than a percentage.
 		public static string GetLetterGrade(decimal pointsEarned, decimal pointsPossible, GradeRounding roundingStyle)
 		{
 			decimal percent = pointsEarned / pointsPossible * 100M;
 			return GetLetterGrade(percent, roundingStyle);
 		}
 
+
+		// Finds the string representation of a percentage grade with the standard 5-letter Victorian system.
 		public static string GetLetterGrade(decimal percent, GradeRounding roundingStyle)
 		{
 			int grade;

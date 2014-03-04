@@ -162,12 +162,17 @@ namespace BareMinimum
 			ItemWeightColumn.RendererDelegate = RenderItemWeight;
 			ItemEarnedColumn.RendererDelegate = RenderItemEarned;
 
+			// Create and set the Renderers for the ScenarioTree:
+			FlagRenderer optionsRenderer = new FlagRenderer();
+			optionsRenderer.Add(ItemFlags.ExtraCredit, "extracredit");
+			ItemFlagsColumn.Renderer = optionsRenderer;
+
 			// Set the AspectPutters for the ScenarioTree:
 			ItemWeightColumn.AspectPutter = PutWeight;
 			ItemEarnedColumn.AspectPutter = PutPointsEarned;
 			ItemPossibleColumn.AspectPutter = PutPointsPossible;
 			ScenarioTargetColumn.AspectPutter = PutTarget;
-			
+
 			// Customize the overlay for an empty list for both ObjectListViews:
             emptyOverlay.Alignment = ContentAlignment.TopCenter;
             emptyOverlay.BackColor = Color.Transparent;
@@ -385,6 +390,7 @@ namespace BareMinimum
 		{
 			Grade grade = (Grade)x;
 			decimal newValue;
+			bool extraCredit = value.ToString().ToLower().StartsWith("e");
 			if (Decimal.TryParse(value.ToString(), out newValue))
 				grade.PointsPossible = newValue;
 		}

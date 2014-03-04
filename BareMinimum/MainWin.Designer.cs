@@ -46,6 +46,7 @@
 			this.ItemNotesColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.SelectedScenarioLabel = new System.Windows.Forms.Label();
 			this.ScenarioTitleLabel = new System.Windows.Forms.Label();
+			this.ItemFlagsColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.DataToolbar = new BareMinimum.ToolbarEx();
 			this.AddScenarioButton = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -95,7 +96,7 @@
 			this.MainSplit.Panel2.Controls.Add(this.ScenarioTree);
 			this.MainSplit.Panel2.Controls.Add(this.SelectedScenarioLabel);
 			this.MainSplit.Panel2MinSize = 420;
-			this.MainSplit.Size = new System.Drawing.Size(775, 400);
+			this.MainSplit.Size = new System.Drawing.Size(875, 500);
 			this.MainSplit.SplitterDistance = 250;
 			this.MainSplit.TabIndex = 2;
 			// 
@@ -133,7 +134,7 @@
 			this.ScenarioList.RowHeight = 25;
 			this.ScenarioList.ShowCommandMenuOnRightClick = true;
 			this.ScenarioList.ShowGroups = false;
-			this.ScenarioList.Size = new System.Drawing.Size(250, 385);
+			this.ScenarioList.Size = new System.Drawing.Size(250, 485);
 			this.ScenarioList.TabIndex = 0;
 			this.ScenarioList.UseCompatibleStateImageBehavior = false;
 			this.ScenarioList.UseHotItem = true;
@@ -183,6 +184,7 @@
 			this.ScenarioTree.AllColumns.Add(this.ItemPossibleColumn);
 			this.ScenarioTree.AllColumns.Add(this.ItemMarkedColumn);
 			this.ScenarioTree.AllColumns.Add(this.ItemNeededColumn);
+			this.ScenarioTree.AllColumns.Add(this.ItemFlagsColumn);
 			this.ScenarioTree.AllColumns.Add(this.ItemNotesColumn);
 			this.ScenarioTree.AlternateRowBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
 			this.ScenarioTree.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -197,6 +199,7 @@
             this.ItemPossibleColumn,
             this.ItemMarkedColumn,
             this.ItemNeededColumn,
+            this.ItemFlagsColumn,
             this.ItemNotesColumn});
 			this.ScenarioTree.Cursor = System.Windows.Forms.Cursors.Default;
 			this.ScenarioTree.FullRowSelect = true;
@@ -210,7 +213,7 @@
 			this.ScenarioTree.RowHeight = 25;
 			this.ScenarioTree.ShowGroups = false;
 			this.ScenarioTree.ShowImagesOnSubItems = true;
-			this.ScenarioTree.Size = new System.Drawing.Size(521, 385);
+			this.ScenarioTree.Size = new System.Drawing.Size(621, 485);
 			this.ScenarioTree.TabIndex = 3;
 			this.ScenarioTree.UseCellFormatEvents = true;
 			this.ScenarioTree.UseCompatibleStateImageBehavior = false;
@@ -312,10 +315,15 @@
 			this.ScenarioTitleLabel.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.ScenarioTitleLabel.Location = new System.Drawing.Point(0, 25);
 			this.ScenarioTitleLabel.Name = "ScenarioTitleLabel";
-			this.ScenarioTitleLabel.Size = new System.Drawing.Size(785, 30);
+			this.ScenarioTitleLabel.Size = new System.Drawing.Size(885, 30);
 			this.ScenarioTitleLabel.TabIndex = 0;
 			this.ScenarioTitleLabel.Text = "No Scenario Selected";
 			this.ScenarioTitleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// ItemFlagsColumn
+			// 
+			this.ItemFlagsColumn.AspectName = "Flags";
+			this.ItemFlagsColumn.Text = "Options";
 			// 
 			// DataToolbar
 			// 
@@ -329,10 +337,10 @@
             this.AddGradeButton,
             this.toolStripSeparator3,
             this.DeleteButton});
-			this.DataToolbar.Location = new System.Drawing.Point(0, 460);
+			this.DataToolbar.Location = new System.Drawing.Point(0, 560);
 			this.DataToolbar.Name = "DataToolbar";
 			this.DataToolbar.Padding = new System.Windows.Forms.Padding(5, 1, 5, 1);
-			this.DataToolbar.Size = new System.Drawing.Size(785, 25);
+			this.DataToolbar.Size = new System.Drawing.Size(885, 25);
 			this.DataToolbar.TabIndex = 3;
 			// 
 			// AddScenarioButton
@@ -407,7 +415,7 @@
 			this.FileToolbar.Location = new System.Drawing.Point(0, 0);
 			this.FileToolbar.Name = "FileToolbar";
 			this.FileToolbar.Padding = new System.Windows.Forms.Padding(5, 1, 5, 1);
-			this.FileToolbar.Size = new System.Drawing.Size(785, 25);
+			this.FileToolbar.Size = new System.Drawing.Size(885, 25);
 			this.FileToolbar.TabIndex = 1;
 			// 
 			// NewFileButton
@@ -507,7 +515,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(785, 485);
+			this.ClientSize = new System.Drawing.Size(885, 585);
 			this.Controls.Add(this.DataToolbar);
 			this.Controls.Add(this.MainSplit);
 			this.Controls.Add(this.FileToolbar);
@@ -573,6 +581,7 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+		private BrightIdeasSoftware.OLVColumn ItemFlagsColumn;
     }
 }
 

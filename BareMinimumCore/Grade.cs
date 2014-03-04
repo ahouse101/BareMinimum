@@ -10,6 +10,8 @@ namespace BareMinimumCore
 		[JsonProperty]
 		private bool marked;
 		[JsonProperty]
+		private bool isExtraCredit;
+		[JsonProperty]
 		private decimal? pointsEarned;
 		[JsonProperty]
 		private decimal pointsPossible;
@@ -36,6 +38,19 @@ namespace BareMinimumCore
 				if (value == false)
 					PointsNeeded = null;
 				NotifyPropertyChanged("Marked");
+			}
+		}
+
+		public bool IsExtraCredit
+		{
+			get
+			{
+				return isExtraCredit;
+			}
+			set
+			{
+				isExtraCredit = value;
+				NotifyPropertyChanged("IsExtraCredit");
 			}
 		}
 
@@ -129,6 +144,17 @@ namespace BareMinimumCore
 				return 0;
 			else
 				return (decimal)PointsEarned / PointsPossible * 100;
+		}
+
+		public ItemFlags Flags
+		{
+			get
+			{
+				if (isExtraCredit)
+					return ItemFlags.ExtraCredit;
+				else
+					return ItemFlags.None;
+			}
 		}
 
 		[JsonConstructor]
