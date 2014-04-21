@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("BareMinimum")]
-[assembly: AssemblyDescription("This app calculates the minimum grades you need to earn to get your desired grade in a class.")]
+[assembly: AssemblyDescription("This app calculates the lowest grades you can earn while still achieving your desired grade in a class.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Alex House")]
+[assembly: AssemblyCompany("Ironicware")]
 [assembly: AssemblyProduct("BareMinimum")]
-[assembly: AssemblyCopyright("Copyright ©  2013")]
+[assembly: AssemblyCopyright("Copyright Alex House ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.8.4.0")]
+[assembly: AssemblyVersion("0.8.7.1")]
 [assembly: AssemblyFileVersion("1.0.0.0")]

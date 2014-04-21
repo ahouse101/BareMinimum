@@ -345,10 +345,10 @@ namespace BareMinimum
 					g.FillRectangle(Brushes.White, r);
 				else
 				{
-					String gradeText = ((decimal)grade.PointsNeeded).ToString("0.##") +
-						" (" + 
-						Calculations.GetLetterGrade((decimal)grade.PointsNeeded, grade.PointsPossible, GradeRounding.Standard) + 
-						" - " + 
+					String gradeText = ((decimal)grade.PointsNeeded).ToString("0.##"); 
+					if (grade.PointsPossible != 100) gradeText += " (" + 
+						// Calculations.GetLetterGrade((decimal)grade.PointsNeeded, grade.PointsPossible, GradeRounding.Standard) + 
+						// " - " + 
 						Math.Round((decimal)grade.PointsNeeded / grade.PointsPossible * 100) +
 						"%)";
 					DrawTextInCell(g, r, gradeText);
