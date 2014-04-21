@@ -133,12 +133,14 @@ namespace BareMinimum
 				ItemEarnedColumn,
 				ItemPossibleColumn, 
 				ItemNeededColumn,
-				ItemMarkedColumn
+				ItemMarkedColumn,
+				ItemOptionsColumn
 			});
 			GradeNonEditableColumns.AddRange(new List<OLVColumn> { 
 				ItemWeightColumn, 
 				ItemNeededColumn,
-				ItemMarkedColumn
+				ItemMarkedColumn,
+				ItemOptionsColumn
 			});
 
 			ScenarioList.PrimarySortColumn = ScenarioNameColumn;
@@ -161,11 +163,7 @@ namespace BareMinimum
 			ItemNeededColumn.RendererDelegate = RenderItemNeeded;
 			ItemWeightColumn.RendererDelegate = RenderItemWeight;
 			ItemEarnedColumn.RendererDelegate = RenderItemEarned;
-
-			// Create and set the Renderers for the ScenarioTree:
-			FlagRenderer optionsRenderer = new FlagRenderer();
-			optionsRenderer.Add(ItemFlags.ExtraCredit, "extracredit");
-			ItemFlagsColumn.Renderer = optionsRenderer;
+			ItemOptionsColumn.RendererDelegate = RenderItemOptions;
 
 			// Set the AspectPutters for the ScenarioTree:
 			ItemWeightColumn.AspectPutter = PutWeight;
@@ -354,6 +352,22 @@ namespace BareMinimum
 						Math.Round((decimal)grade.PointsNeeded / grade.PointsPossible * 100) +
 						"%)";
 					DrawTextInCell(g, r, gradeText);
+				}
+			}
+			return true;
+		}
+
+		// RendererDelegate for ItemOptionsColumn
+		private bool RenderItemOptions(EventArgs e, Graphics g, Rectangle r, object model)
+		{
+			g.FillRectangle(Brushes.White, r);
+			
+			if (model is Grade)
+			{
+				Grade grade = (Grade)model;
+				if (grade.IsExtraCredit)
+				{
+					g.DrawImageUnscaled(Properties.Resources.extracredit, r.X + 4, r.Y + 6); 
 				}
 			}
 			return true;
@@ -592,7 +606,7 @@ namespace BareMinimum
 			}
 			finally
 			{
-				overlay.Close();
+				overlay.Close(); 
 			}
 		}
 
@@ -1295,11 +1309,26 @@ namespace BareMinimum
 			{
 				if (SectionNonEditableColumns.Contains(e.Column))
 					e.Cancel = true;
+				if (e.Column == ItemOptionsColumn)
+				{ }	// Currently, Sections have no options to set, so there's no editor for this.
 			}
 			else if (e.RowObject is Grade)
 			{
 				if (GradeNonEditableColumns.Contains(e.Column))
 					e.Cancel = true;
+				if (e.Column == ItemOptionsColumn)
+				{
+					Dictionary<string, bool> options = new Dictionary<string, bool>();
+					options.Add("Extra Credit", ((Grade)e.RowObject).IsExtraCredit);
+					ItemOptionsDialog optionsDialog = new ItemOptionsDialog(options);
+					Dictionary<string, bool> results;
+					if (optionsDialog.ShowDialog(out results) == DialogResult.OK)
+					{
+						bool extraCredit;
+						results.TryGetValue("Extra Credit", out extraCredit);
+						((Grade)e.RowObject).IsExtraCredit = extraCredit;
+					}
+				}
 			}
             if (!e.Cancel)
 				treeIsEditing = true;

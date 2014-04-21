@@ -146,17 +146,6 @@ namespace BareMinimumCore
 				return (decimal)PointsEarned / PointsPossible * 100;
 		}
 
-		public ItemFlags Flags
-		{
-			get
-			{
-				if (isExtraCredit)
-					return ItemFlags.ExtraCredit;
-				else
-					return ItemFlags.None;
-			}
-		}
-
 		[JsonConstructor]
 		private Grade() { }
 
@@ -165,10 +154,10 @@ namespace BareMinimumCore
 		{ }
 
 		public Grade(ItemContainer parent, string name)
-			: this(parent, name, 100, null, null, false, "")
+			: this(parent, name, 100, null, null, false, "", false)
 		{ }
 
-		public Grade(ItemContainer parent, string name, decimal pointsPossible, decimal? pointsEarned, decimal? pointsNeeded, bool marked, string notes)
+		public Grade(ItemContainer parent, string name, decimal pointsPossible, decimal? pointsEarned, decimal? pointsNeeded, bool marked, string notes, bool isExtraCredit)
 		{
 			this.parent = parent;
 			if (parent is Scenario)
@@ -181,6 +170,7 @@ namespace BareMinimumCore
 			this.PointsNeeded = pointsNeeded;
 			this.marked = marked;
 			this.Notes = notes;
+			this.isExtraCredit = isExtraCredit;
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;

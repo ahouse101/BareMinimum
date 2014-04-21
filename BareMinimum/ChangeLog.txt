@@ -7,7 +7,7 @@
 	- Add the capability to export to other gradebook formats.
 	- Add some extra GPA capabilities. (Rehak)
 	- Add right click menus.
-	- Add scenario sharing/merging. (Miranda)
+	- Add scenario sharing/merging.
 
 	- Finish rewriting the text rendering system.
 
@@ -37,11 +37,12 @@ Version 0.8 - Alpha 2 - Active
 		.4 - Redid the overlay system (it now lacks translucency, but has much better performance).
 			- The Plastic class is a test, and is left in case I resume work on partially translucent overlays.
 			- The OldInfoOverlay.cs file has the old system, which used overlayed Forms. I'm not removing it just yet, because that code may be useful later. 
-	
+		.5 - Attempted to add extra credit functionality using a flagging system.
+		.6 - Added an interface for extra credit functionality (with a dialog for options and a new column in the ScenarioTree).
 
 	Work Items:
-		- Add extra credit handling - Active.
-		- Finish rewriting the keyboard navigation system for the ScenarioList (right now you can edit non-editable cells by navigating into them).
+		- Finish the extra credit system by adding the math.
+		- Remove the letter grade from the output that appears in the needed column.
 		- Work on file handling (specifically, I want to redo the way file versioning works, and also create a built in system to convert between formats).
 		- Add an area where the user can view the licenses for different components.
 		- Add the ability to open files by double clicking them (handle shell arguments). (Miranda)

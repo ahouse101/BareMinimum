@@ -87,11 +87,6 @@ namespace BareMinimumCore
 			get { return null; }
 		}
 
-		public ItemFlags Flags
-		{
-			get { return ItemFlags.None; }
-		}
-
 		[JsonConstructor]
 		private Section() { }
 

@@ -43,10 +43,11 @@
 			this.ItemPossibleColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.ItemMarkedColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.ItemNeededColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.ItemOptionsColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.ItemNotesColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.FlagList = new System.Windows.Forms.ImageList(this.components);
 			this.SelectedScenarioLabel = new System.Windows.Forms.Label();
 			this.ScenarioTitleLabel = new System.Windows.Forms.Label();
-			this.ItemFlagsColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.DataToolbar = new BareMinimum.ToolbarEx();
 			this.AddScenarioButton = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -184,7 +185,7 @@
 			this.ScenarioTree.AllColumns.Add(this.ItemPossibleColumn);
 			this.ScenarioTree.AllColumns.Add(this.ItemMarkedColumn);
 			this.ScenarioTree.AllColumns.Add(this.ItemNeededColumn);
-			this.ScenarioTree.AllColumns.Add(this.ItemFlagsColumn);
+			this.ScenarioTree.AllColumns.Add(this.ItemOptionsColumn);
 			this.ScenarioTree.AllColumns.Add(this.ItemNotesColumn);
 			this.ScenarioTree.AlternateRowBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
 			this.ScenarioTree.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -199,7 +200,7 @@
             this.ItemPossibleColumn,
             this.ItemMarkedColumn,
             this.ItemNeededColumn,
-            this.ItemFlagsColumn,
+            this.ItemOptionsColumn,
             this.ItemNotesColumn});
 			this.ScenarioTree.Cursor = System.Windows.Forms.Cursors.Default;
 			this.ScenarioTree.FullRowSelect = true;
@@ -214,6 +215,7 @@
 			this.ScenarioTree.ShowGroups = false;
 			this.ScenarioTree.ShowImagesOnSubItems = true;
 			this.ScenarioTree.Size = new System.Drawing.Size(621, 485);
+			this.ScenarioTree.SmallImageList = this.FlagList;
 			this.ScenarioTree.TabIndex = 3;
 			this.ScenarioTree.UseCellFormatEvents = true;
 			this.ScenarioTree.UseCompatibleStateImageBehavior = false;
@@ -288,6 +290,11 @@
 			this.ItemNeededColumn.Text = "Needed";
 			this.ItemNeededColumn.Width = 85;
 			// 
+			// ItemOptionsColumn
+			// 
+			this.ItemOptionsColumn.AspectName = "";
+			this.ItemOptionsColumn.Text = "Options";
+			// 
 			// ItemNotesColumn
 			// 
 			this.ItemNotesColumn.AspectName = "Notes";
@@ -297,6 +304,12 @@
 			this.ItemNotesColumn.MinimumWidth = 50;
 			this.ItemNotesColumn.Text = "Notes";
 			this.ItemNotesColumn.Width = 50;
+			// 
+			// FlagList
+			// 
+			this.FlagList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("FlagList.ImageStream")));
+			this.FlagList.TransparentColor = System.Drawing.Color.Transparent;
+			this.FlagList.Images.SetKeyName(0, "extracredit");
 			// 
 			// SelectedScenarioLabel
 			// 
@@ -319,11 +332,6 @@
 			this.ScenarioTitleLabel.TabIndex = 0;
 			this.ScenarioTitleLabel.Text = "No Scenario Selected";
 			this.ScenarioTitleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// ItemFlagsColumn
-			// 
-			this.ItemFlagsColumn.AspectName = "Flags";
-			this.ItemFlagsColumn.Text = "Options";
 			// 
 			// DataToolbar
 			// 
@@ -581,7 +589,8 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-		private BrightIdeasSoftware.OLVColumn ItemFlagsColumn;
+		private BrightIdeasSoftware.OLVColumn ItemOptionsColumn;
+		private System.Windows.Forms.ImageList FlagList;
     }
 }
 
