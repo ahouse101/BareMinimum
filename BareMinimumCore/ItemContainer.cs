@@ -85,18 +85,23 @@ namespace BareMinimumCore
 				{
 					decimal total = 0;
 					decimal points = 0;
+					int numExtraCredit = 0;
 					int numEmpty = 0;
 					foreach (Grade grade in Items)
 					{
 						if (grade.PointsEarned != null)
 						{
-							total += grade.PointsPossible;
+							if (grade.IsExtraCredit)
+								numExtraCredit++;
+							else
+								total += grade.PointsPossible;
+
 							points += (decimal)grade.PointsEarned;
 						}
 						else
 							numEmpty++;
 					}
-					if (numEmpty == Items.Count)
+					if (numEmpty + numExtraCredit == Items.Count)
 						return null;
 					else
 						return (points / total * 100);
@@ -132,11 +137,13 @@ namespace BareMinimumCore
 			{
 				decimal total = 0;
 				foreach (Grade grade in Items)
-					if (grade.PointsEarned != null || grade.Marked)
+					if ( (grade.PointsEarned != null || grade.Marked) && !grade.IsExtraCredit )
 						total += (decimal)grade.PointsPossible;
 				foreach (Grade grade in Items)
 					if (total == 0)
 						grade.Weight = 0;
+					else if (grade.IsExtraCredit)
+						grade.Weight = (1 / total * 100); 
 					else
 						grade.Weight = ((decimal)grade.PointsPossible / total * 100);
 			}

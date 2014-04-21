@@ -16,8 +16,6 @@ namespace BareMinimumCore
 			CalculateModifiedSectionWeight(scenario);
 			CalculateOverallGradeWeights(gradesForCalculation);
 
-			AddExtraCredit();
-
 			decimal markedPercent = 0;
 			foreach (Grade grade in markedGrades)
 				markedPercent += grade.OverallWeight;
@@ -26,11 +24,6 @@ namespace BareMinimumCore
 			decimal needed = (distance / markedPercent) * 100;
 			foreach (Grade grade in markedGrades)
 				grade.PointsNeeded = (needed / 100) * grade.PointsPossible;
-		}
-
-		public static void AddExtraCredit()
-		{
-			
 		}
 
 		public static void CalculateOverallGradeWeights(List<Grade> gradeList)
@@ -85,11 +78,17 @@ namespace BareMinimumCore
 			decimal total = 0;
 			foreach (Grade grade in gradeList)
 			{
-				if (grade.Marked)
-					points += 0;
+				if (grade.IsExtraCredit)
+					points += (decimal)grade.PointsEarned * (grade.OverallWeight);
 				else
-					points += grade.GetPercent() * (grade.OverallWeight / 100);
-				total += grade.OverallWeight;
+				{
+					if (grade.Marked)
+						points += 0;
+					else
+						points += grade.GetPercent() * (grade.OverallWeight / 100);
+
+					total += grade.OverallWeight;
+				}
 			}
 			return points / total * 100;
 		}

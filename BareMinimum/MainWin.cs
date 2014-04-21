@@ -1217,7 +1217,25 @@ namespace BareMinimum
             }
             else if (e.Model is Grade)
             {
-				e.SubItem.Decorations.Clear();
+				if (e.Column == ItemMarkedColumn && ((Grade)e.Model).IsExtraCredit)
+				{
+					CellBorderDecoration background = new CellBorderDecoration();
+					background.FillBrush = Brushes.White;
+					background.BorderPen = null;
+					background.CornerRounding = 0F;
+					background.BoundsPadding = new Size(0, -1);
+					CellBorderDecoration highlight = new CellBorderDecoration();
+					highlight.FillBrush = new SolidBrush(Color.FromArgb(50, 0, 190, 0));
+					highlight.BorderPen = null;
+					highlight.CornerRounding = 0F;
+					highlight.BoundsPadding = new Size(0, -1);
+					e.SubItem.Decorations.Add(background);
+					e.SubItem.Decorations.Add(highlight);
+				}
+				else
+				{
+					e.SubItem.Decorations.Clear();
+				}
             }
         }
 
@@ -1369,6 +1387,7 @@ namespace BareMinimum
 				case "Marked":
 				case "PointsEarned":
 				case "PointsPossible":
+				case "IsExtraCredit":
 					CalculateNeeded();
 					ScenarioList.RefreshObject(CurrentScenario);
 					break;

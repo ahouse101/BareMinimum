@@ -34,10 +34,13 @@ namespace BareMinimumCore
 			}
 			set
 			{
-				marked = value;
-				if (value == false)
-					PointsNeeded = null;
-				NotifyPropertyChanged("Marked");
+				if (!isExtraCredit)
+				{
+					marked = value;
+					if (value == false)
+						PointsNeeded = null;
+					NotifyPropertyChanged("Marked");
+				}
 			}
 		}
 
@@ -49,6 +52,8 @@ namespace BareMinimumCore
 			}
 			set
 			{
+				if (value)
+					Marked = false;
 				isExtraCredit = value;
 				NotifyPropertyChanged("IsExtraCredit");
 			}
