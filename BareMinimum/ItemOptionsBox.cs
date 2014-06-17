@@ -35,7 +35,7 @@ namespace BareMinimum
 		public void ShowPanel(Form owner, Point location)
 		{
 			this.Location = location;
-			this.Anchor = AnchorStyles.Left;
+			this.Anchor = AnchorStyles.Left | AnchorStyles.Top;
 
 			owner.Controls.Add(this);
 			this.BringToFront();

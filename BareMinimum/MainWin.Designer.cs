@@ -533,7 +533,7 @@
 			this.MinimumSize = new System.Drawing.Size(650, 400);
 			this.Name = "MainWin";
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-			this.Text = "BareMinimum (Pre-Release)";
+			this.Text = "BareMinimum (Alpha)";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWin_FormClosing);
 			this.MainSplit.Panel1.ResumeLayout(false);
 			this.MainSplit.Panel1.PerformLayout();
