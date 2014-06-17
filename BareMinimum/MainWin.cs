@@ -1338,14 +1338,18 @@ namespace BareMinimum
 				{
 					Dictionary<string, bool> options = new Dictionary<string, bool>();
 					options.Add("Extra Credit", ((Grade)e.RowObject).IsExtraCredit);
-					ItemOptionsDialog optionsDialog = new ItemOptionsDialog(options);
-					Dictionary<string, bool> results;
-					if (optionsDialog.ShowDialog(out results) == DialogResult.OK)
-					{
-						bool extraCredit;
-						results.TryGetValue("Extra Credit", out extraCredit);
-						((Grade)e.RowObject).IsExtraCredit = extraCredit;
-					}
+					ItemOptionsBox optionsBox = new ItemOptionsBox(options);
+					optionsBox.DialogFinished += delegate(object s, ItemOptionsEventArgs eventArgs)
+						{
+							if (eventArgs.DialogOk)
+							{
+								bool extraCredit;
+								eventArgs.OptionsChecked.TryGetValue("Extra Credit", out extraCredit);
+								((Grade)e.RowObject).IsExtraCredit = extraCredit;
+							}
+						};
+					Point location = new Point(e.CellBounds.Left, e.CellBounds.Bottom);
+					optionsBox.ShowPanel(this, location);
 				}
 			}
             if (!e.Cancel)
@@ -1423,7 +1427,7 @@ namespace BareMinimum
 			Process.Start("https://bareminimum.codeplex.com/discussions");
 		}
 
-		private void aboutBareMinimumToolStripMenuItem_Click(object sender, EventArgs e)
+		private void AboutBareMinimumToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			InfoOverlay about = new InfoOverlay(this, new AboutBox(), true);
 		}

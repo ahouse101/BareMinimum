@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 
@@ -10,6 +11,7 @@ namespace BareMinimum
 		private Form owner;
 		public Panel Background { get; set; }
 		public Control Content { get; set; }
+		public event EventHandler PanelClosing;
 
 		public InfoOverlay(Form owner, Control content, bool closeOnClick)
 			: this(owner, content, Color.White, closeOnClick)
@@ -42,13 +44,28 @@ namespace BareMinimum
 
 		void Background_Click(object sender, EventArgs e)
 		{
-			Close();
+			if (!OnPanelClosing(new EventArgs()))
+				Close();
 		}
 
 		public void Close()
 		{
 			Content.Dispose();
 			Background.Dispose();
+		}
+
+		protected virtual bool OnPanelClosing(EventArgs e)
+		{
+			EventHandler handler = PanelClosing;
+
+			// Event will be null if there are no subscribers 
+			if (handler != null)
+			{
+				handler(this, e);
+				return true;
+			}
+			else
+				return false;
 		}
 	}
 }

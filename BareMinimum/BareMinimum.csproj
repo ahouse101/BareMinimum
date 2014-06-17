@@ -71,6 +71,12 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="ItemOptionsBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ItemOptionsBox.Designer.cs">
+      <DependentUpon>ItemOptionsBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="OldInfoOverlay.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -114,6 +120,9 @@
     <EmbeddedResource Include="InfoBox.resx">
       <DependentUpon>InfoBox.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ItemOptionsBox.resx">
+      <DependentUpon>ItemOptionsBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainWin.resx">
       <DependentUpon>MainWin.cs</DependentUpon>
     </EmbeddedResource>
@@ -142,8 +151,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Proto1.ico" />
+    <None Include="Resources\application_exit.png" />
     <Content Include="Resources\checkbox_no.png" />
     <Content Include="Resources\checkbox_yes.png" />
+    <None Include="Resources\Close_32x32.png" />
+    <None Include="Resources\cross.png" />
+    <None Include="Resources\dialog_close.png" />
     <Content Include="Resources\Green Circle.png" />
     <Content Include="Resources\rightarrow.png" />
     <None Include="Resources\Test256.png" />

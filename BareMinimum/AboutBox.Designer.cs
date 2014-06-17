@@ -30,8 +30,8 @@
 		{
 			this.CreditsLabel = new System.Windows.Forms.Label();
 			this.VersionLabel = new System.Windows.Forms.Label();
-			this.LogoPictureBox = new System.Windows.Forms.PictureBox();
 			this.CreditsText = new System.Windows.Forms.Label();
+			this.LogoPictureBox = new System.Windows.Forms.PictureBox();
 			((System.ComponentModel.ISupportInitialize)(this.LogoPictureBox)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -51,9 +51,19 @@
 			this.VersionLabel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.VersionLabel.Location = new System.Drawing.Point(135, 10);
 			this.VersionLabel.Name = "VersionLabel";
-			this.VersionLabel.Size = new System.Drawing.Size(245, 20);
+			this.VersionLabel.Size = new System.Drawing.Size(209, 20);
 			this.VersionLabel.TabIndex = 6;
 			this.VersionLabel.Text = "Version: 1.0.0";
+			// 
+			// CreditsText
+			// 
+			this.CreditsText.BackColor = System.Drawing.Color.Transparent;
+			this.CreditsText.Location = new System.Drawing.Point(145, 60);
+			this.CreditsText.Name = "CreditsText";
+			this.CreditsText.Size = new System.Drawing.Size(235, 73);
+			this.CreditsText.TabIndex = 8;
+			this.CreditsText.Text = "Copyright © Alex House 2013\r\nIcon Design by Zac Abbott\r\nJson.NET by James Newton-" +
+    "King\r\nObjectListView by Bright Ideas Software";
 			// 
 			// LogoPictureBox
 			// 
@@ -65,16 +75,6 @@
 			this.LogoPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.LogoPictureBox.TabIndex = 5;
 			this.LogoPictureBox.TabStop = false;
-			// 
-			// CreditsText
-			// 
-			this.CreditsText.BackColor = System.Drawing.Color.Transparent;
-			this.CreditsText.Location = new System.Drawing.Point(145, 60);
-			this.CreditsText.Name = "CreditsText";
-			this.CreditsText.Size = new System.Drawing.Size(235, 73);
-			this.CreditsText.TabIndex = 8;
-			this.CreditsText.Text = "Copyright © Alex House 2013\r\nIcon Design by Zac Abbott\r\nJson.NET by James Newton-" +
-    "King\r\nObjectListView by Bright Ideas Software";
 			// 
 			// AboutBox
 			// 

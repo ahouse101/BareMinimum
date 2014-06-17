@@ -517,7 +517,7 @@
 			this.aboutBareMinimumToolStripMenuItem.Name = "aboutBareMinimumToolStripMenuItem";
 			this.aboutBareMinimumToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
 			this.aboutBareMinimumToolStripMenuItem.Text = "About BareMinimum";
-			this.aboutBareMinimumToolStripMenuItem.Click += new System.EventHandler(this.aboutBareMinimumToolStripMenuItem_Click);
+			this.aboutBareMinimumToolStripMenuItem.Click += new System.EventHandler(this.AboutBareMinimumToolStripMenuItem_Click);
 			// 
 			// MainWin
 			// 

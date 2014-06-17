@@ -41,6 +41,7 @@ Version 0.8 - Alpha 2 - Active
 		.6 - Added an interface for extra credit functionality (with a dialog for options and a new column in the ScenarioTree).
 		.7 - Added the math for extra credit grades. Grades flagged as extra credit cannot be marked for calculation (yet).
 			r1 - Reformatted the output in the needed column (and updated the Assembly version). 
+		.8 - Switched the ItemOptionsDialog to a floating panel (capable of being an overlay dialog).
 
 	Work Items:
 		- Work on file handling (specifically, I want to redo the way file versioning works, and also create a built in system to convert between formats).
