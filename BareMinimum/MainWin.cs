@@ -688,11 +688,34 @@ namespace BareMinimum
 
 		private void NewFile()
 		{
-			emptyOverlay.Text = noScenariosText;
-			ScenarioTree.SetObjects(null);
-			ScenarioList.ClearObjects();
-			FilePath = null;
-			FileIsSaved = true;
+			if (!FileIsSaved)
+			{
+				bool shouldCreateNewFile = true;
+
+				switch (MessageBox.Show("Save " + FileLabel.Text.TrimEnd('*') + "?", "Save File?", MessageBoxButtons.YesNoCancel))
+				{
+					case DialogResult.Yes:
+						SaveFile();
+						break;
+					case DialogResult.No:
+						// Nothing to do here.
+						break;
+					case DialogResult.Cancel:
+						shouldCreateNewFile = false;
+						break;
+					default:
+						break;
+				}
+
+				if (shouldCreateNewFile)
+				{
+					emptyOverlay.Text = noScenariosText;
+					ScenarioTree.SetObjects(null);
+					ScenarioList.ClearObjects();
+					FilePath = null;
+					FileIsSaved = true;
+				}
+			}
 		}
 
 		#endregion
@@ -980,6 +1003,11 @@ namespace BareMinimum
 		#endregion
 
 		#region Event Handlers
+
+		private void MainWin_Load(object sender, EventArgs e)
+		{
+
+		}
 
 		private void MainWin_FormClosing(object sender, FormClosingEventArgs e)
 		{

@@ -42,12 +42,13 @@ Version 0.8 - Alpha 2 - Active
 		.7 - Added the math for extra credit grades. Grades flagged as extra credit cannot be marked for calculation (yet).
 			r1 - Reformatted the output in the needed column (and updated the Assembly version). 
 		.8 - Switched the ItemOptionsDialog to a floating panel (capable of being an overlay dialog).
-			r1 - Update copyright on AboutBox, MainWin title, and fixed a bug in the positioning of the options overlay.
+			r1 - Updated the MainWin title and the copyright on the AboutBox, and fixed a bug in the positioning of the options overlay.
+			r2 - Added a check to save file when you click the New File button.
 
 	Work Items:
+		- Add the ability to open files by double clicking them (handle shell arguments). (Miranda) - Active
 		- Work on file handling (specifically, I want to redo the way file versioning works, and also create a built in system to convert between formats).
 		- Add an area where the user can view the licenses for different components.
-		- Add the ability to open files by double clicking them (handle shell arguments). (Miranda)
 		- Add an update system.
 
 Version 0.7 - Alpha (initial outside testing)

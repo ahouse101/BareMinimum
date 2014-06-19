@@ -535,6 +535,7 @@
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
 			this.Text = "BareMinimum (Alpha)";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWin_FormClosing);
+			this.Load += new System.EventHandler(this.MainWin_Load);
 			this.MainSplit.Panel1.ResumeLayout(false);
 			this.MainSplit.Panel1.PerformLayout();
 			this.MainSplit.Panel2.ResumeLayout(false);
