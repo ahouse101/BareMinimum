@@ -688,10 +688,10 @@ namespace BareMinimum
 
 		private void NewFile()
 		{
+			bool shouldCreateNewFile = true;
+
 			if (!FileIsSaved)
 			{
-				bool shouldCreateNewFile = true;
-
 				switch (MessageBox.Show("Save " + FileLabel.Text.TrimEnd('*') + "?", "Save File?", MessageBoxButtons.YesNoCancel))
 				{
 					case DialogResult.Yes:
@@ -706,15 +706,15 @@ namespace BareMinimum
 					default:
 						break;
 				}
+			}
 
-				if (shouldCreateNewFile)
-				{
-					emptyOverlay.Text = noScenariosText;
-					ScenarioTree.SetObjects(null);
-					ScenarioList.ClearObjects();
-					FilePath = null;
-					FileIsSaved = true;
-				}
+			if (shouldCreateNewFile)
+			{
+				emptyOverlay.Text = noScenariosText;
+				ScenarioTree.SetObjects(null);
+				ScenarioList.ClearObjects();
+				FilePath = null;
+				FileIsSaved = true;
 			}
 		}
 
@@ -1006,7 +1006,8 @@ namespace BareMinimum
 
 		private void MainWin_Load(object sender, EventArgs e)
 		{
-
+			if (Environment.GetCommandLineArgs().Length > 1)
+				OpenFile(Environment.GetCommandLineArgs()[1]);
 		}
 
 		private void MainWin_FormClosing(object sender, FormClosingEventArgs e)
@@ -1458,6 +1459,20 @@ namespace BareMinimum
 		private void AboutBareMinimumToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			InfoOverlay about = new InfoOverlay(this, new AboutBox(), true);
+		}
+
+		private void CollapseSidebarButton_Click(object sender, EventArgs e)
+		{
+			MainSplit.Panel1Collapsed = true;
+			ScenarioListLabel.Visible = false;
+			ExpandSidebarButton.Visible = true;
+		}
+
+		private void ExpandSidebarButton_Click(object sender, EventArgs e)
+		{
+			ExpandSidebarButton.Visible = false;
+			MainSplit.Panel1Collapsed = false;
+			ScenarioListLabel.Visible = true;
 		}
 
 		#endregion

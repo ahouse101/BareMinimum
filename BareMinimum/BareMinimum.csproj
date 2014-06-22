@@ -152,6 +152,8 @@
   <ItemGroup>
     <Content Include="Proto1.ico" />
     <None Include="Resources\application_exit.png" />
+    <None Include="Resources\1leftarrow.png" />
+    <None Include="Resources\1rightarrow.png" />
     <Content Include="Resources\checkbox_no.png" />
     <Content Include="Resources\checkbox_yes.png" />
     <None Include="Resources\Close_32x32.png" />

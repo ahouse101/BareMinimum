@@ -31,7 +31,7 @@
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWin));
 			this.MainSplit = new System.Windows.Forms.SplitContainer();
-			this.ScenarioListLabel = new System.Windows.Forms.Label();
+			this.CollapseSidebarButton = new System.Windows.Forms.Button();
 			this.ScenarioList = new BrightIdeasSoftware.ObjectListView();
 			this.ScenarioNameColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.ScenarioAverageColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -46,8 +46,9 @@
 			this.ItemOptionsColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.ItemNotesColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.FlagList = new System.Windows.Forms.ImageList(this.components);
-			this.SelectedScenarioLabel = new System.Windows.Forms.Label();
 			this.ScenarioTitleLabel = new System.Windows.Forms.Label();
+			this.ExpandSidebarButton = new System.Windows.Forms.Button();
+			this.ScenarioListLabel = new System.Windows.Forms.Label();
 			this.DataToolbar = new BareMinimum.ToolbarEx();
 			this.AddScenarioButton = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -55,6 +56,9 @@
 			this.AddGradeButton = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.DeleteButton = new System.Windows.Forms.ToolStripButton();
+			this.TargetGradeTextbox = new System.Windows.Forms.ToolStripTextBox();
+			this.TargetGradeLabel = new System.Windows.Forms.ToolStripLabel();
+			this.ScenarioAverageLabel = new System.Windows.Forms.ToolStripLabel();
 			this.FileToolbar = new BareMinimum.ToolbarEx();
 			this.NewFileButton = new System.Windows.Forms.ToolStripButton();
 			this.OpenFileButton = new System.Windows.Forms.ToolStripButton();
@@ -88,28 +92,35 @@
 			// 
 			// MainSplit.Panel1
 			// 
-			this.MainSplit.Panel1.Controls.Add(this.ScenarioListLabel);
+			this.MainSplit.Panel1.Controls.Add(this.CollapseSidebarButton);
 			this.MainSplit.Panel1.Controls.Add(this.ScenarioList);
 			this.MainSplit.Panel1MinSize = 150;
 			// 
 			// MainSplit.Panel2
 			// 
 			this.MainSplit.Panel2.Controls.Add(this.ScenarioTree);
-			this.MainSplit.Panel2.Controls.Add(this.SelectedScenarioLabel);
 			this.MainSplit.Panel2MinSize = 420;
 			this.MainSplit.Size = new System.Drawing.Size(875, 500);
 			this.MainSplit.SplitterDistance = 250;
 			this.MainSplit.TabIndex = 2;
 			// 
-			// ScenarioListLabel
+			// CollapseSidebarButton
 			// 
-			this.ScenarioListLabel.AutoSize = true;
-			this.ScenarioListLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.ScenarioListLabel.Location = new System.Drawing.Point(0, 0);
-			this.ScenarioListLabel.Name = "ScenarioListLabel";
-			this.ScenarioListLabel.Size = new System.Drawing.Size(74, 13);
-			this.ScenarioListLabel.TabIndex = 1;
-			this.ScenarioListLabel.Text = "Scenario List:";
+			this.CollapseSidebarButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.CollapseSidebarButton.FlatAppearance.BorderSize = 0;
+			this.CollapseSidebarButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.CollapseSidebarButton.Image = global::BareMinimum.Properties.Resources._1leftarrow;
+			this.CollapseSidebarButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.CollapseSidebarButton.Location = new System.Drawing.Point(0, 475);
+			this.CollapseSidebarButton.Name = "CollapseSidebarButton";
+			this.CollapseSidebarButton.Size = new System.Drawing.Size(250, 25);
+			this.CollapseSidebarButton.TabIndex = 5;
+			this.CollapseSidebarButton.Text = "Collapse";
+			this.CollapseSidebarButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.CollapseSidebarButton.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
+			this.CollapseSidebarButton.UseVisualStyleBackColor = true;
+			this.CollapseSidebarButton.Click += new System.EventHandler(this.CollapseSidebarButton_Click);
 			// 
 			// ScenarioList
 			// 
@@ -128,14 +139,14 @@
 			this.ScenarioList.Cursor = System.Windows.Forms.Cursors.Default;
 			this.ScenarioList.FullRowSelect = true;
 			this.ScenarioList.HeaderUsesThemes = false;
-			this.ScenarioList.Location = new System.Drawing.Point(0, 15);
+			this.ScenarioList.Location = new System.Drawing.Point(0, 0);
 			this.ScenarioList.MultiSelect = false;
 			this.ScenarioList.Name = "ScenarioList";
 			this.ScenarioList.OwnerDraw = true;
 			this.ScenarioList.RowHeight = 25;
 			this.ScenarioList.ShowCommandMenuOnRightClick = true;
 			this.ScenarioList.ShowGroups = false;
-			this.ScenarioList.Size = new System.Drawing.Size(250, 485);
+			this.ScenarioList.Size = new System.Drawing.Size(250, 473);
 			this.ScenarioList.TabIndex = 0;
 			this.ScenarioList.UseCompatibleStateImageBehavior = false;
 			this.ScenarioList.UseHotItem = true;
@@ -207,14 +218,14 @@
 			this.ScenarioTree.GridLines = true;
 			this.ScenarioTree.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.ScenarioTree.HeaderUsesThemes = false;
-			this.ScenarioTree.Location = new System.Drawing.Point(0, 15);
+			this.ScenarioTree.Location = new System.Drawing.Point(0, 0);
 			this.ScenarioTree.MultiSelect = false;
 			this.ScenarioTree.Name = "ScenarioTree";
 			this.ScenarioTree.OwnerDraw = true;
 			this.ScenarioTree.RowHeight = 25;
 			this.ScenarioTree.ShowGroups = false;
 			this.ScenarioTree.ShowImagesOnSubItems = true;
-			this.ScenarioTree.Size = new System.Drawing.Size(621, 485);
+			this.ScenarioTree.Size = new System.Drawing.Size(621, 500);
 			this.ScenarioTree.SmallImageList = this.FlagList;
 			this.ScenarioTree.TabIndex = 3;
 			this.ScenarioTree.UseCellFormatEvents = true;
@@ -311,27 +322,44 @@
 			this.FlagList.TransparentColor = System.Drawing.Color.Transparent;
 			this.FlagList.Images.SetKeyName(0, "extracredit");
 			// 
-			// SelectedScenarioLabel
-			// 
-			this.SelectedScenarioLabel.AutoSize = true;
-			this.SelectedScenarioLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.SelectedScenarioLabel.Location = new System.Drawing.Point(0, 0);
-			this.SelectedScenarioLabel.Name = "SelectedScenarioLabel";
-			this.SelectedScenarioLabel.Size = new System.Drawing.Size(100, 13);
-			this.SelectedScenarioLabel.TabIndex = 2;
-			this.SelectedScenarioLabel.Text = "Selected Scenario:";
-			// 
 			// ScenarioTitleLabel
 			// 
 			this.ScenarioTitleLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.ScenarioTitleLabel.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.ScenarioTitleLabel.Location = new System.Drawing.Point(0, 25);
+			this.ScenarioTitleLabel.Location = new System.Drawing.Point(81, 25);
 			this.ScenarioTitleLabel.Name = "ScenarioTitleLabel";
-			this.ScenarioTitleLabel.Size = new System.Drawing.Size(885, 30);
+			this.ScenarioTitleLabel.Size = new System.Drawing.Size(804, 30);
 			this.ScenarioTitleLabel.TabIndex = 0;
 			this.ScenarioTitleLabel.Text = "No Scenario Selected";
 			this.ScenarioTitleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// ExpandSidebarButton
+			// 
+			this.ExpandSidebarButton.FlatAppearance.BorderSize = 0;
+			this.ExpandSidebarButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.ExpandSidebarButton.Image = global::BareMinimum.Properties.Resources._1rightarrow;
+			this.ExpandSidebarButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.ExpandSidebarButton.Location = new System.Drawing.Point(5, 25);
+			this.ExpandSidebarButton.Name = "ExpandSidebarButton";
+			this.ExpandSidebarButton.Size = new System.Drawing.Size(70, 30);
+			this.ExpandSidebarButton.TabIndex = 4;
+			this.ExpandSidebarButton.Text = "Expand";
+			this.ExpandSidebarButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.ExpandSidebarButton.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
+			this.ExpandSidebarButton.UseVisualStyleBackColor = true;
+			this.ExpandSidebarButton.Visible = false;
+			this.ExpandSidebarButton.Click += new System.EventHandler(this.ExpandSidebarButton_Click);
+			// 
+			// ScenarioListLabel
+			// 
+			this.ScenarioListLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.ScenarioListLabel.Location = new System.Drawing.Point(5, 39);
+			this.ScenarioListLabel.Name = "ScenarioListLabel";
+			this.ScenarioListLabel.Size = new System.Drawing.Size(70, 13);
+			this.ScenarioListLabel.TabIndex = 5;
+			this.ScenarioListLabel.Text = "Scenarios:";
+			this.ScenarioListLabel.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// DataToolbar
 			// 
@@ -344,7 +372,10 @@
             this.AddSectionButton,
             this.AddGradeButton,
             this.toolStripSeparator3,
-            this.DeleteButton});
+            this.DeleteButton,
+            this.TargetGradeTextbox,
+            this.TargetGradeLabel,
+            this.ScenarioAverageLabel});
 			this.DataToolbar.Location = new System.Drawing.Point(0, 560);
 			this.DataToolbar.Name = "DataToolbar";
 			this.DataToolbar.Padding = new System.Windows.Forms.Padding(5, 1, 5, 1);
@@ -407,6 +438,27 @@
 			this.DeleteButton.Size = new System.Drawing.Size(44, 20);
 			this.DeleteButton.Text = "Delete";
 			this.DeleteButton.Click += new System.EventHandler(this.DeleteButton_Click);
+			// 
+			// TargetGradeTextbox
+			// 
+			this.TargetGradeTextbox.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+			this.TargetGradeTextbox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.TargetGradeTextbox.Name = "TargetGradeTextbox";
+			this.TargetGradeTextbox.Size = new System.Drawing.Size(50, 23);
+			// 
+			// TargetGradeLabel
+			// 
+			this.TargetGradeLabel.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+			this.TargetGradeLabel.Name = "TargetGradeLabel";
+			this.TargetGradeLabel.Size = new System.Drawing.Size(44, 20);
+			this.TargetGradeLabel.Text = "Target:";
+			// 
+			// ScenarioAverageLabel
+			// 
+			this.ScenarioAverageLabel.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+			this.ScenarioAverageLabel.Name = "ScenarioAverageLabel";
+			this.ScenarioAverageLabel.Size = new System.Drawing.Size(74, 20);
+			this.ScenarioAverageLabel.Text = "Average: n/a";
 			// 
 			// FileToolbar
 			// 
@@ -524,6 +576,8 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(885, 585);
+			this.Controls.Add(this.ScenarioListLabel);
+			this.Controls.Add(this.ExpandSidebarButton);
 			this.Controls.Add(this.DataToolbar);
 			this.Controls.Add(this.MainSplit);
 			this.Controls.Add(this.FileToolbar);
@@ -537,9 +591,7 @@
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWin_FormClosing);
 			this.Load += new System.EventHandler(this.MainWin_Load);
 			this.MainSplit.Panel1.ResumeLayout(false);
-			this.MainSplit.Panel1.PerformLayout();
 			this.MainSplit.Panel2.ResumeLayout(false);
-			this.MainSplit.Panel2.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.MainSplit)).EndInit();
 			this.MainSplit.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.ScenarioList)).EndInit();
@@ -557,11 +609,9 @@
 
         private System.Windows.Forms.Label ScenarioTitleLabel;
         private ToolbarEx FileToolbar;
-        private System.Windows.Forms.SplitContainer MainSplit;
-        private System.Windows.Forms.Label ScenarioListLabel;
+		private System.Windows.Forms.SplitContainer MainSplit;
 		private BrightIdeasSoftware.ObjectListView ScenarioList;
-        private BrightIdeasSoftware.TreeListView ScenarioTree;
-		private System.Windows.Forms.Label SelectedScenarioLabel;
+		private BrightIdeasSoftware.TreeListView ScenarioTree;
         private System.Windows.Forms.ToolStripButton NewFileButton;
         private System.Windows.Forms.ToolStripButton OpenFileButton;
         private System.Windows.Forms.ToolStripButton SaveFileButton;
@@ -592,6 +642,12 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
 		private BrightIdeasSoftware.OLVColumn ItemOptionsColumn;
 		private System.Windows.Forms.ImageList FlagList;
+		private System.Windows.Forms.ToolStripTextBox TargetGradeTextbox;
+		private System.Windows.Forms.ToolStripLabel TargetGradeLabel;
+		private System.Windows.Forms.ToolStripLabel ScenarioAverageLabel;
+		private System.Windows.Forms.Button ExpandSidebarButton;
+		private System.Windows.Forms.Button CollapseSidebarButton;
+		private System.Windows.Forms.Label ScenarioListLabel;
     }
 }
 

@@ -9,8 +9,6 @@
 	- Add right click menus.
 	- Add scenario sharing/merging.
 
-	- Finish rewriting the text rendering system.
-
 Bugs:
 	- ExpandAll() doesn't seem to work - suggested fix is to save the state in the file, and load it when it is opened.
 	- Starting an edit on the Weight cell of a Section with AutoWeighted = true will hint the value with the auto-set number, so exiting out without typing will set AutoWeighted to false.
@@ -43,10 +41,12 @@ Version 0.8 - Alpha 2 - Active
 			r1 - Reformatted the output in the needed column (and updated the Assembly version). 
 		.8 - Switched the ItemOptionsDialog to a floating panel (capable of being an overlay dialog).
 			r1 - Updated the MainWin title and the copyright on the AboutBox, and fixed a bug in the positioning of the options overlay.
-			r2 - Added a check to save file when you click the New File button.
+			r2 - Added a check to save file when the user clicks the New File button.
+			r3 - Added the ability to open a file from File Explorer (thanks Miranda).
+		.9 - Added the ability to collapse the sidebar (ScenarioList).
+			
 
 	Work Items:
-		- Add the ability to open files by double clicking them (handle shell arguments). (Miranda) - Active
 		- Work on file handling (specifically, I want to redo the way file versioning works, and also create a built in system to convert between formats).
 		- Add an area where the user can view the licenses for different components.
 		- Add an update system.
@@ -122,7 +122,7 @@ Version 0.3
 				r2. Added the Level property to the Item interface and the Grade/Section classes, and added relaed functionality to their constructors and the code in MainWin.cs that initializes object of those types - small - change.
 			2. Finish implementing CalculateNeeded for the "Even" mode - medium - done. 
 				r1. Made sure the ScenarioTargetUpDown got enabled at the correct times (turns out I didn't actually finish in 2.3r2) - small - fix.
-		6. Change the way the ScenarioTree renders data, and make the data classes reflect what they store - large - in progress.
+		6. Change the way the ScenarioTree renders data, and make the data classes reflect what they store - large - done.
 			r1. Made sure the ScenarioTree gets refreshed at the right times so it doesn't look sluggish - small - done.
 			1. Remove properties from Item that shouldn't be the same type in Section and Grade - small - done.
 			2. Rewrite the Grade properties - medium - done.
@@ -204,7 +204,9 @@ Version 0.1
 	5. Moved Item deletion code to the new DeleteItem() method.
 	Fixes:
 	1. Fixed an issue that made the ScenarioTree perform atrociously slow with Sections (added the read-only Marked property to Section) - small.
-	2. Fixed an issue that crashed BareMinimum whenever a subitem checkbox was checked. For some reason, the TreeListView calls GetChildren when this happens, even though it can only happen on a Grade, which doesn't have any children and thus was not previously handled by the GetChildren method - small.
+	2. Fixed an issue that crashed BareMinimum whenever a subitem checkbox was checked. 
+		For some reason, the TreeListView calls GetChildren when this happens, even though it can only happen on a Grade, 
+		which doesn't have any children and thus was not previously handled by the GetChildren method - small.
 
 Version 0.0
 	Goal: Finish current work items and set future goals.
