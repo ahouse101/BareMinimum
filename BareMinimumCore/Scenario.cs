@@ -23,6 +23,17 @@ namespace BareMinimumCore
 			}
 		}
 
+		public string AverageAsString
+		{
+			get
+			{
+				if (PointsEarned == null)
+					return "n/a";
+				else
+					return PointsEarned.ToString();
+			}
+		}
+
 		[JsonConstructor]
 		private Scenario() { }
 

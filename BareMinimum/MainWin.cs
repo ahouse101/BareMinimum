@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
@@ -59,6 +60,7 @@ namespace BareMinimum
 			}
 		}
 
+		// This refers to the Scenario actually "selected" in the interface, regardless of whether it is selected in the ScenarioList.
 		public Scenario CurrentScenario
 		{
 			get
@@ -70,10 +72,14 @@ namespace BareMinimum
 				currentScenario = value;
 				if (value == null)
 				{
+					ScenarioTargetTextbox.Enabled = false;
+					ChangeScenarioDropdown.Enabled = false;
 					AddGradeButton.Enabled = false;
 					AddSectionButton.Enabled = false;
-					ScenarioTitleLabel.Text = "No Scenario Selected";
 					DeleteButton.Enabled = false;
+					ScenarioTitleLabel.Text = "No Scenario Selected";
+					ScenarioTitleTextbox.Text = "";
+					ScenarioTitleTextbox.Visible = false;
 					emptyOverlay.Text = "Add a scenario to get started.";
 					ScenarioTree.SetObjects(null);
 				}
@@ -100,22 +106,32 @@ namespace BareMinimum
 						default:
 							break;
 					}
+					if (ScenarioList.Items.Count > 1)
+						ChangeScenarioDropdown.Enabled = true;
+					else
+						ChangeScenarioDropdown.Enabled = false;
+					ScenarioTargetTextbox.Enabled = true;
+					ScenarioTargetTextbox.Text = currentScenario.Target.ToString();
 					DeleteButton.Enabled = true;
 					ScenarioTitleLabel.Text = SelectedScenario.Name;
 					LastScenario = SelectedScenario;
 				}
-				ScenarioList.RefreshObjects(new List<object>(ScenarioList.Objects.Cast<object>())); // This horrible hack is the only way to force the ScenarioList to refresh row decorations.
+				// This line forces the ScenarioList to refresh every object - it's ugly, in my opinion,
+				// but there doesn't seem to be a better way to accomplish a full refresh.
+				ScenarioList.RefreshObjects(new List<object>(ScenarioList.Objects.Cast<object>())); 
 			}
-		} // This refers to the Scenario actually "selected" in the interface, regardless of whether it is selected in the ScenarioList.
+		}
 
+		// This read-only property is a shortcut to get the Scenario that is selected in the ScenarioList.
         public Scenario SelectedScenario
         {
             get
             {
                 return (Scenario)ScenarioList.SelectedObject;
             }
-        } // This read-only property is a shortcut to get the Scenario that is selected in the ScenarioList.
-		public Scenario LastScenario { get; set; } // This property is used to remove events from deselected Scenarios.
+        }
+		// This property is used to remove events from deselected Scenarios.
+		public Scenario LastScenario { get; set; } 
 		public JsonSerializerSettings JsonSettings { get; set; }
 
 		#endregion
@@ -496,8 +512,8 @@ namespace BareMinimum
         {
             if (parent == null) // The item is a top level item (root).
             {
-                CurrentScenario.Items.Remove(item);
-                ScenarioTree.RemoveObject(item);
+				CurrentScenario.Items.Remove(item);
+				ScenarioTree.RemoveObject(item);
 				ScenarioTree_SelectionChanged(ScenarioTree, new EventArgs());
             }
             else
@@ -586,7 +602,14 @@ namespace BareMinimum
 		// The actual save method.
 		private void SaveFile(string filePath)
 		{
-			InfoOverlay overlay = new InfoOverlay(this, new Label { Text = "Saving " + Path.GetFileName(filePath) + "..." }, false);
+            Label label = new Label
+            {
+                Text = "Saving " + Path.GetFileName(filePath) + "...",
+                AutoSize = false,
+                Width = this.Width,
+                TextAlign = ContentAlignment.MiddleCenter
+            };
+			InfoOverlay overlay = new InfoOverlay(this, label, false);
 			try
 			{
 				string serialized = JsonConvert.SerializeObject(
@@ -627,7 +650,13 @@ namespace BareMinimum
 
 		private void OpenFile(string filePath)
 		{
-			InfoOverlay overlay = new InfoOverlay(this, new Label { Text = "Opening " + Path.GetFileName(filePath) + "...", AutoSize = false, Width = 200 }, false);
+            Label label = new Label {
+                Text = "Opening " + Path.GetFileName(filePath) + "...", 
+                AutoSize = false, 
+                Width = this.Width, 
+                TextAlign = ContentAlignment.MiddleCenter
+            };
+			InfoOverlay overlay = new InfoOverlay(this, label, false);
 			List<string> fileContents;
 			try
 			{
@@ -1054,9 +1083,10 @@ namespace BareMinimum
 		private void AddScenarioButton_Click(object sender, EventArgs e)
         {
             Scenario newScenario = new Scenario("Untitled");
-            ScenarioList.AddObject(newScenario);
+			ScenarioList.AddObject(newScenario);
             ScenarioList.SelectObject(newScenario);
-            emptyOverlay.Text = scenarioEmptyText;
+			CurrentScenario = newScenario;
+			emptyOverlay.Text = scenarioEmptyText;
             DeleteButton.Enabled = true;
 			FileIsSaved = false;
         }
@@ -1439,6 +1469,7 @@ namespace BareMinimum
 					break;
 				case "Target":
 					CalculateNeeded();
+					ScenarioList.RefreshObject(CurrentScenario);
 					break;
 				default:
 					break;
@@ -1453,10 +1484,11 @@ namespace BareMinimum
 
 		private void BugReportMenuItem_Click(object sender, EventArgs e)
 		{
-			Process.Start("https://bareminimum.codeplex.com/discussions");
+			MessageBox.Show("Sorry, this feature has not been implemented yet. It will be included in a future update. For now, you can email bug reports to alex@ironicware.com.", "Feature Not Implemented");
+			//Process.Start("https://bareminimum.codeplex.com/discussions");
 		}
 
-		private void AboutBareMinimumToolStripMenuItem_Click(object sender, EventArgs e)
+		private void AboutBareMinimumMenuItem_Click(object sender, EventArgs e)
 		{
 			InfoOverlay about = new InfoOverlay(this, new AboutBox(), true);
 		}
@@ -1466,6 +1498,13 @@ namespace BareMinimum
 			MainSplit.Panel1Collapsed = true;
 			ScenarioListLabel.Visible = false;
 			ExpandSidebarButton.Visible = true;
+
+			ScenarioOptionsSeparator1.Visible = true;
+			ChangeScenarioDropdown.Visible = true;
+			ScenarioOptionsSeparator2.Visible = true;
+			ScenarioAverageLabel.Visible = true;
+			ScenarioTargetLabel.Visible = true;
+			ScenarioTargetTextbox.Visible = true;
 		}
 
 		private void ExpandSidebarButton_Click(object sender, EventArgs e)
@@ -1473,6 +1512,76 @@ namespace BareMinimum
 			ExpandSidebarButton.Visible = false;
 			MainSplit.Panel1Collapsed = false;
 			ScenarioListLabel.Visible = true;
+
+			ScenarioOptionsSeparator1.Visible = false;
+			ChangeScenarioDropdown.Visible = false;
+			ScenarioOptionsSeparator2.Visible = false;
+			ScenarioAverageLabel.Visible = false;
+			ScenarioTargetLabel.Visible = false;
+			ScenarioTargetTextbox.Visible = false;
+		}
+
+		private void ScenarioTargetTextbox_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if (e.KeyChar == (char)Keys.Enter)
+			{
+				ScenarioTree.Focus();
+				e.Handled = true;
+			}
+			e.Handled = !(
+				char.IsDigit(e.KeyChar) ||
+				e.KeyChar == (char)Keys.Delete ||
+				e.KeyChar == (char)Keys.Back ||
+				e.KeyChar == (char)Keys.Decimal
+				);
+		}
+
+		private void ScenarioTargetTextbox_Validating(object sender, CancelEventArgs e)
+		{
+			decimal newTarget;
+			if (!Decimal.TryParse(ScenarioTargetTextbox.Text, out newTarget))
+				ScenarioTargetTextbox.Text = CurrentScenario.Target.ToString();
+		}
+
+		private void ScenarioTargetTextbox_Validated(object sender, EventArgs e)
+		{
+			CurrentScenario.Target = Decimal.Parse(ScenarioTargetTextbox.Text);
+			ScenarioTargetTextbox.Text = CurrentScenario.Target.ToString();
+		}
+
+		private void ScenarioList_ItemsChanged(object sender, ItemsChangedEventArgs e)
+		{
+			ChangeScenarioDropdown.DropDownItems.Clear();
+			foreach (Scenario scenario in ScenarioList.Objects.Cast<Scenario>().OrderBy(o => o.Name))
+			{
+				if (scenario != CurrentScenario)
+					ChangeScenarioDropdown.DropDownItems.Add(scenario.Name + "(" + scenario.AverageAsString + ")");
+			}
+		}
+
+		private void ScenarioTitleLabel_DoubleClick(object sender, EventArgs e)
+		{
+			if (CurrentScenario != null)
+			{
+				ScenarioTitleTextbox.Visible = true;
+				ScenarioTitleTextbox.Text = CurrentScenario.Name;
+				ScenarioTitleTextbox.Focus();
+			}
+		}
+
+		private void ScenarioTitleTextbox_Leave(object sender, EventArgs e)
+		{
+			ScenarioTitleTextbox.Visible = false;
+		}
+
+		private void ScenarioTitleTextbox_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if (e.KeyChar == (char)Keys.Enter)
+			{
+				ScenarioTree.Focus();
+				CurrentScenario.Name = ScenarioTitleTextbox.Text;
+				e.Handled = true;
+			}
 		}
 
 		#endregion
