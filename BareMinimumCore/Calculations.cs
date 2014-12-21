@@ -123,7 +123,6 @@ namespace BareMinimumCore
 			return GetLetterGrade(percent, roundingStyle);
 		}
 
-
 		// Finds the string representation of a percentage grade with the standard 5-letter Victorian system.
 		public static string GetLetterGrade(decimal percent, GradeRounding roundingStyle)
 		{

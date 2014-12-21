@@ -5,15 +5,16 @@
 	- Add undo/redo.
 	- Add drop and drop. 
 	- Add the capability to export to other gradebook formats.
-	- Add some extra GPA capabilities. (Rehak)
+	- Add some extra GPA capabilities. (Doug Rehak)
 	- Add right click menus.
 	- Add scenario sharing/merging.
+	- Write some external documentation
+	- Write more internal documentation
 
 Bugs:
 	- ExpandAll() doesn't seem to work - suggested fix is to save the state in the file, and load it when it is opened.
 	- Starting an edit on the Weight cell of a Section with AutoWeighted = true will hint the value with the auto-set number, so exiting out without typing will set AutoWeighted to false.
-	  What should happen in this situation is that the cell should hint a value like "Auto", so that exiting the edit stage without editing will leave AutoWeighted set to true.   
-	- BareMinimum crashes when you double click a file in the open dialog (but not when you click it once and press "Open"). This happens in Windows 8 for sure, other versions haven't been tested. 
+	  What should happen in this situation is that the cell should hint a value like "Auto", so that exiting the edit stage without editing will leave AutoWeighted set to true.  
 
 Version 1.0 - Release!
 	The application is ready for distribution!
@@ -43,19 +44,13 @@ Version 0.8 - Alpha 2 - Active
 		.8 - Switched the ItemOptionsDialog to a floating panel (capable of being an overlay dialog).
 			r1 - Updated the MainWin title and the copyright on the AboutBox, and fixed a bug in the positioning of the options overlay.
 			r2 - Added a check to save file when the user clicks the New File button.
-			r3 - Added the ability to open a file from File Explorer (thanks Miranda).
+			r3 - Added the ability to open a file from File Explorer (thanks for pointing this out, Miranda Hamill).
 		.9 - Added the ability to collapse the sidebar (ScenarioList).
-		.9r1 - Did some basic maintenance and switched to NuGet references for ObjectListView and JSON.NET (unstable).
-		(Planned) .10 - Added and updated various GUI elements to work in collapsed mode (and fixed an issue with text display on overlays).
+			r1 - Did some basic maintenance and switched to NuGet references for ObjectListView and JSON.NET (unstable).
+		.10 - Tested NuGET configuration (it seems to work now). Also implemented the ability to rename a Scenario in collapsed mode (and fixed an issue with text display on overlays).
 
 
 	Work Items:
-		- Finish the GUI with the sidebar closed - In progress.
-			 Work still to do:
-				ScenarioTitle textbox
-					- Should be deactivated when no Scenario is loaded
-					- Should remain active but readonly when not in edit mode
-					- Should become editable, and resume textbox styles, when put in edit mode with a double click or an F2 when there's no object selected.
 		- Rewrite the exit confirmation dialog as an overlay.
 		- Add an area where the user can view the licenses for different components.
 		- Add an update system.

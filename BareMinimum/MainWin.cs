@@ -17,7 +17,7 @@ namespace BareMinimum
 {
     public partial class MainWin : Form
 	{
-		#region Properties and Fields
+		#region Fields
 
 		private string noScenariosText = "Add a scenario to get started.";
 		private string scenarioEmptyText = "Add some items to this scenario.";
@@ -33,20 +33,24 @@ namespace BareMinimum
 		private bool treeIsEditing = false;
 		private bool listIsEditing = false;
 		private bool fileIsSaved = true;
-		private Scenario currentScenario;
+		private Scenario currentScenario; // The private variable behind CurrentScenario
+		// Columns that shouldn't be editable for sections and grades, respectively:
 		private List<OLVColumn> SectionNonEditableColumns = new List<OLVColumn>();
 		private List<OLVColumn> GradeNonEditableColumns = new List<OLVColumn>();
+
+		#endregion
+
+		#region Properties
 
 		public bool FileIsSaved
 		{
 			get { return fileIsSaved; }
-			set 
+			set
 			{
 				fileIsSaved = value;
 				SetFileText();
 			}
 		}
-
 		private string FilePath
 		{
 			get
@@ -70,7 +74,7 @@ namespace BareMinimum
 			set
 			{
 				currentScenario = value;
-				if (value == null)
+				if (value == null) // There is no selected Scenario
 				{
 					ScenarioTargetTextbox.Enabled = false;
 					ChangeScenarioDropdown.Enabled = false;
@@ -79,16 +83,18 @@ namespace BareMinimum
 					DeleteButton.Enabled = false;
 					ScenarioTitleLabel.Text = "No Scenario Selected";
 					ScenarioTitleTextbox.Text = "";
-					ScenarioTitleTextbox.Visible = false;
 					emptyOverlay.Text = "Add a scenario to get started.";
 					ScenarioTree.SetObjects(null);
 				}
-				else
+				else // There is a selected Scenario
 				{
-					if (LastScenario != null)
+					if (LastScenario != null) // If there was a previously selected Scenario, unregister its events
+					{
 						LastScenario.PropertyChanged -= Scenario_PropertyChanged;
+					}
 					SelectedScenario.PropertyChanged += Scenario_PropertyChanged;
 					ScenarioTree.SetObjects(SelectedScenario.Items);
+					// Enable the correct Add buttons based on the ItemType:
 					switch (SelectedScenario.ItemType)
 					{
 						case ItemType.None:
@@ -106,11 +112,15 @@ namespace BareMinimum
 						default:
 							break;
 					}
+					// Enable the scenario dropdown if there are scenarios to populate it, otherwise, disable it.
 					if (ScenarioList.Items.Count > 1)
+					{
 						ChangeScenarioDropdown.Enabled = true;
+					}
 					else
+					{
 						ChangeScenarioDropdown.Enabled = false;
-					ScenarioTargetTextbox.Enabled = true;
+					}
 					ScenarioTargetTextbox.Text = currentScenario.Target.ToString();
 					DeleteButton.Enabled = true;
 					ScenarioTitleLabel.Text = SelectedScenario.Name;
@@ -118,20 +128,23 @@ namespace BareMinimum
 				}
 				// This line forces the ScenarioList to refresh every object - it's ugly, in my opinion,
 				// but there doesn't seem to be a better way to accomplish a full refresh.
-				ScenarioList.RefreshObjects(new List<object>(ScenarioList.Objects.Cast<object>())); 
+				// TODO: I think I remember reading in a changelog for ObjectListView that Mr. Piper fixed
+				// whatever feature I was originally trying to use to refresh the model object - that should 
+				// be investigated.
+				ScenarioList.RefreshObjects(new List<object>(ScenarioList.Objects.Cast<object>()));
 			}
 		}
 
 		// This read-only property is a shortcut to get the Scenario that is selected in the ScenarioList.
-        public Scenario SelectedScenario
-        {
-            get
-            {
-                return (Scenario)ScenarioList.SelectedObject;
-            }
-        }
+		public Scenario SelectedScenario
+		{
+			get
+			{
+				return (Scenario)ScenarioList.SelectedObject;
+			}
+		}
 		// This property is used to remove events from deselected Scenarios.
-		public Scenario LastScenario { get; set; } 
+		public Scenario LastScenario { get; set; }
 		public JsonSerializerSettings JsonSettings { get; set; }
 
 		#endregion
@@ -226,6 +239,8 @@ namespace BareMinimum
 			};
         }
 
+		// This is in this region because it's an override, even though all the code is 
+		// basically just stuff I would rather be doing in event handlers.
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
 		{
 			switch (keyData)
@@ -239,6 +254,13 @@ namespace BareMinimum
 				case Keys.Control | Keys.N: // Shortcut for "New File"
 					NewFile();
 					return true;
+				case Keys.F2: // Shortcut for rename
+					if (SelectedScenario == null && ScenarioTree.SelectedObjects.Count == 0)
+					{
+						StartScenarioTitleEditing();
+						return true;
+					}
+					return false; // Allow the F2 key to get handled by the ObjectListViews
 				default:
 					if (keyData.In(Keys.Up, Keys.Down, Keys.Tab, Keys.Shift | Keys.Tab)) // Navigation keys
 					{
@@ -467,6 +489,19 @@ namespace BareMinimum
 			if (!fileIsSaved)
 				text += "*";
 			FileLabel.Text = text;
+		}
+
+		// This method gets called when the user double clicks the title label or presses F2 with nothing else
+		// selected. It causes the ScenarioTitleTextbox to become visible, so that the user can edit the
+		// CurrentScenario's title without having to have the sidebar visible.
+		private void StartScenarioTitleEditing()
+		{
+			if (CurrentScenario != null) // You can only edit the title if there is a scenario selected.
+			{
+				ScenarioTitleTextbox.Visible = true;
+				ScenarioTitleLabel.Visible = false;
+				ScenarioTitleTextbox.Focus();
+			}
 		}
 
 		#endregion
@@ -1233,6 +1268,19 @@ namespace BareMinimum
 			DeleteButton.Enabled = false;
 		}
 
+        private void ScenarioList_ItemsChanged(object sender, ItemsChangedEventArgs e)
+        {
+            ChangeScenarioDropdown.DropDownItems.Clear();
+            if (ScenarioList.Items.Count > 0)
+            {
+                foreach (Scenario scenario in ScenarioList.Objects.Cast<Scenario>().OrderBy(o => o.Name))
+                {
+                    if (scenario != CurrentScenario)
+                        ChangeScenarioDropdown.DropDownItems.Add(scenario.Name + "(" + scenario.AverageAsString + ")");
+                }
+            }
+        }
+
 		private void ScenarioTree_FormatRow(object sender, FormatRowEventArgs e)
 		{
 			RowBorderDecoration background = new RowBorderDecoration();
@@ -1549,16 +1597,6 @@ namespace BareMinimum
 			ScenarioTargetTextbox.Text = CurrentScenario.Target.ToString();
 		}
 
-		private void ScenarioList_ItemsChanged(object sender, ItemsChangedEventArgs e)
-		{
-			ChangeScenarioDropdown.DropDownItems.Clear();
-			foreach (Scenario scenario in ScenarioList.Objects.Cast<Scenario>().OrderBy(o => o.Name))
-			{
-				if (scenario != CurrentScenario)
-					ChangeScenarioDropdown.DropDownItems.Add(scenario.Name + "(" + scenario.AverageAsString + ")");
-			}
-		}
-
 		private void ScenarioTitleLabel_DoubleClick(object sender, EventArgs e)
 		{
 			if (CurrentScenario != null)
@@ -1572,16 +1610,25 @@ namespace BareMinimum
 		private void ScenarioTitleTextbox_Leave(object sender, EventArgs e)
 		{
 			ScenarioTitleTextbox.Visible = false;
+			ScenarioTitleLabel.Visible = true;
 		}
 
 		private void ScenarioTitleTextbox_KeyPress(object sender, KeyPressEventArgs e)
 		{
 			if (e.KeyChar == (char)Keys.Enter)
 			{
-				ScenarioTree.Focus();
+				ScenarioTree.Focus(); // Also triggers the Leave event, which causes this control to go invisible.
 				CurrentScenario.Name = ScenarioTitleTextbox.Text;
+				ScenarioList.RefreshObject(CurrentScenario);
 				e.Handled = true;
 			}
+		}
+
+		// This event gets triggered when the user wants to rename the CurrentScenario.
+		// Oddly, DoubleClick never seems to get triggered for Labels.
+		private void ScenarioTitleLabel_MouseDoubleClick(object sender, MouseEventArgs e)
+		{
+			StartScenarioTitleEditing();
 		}
 
 		#endregion
