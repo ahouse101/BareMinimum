@@ -1,28 +1,13 @@
-﻿Future Plans:
-	- Add scenario templates.
-	- Add more/custom calculation modes.
-	- Add color/theme options.
-	- Add undo/redo.
-	- Add drop and drop. 
-	- Add the capability to export to other gradebook formats.
-	- Add some extra GPA capabilities. (Doug Rehak)
-	- Add right click menus.
-	- Add scenario sharing/merging.
-	- Write some external documentation
-	- Write more internal documentation
-
-Bugs:
+﻿Known Bugs:
 	- ExpandAll() doesn't seem to work - suggested fix is to save the state in the file, and load it when it is opened.
 	- Starting an edit on the Weight cell of a Section with AutoWeighted = true will hint the value with the auto-set number, so exiting out without typing will set AutoWeighted to false.
 	  What should happen in this situation is that the cell should hint a value like "Auto", so that exiting the edit stage without editing will leave AutoWeighted set to true.  
 
-Version 1.0 - Release!
-	The application is ready for distribution!
-	
-Version 0.9 - Beta (feature complete)
-	Goal: Do a more complete release and fix bugs that arise.
+Version 1.0 - End of Life Release
+	Change Log:
+		.0 - Prepared BareMinimum for it's last release, 1.0.0. New development will be on Marks.
 
-Version 0.8 - Alpha 2 - Active
+Version 0.8 - Alpha 2
 	Goal: Do a second limited release with bug fixes from the first alpha.
 		.0 = 0.7.5
 		.1 - Wrote the InfoOverlay class, and replaced all of the dialogs with an InfoOverlay.
@@ -233,3 +218,18 @@ Initial Reworking
 	- Set up the ScenarioList and ScenarioTree.
 	- Added the FileToolbar.
 	- Added the AddScenarioButton, AddSectionButton, and AddGradeButton buttons.
+
+
+
+Previous Future Plans:
+	- Add scenario templates.
+	- Add more/custom calculation modes.
+	- Add color/theme options.
+	- Add undo/redo.
+	- Add drop and drop. 
+	- Add the capability to export to other gradebook formats.
+	- Add some extra GPA capabilities. (Doug Rehak)
+	- Add right click menus.
+	- Add scenario sharing/merging.
+	- Write some external documentation
+	- Write more internal documentation

@@ -72,12 +72,8 @@
 			this.ProgressBarSeparator = new System.Windows.Forms.ToolStripSeparator();
 			this.MainProgressBar = new System.Windows.Forms.ToolStripProgressBar();
 			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-			this.HelpToolbarButton = new System.Windows.Forms.ToolStripDropDownButton();
-			this.onlineHelpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.bugReportMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-			this.aboutBareMinimumToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.InfoLabel = new System.Windows.Forms.ToolStripLabel();
+			this.AboutButton = new System.Windows.Forms.ToolStripButton();
 			((System.ComponentModel.ISupportInitialize)(this.MainSplit)).BeginInit();
 			this.MainSplit.Panel1.SuspendLayout();
 			this.MainSplit.Panel2.SuspendLayout();
@@ -449,7 +445,7 @@
 			// ScenarioTargetLabel
 			// 
 			this.ScenarioTargetLabel.Name = "ScenarioTargetLabel";
-			this.ScenarioTargetLabel.Size = new System.Drawing.Size(44, 23);
+			this.ScenarioTargetLabel.Size = new System.Drawing.Size(43, 23);
 			this.ScenarioTargetLabel.Text = "Target:";
 			this.ScenarioTargetLabel.Visible = false;
 			// 
@@ -524,8 +520,8 @@
             this.ProgressBarSeparator,
             this.MainProgressBar,
             this.toolStripSeparator4,
-            this.HelpToolbarButton,
-            this.InfoLabel});
+            this.InfoLabel,
+            this.AboutButton});
 			this.FileToolbar.Location = new System.Drawing.Point(0, 0);
 			this.FileToolbar.Name = "FileToolbar";
 			this.FileToolbar.Padding = new System.Windows.Forms.Padding(5, 1, 5, 1);
@@ -598,46 +594,6 @@
 			this.toolStripSeparator4.Name = "toolStripSeparator4";
 			this.toolStripSeparator4.Size = new System.Drawing.Size(6, 23);
 			// 
-			// HelpToolbarButton
-			// 
-			this.HelpToolbarButton.AutoToolTip = false;
-			this.HelpToolbarButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.onlineHelpMenuItem,
-            this.bugReportMenuItem,
-            this.toolStripSeparator1,
-            this.aboutBareMinimumToolStripMenuItem});
-			this.HelpToolbarButton.Image = global::BareMinimum.Properties.Resources.help;
-			this.HelpToolbarButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.HelpToolbarButton.Name = "HelpToolbarButton";
-			this.HelpToolbarButton.Size = new System.Drawing.Size(61, 20);
-			this.HelpToolbarButton.Text = "&Help";
-			// 
-			// onlineHelpMenuItem
-			// 
-			this.onlineHelpMenuItem.Name = "onlineHelpMenuItem";
-			this.onlineHelpMenuItem.Size = new System.Drawing.Size(186, 22);
-			this.onlineHelpMenuItem.Text = "Help (online)";
-			this.onlineHelpMenuItem.Click += new System.EventHandler(this.OnlineHelpMenuItem_Click);
-			// 
-			// bugReportMenuItem
-			// 
-			this.bugReportMenuItem.Name = "bugReportMenuItem";
-			this.bugReportMenuItem.Size = new System.Drawing.Size(186, 22);
-			this.bugReportMenuItem.Text = "Report a bug";
-			this.bugReportMenuItem.Click += new System.EventHandler(this.BugReportMenuItem_Click);
-			// 
-			// toolStripSeparator1
-			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(183, 6);
-			// 
-			// aboutBareMinimumToolStripMenuItem
-			// 
-			this.aboutBareMinimumToolStripMenuItem.Name = "aboutBareMinimumToolStripMenuItem";
-			this.aboutBareMinimumToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
-			this.aboutBareMinimumToolStripMenuItem.Text = "About BareMinimum";
-			this.aboutBareMinimumToolStripMenuItem.Click += new System.EventHandler(this.AboutBareMinimumMenuItem_Click);
-			// 
 			// InfoLabel
 			// 
 			this.InfoLabel.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
@@ -645,6 +601,16 @@
 			this.InfoLabel.Size = new System.Drawing.Size(116, 20);
 			this.InfoLabel.Text = "Checking for Update";
 			this.InfoLabel.Visible = false;
+			// 
+			// AboutButton
+			// 
+			this.AboutButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.AboutButton.Image = ((System.Drawing.Image)(resources.GetObject("AboutButton.Image")));
+			this.AboutButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.AboutButton.Name = "AboutButton";
+			this.AboutButton.Size = new System.Drawing.Size(123, 20);
+			this.AboutButton.Text = "About BareMinimum";
+			this.AboutButton.Click += new System.EventHandler(this.AboutBareMinimum_Click);
 			// 
 			// MainWin
 			// 
@@ -703,11 +669,6 @@
         private BrightIdeasSoftware.OLVColumn ItemNotesColumn;
 		private BrightIdeasSoftware.OLVColumn ItemMarkedColumn;
 		private BrightIdeasSoftware.OLVColumn ScenarioTargetColumn;
-		private System.Windows.Forms.ToolStripDropDownButton HelpToolbarButton;
-		private System.Windows.Forms.ToolStripMenuItem onlineHelpMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem bugReportMenuItem;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-		private System.Windows.Forms.ToolStripMenuItem aboutBareMinimumToolStripMenuItem;
 		private ToolbarEx DataToolbar;
 		private System.Windows.Forms.ToolStripButton AddScenarioButton;
 		private System.Windows.Forms.ToolStripButton AddSectionButton;
@@ -731,6 +692,7 @@
 		private System.Windows.Forms.ToolStripProgressBar MainProgressBar;
 		private System.Windows.Forms.ToolStripLabel InfoLabel;
 		private System.Windows.Forms.TextBox ScenarioTitleTextbox;
-    }
+		private System.Windows.Forms.ToolStripButton AboutButton;
+	}
 }
 

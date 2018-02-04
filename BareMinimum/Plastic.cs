@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace UnusedCode
@@ -27,7 +22,7 @@ namespace UnusedCode
 
 		protected override void OnPaintBackground(PaintEventArgs e)
 		{
-			
+
 		}
 
 		protected override CreateParams CreateParams

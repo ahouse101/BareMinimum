@@ -1,11 +1,9 @@
 ﻿using BareMinimumCore;
 using BrightIdeasSoftware;
-using Microsoft.VisualBasic;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
@@ -15,7 +13,7 @@ using System.Windows.Forms;
 
 namespace BareMinimum
 {
-    public partial class MainWin : Form
+	public partial class MainWin : Form
 	{
 		#region Fields
 
@@ -567,17 +565,18 @@ namespace BareMinimum
 			foreach (Scenario scenario in list)
 			{
 				scenario.Items.CollectionChanged += Items_CollectionChanged;
-				if (scenario.Items.Count < 1)
-					return;
-				if (scenario.ItemType == ItemType.Section)
+				if (scenario.Items.Count > 0)
 				{
-					foreach (Section section in scenario.Items)
-						RegisterEvents(section);
-				}
-				else if (scenario.ItemType == ItemType.Grade)
-				{
-					foreach (Grade grade in scenario.Items)
-						RegisterEvents(grade);
+					if (scenario.ItemType == ItemType.Section)
+					{
+						foreach (Section section in scenario.Items)
+							RegisterEvents(section);
+					}
+					else if (scenario.ItemType == ItemType.Grade)
+					{
+						foreach (Grade grade in scenario.Items)
+							RegisterEvents(grade);
+					}
 				}
 			}
 		}
@@ -611,6 +610,8 @@ namespace BareMinimum
 		#region File Methods
 
 		// This is called when the save button is pushed or a shortcut is used.
+		// It just checks to see if the open file is saved, and calls the
+		//  appropriate save method.
 		private void SaveFile()
 		{
 			if (!String.IsNullOrWhiteSpace(FilePath))
@@ -620,6 +621,8 @@ namespace BareMinimum
 		}
 
 		// This is called when the file doesn't yet exist on disk.
+		// It opens a save dialog to get a name, then passes on the name to the
+		// actual save method.
 		private void SaveFileAs()
 		{
 			SaveFileDialog dialog = new SaveFileDialog();
@@ -645,29 +648,49 @@ namespace BareMinimum
                 TextAlign = ContentAlignment.MiddleCenter
             };
 			InfoOverlay overlay = new InfoOverlay(this, label, false);
-			try
+			if (!ScenarioList.Objects.IsNullOrEmpty())
 			{
-				string serialized = JsonConvert.SerializeObject(
-					new List<Scenario>(ScenarioList.Objects.Cast<Scenario>()),
-					Formatting.Indented,
-					JsonSettings);
-				File.WriteAllText(filePath, "1.1\n" + serialized);
-				FileIsSaved = true;
+				try
+				{
+					string serialized = JsonConvert.SerializeObject(
+						new List<Scenario>(ScenarioList.Objects.Cast<Scenario>()),
+						Formatting.Indented,
+						JsonSettings);
+					File.WriteAllText(filePath, "1.1\n" + serialized);
+					FileIsSaved = true;
+				}
+				catch (IOException e)
+				{
+					MessageBox.Show("I/O Error:\n" + e.Message);
+				}
+				catch (JsonSerializationException e)
+				{
+					MessageBox.Show("JSON Serialization Error:\n" + e.Message);
+				}
+				finally
+				{
+					overlay.Close();
+				}
 			}
-			catch (IOException e)
+			else
 			{
-				MessageBox.Show("I/O Error:\n" + e.Message);
-			}
-			catch (JsonSerializationException e)
-			{
-				MessageBox.Show("JSON Serialization Error:\n" + e.Message);
-			}
-			finally
-			{
-				overlay.Close(); 
+				try
+				{
+					File.WriteAllText(filePath, "1.1\n");
+				}
+				catch (IOException e)
+				{
+					MessageBox.Show("I/O Error:\n" + e.Message);
+				}
+				finally
+				{
+					overlay.Close();
+				}
 			}
 		}
 
+
+		//
 		private void OpenFile()
 		{
 			string path = "";
@@ -715,33 +738,40 @@ namespace BareMinimum
 			}
 			else
 			{
-				MessageBox.Show("This file is from an older version of BareMinimum and cannot be read.");
+				MessageBox.Show("This file is from an incompatible version of BareMinimum and cannot be read.");
 				goto DoneOpening;
 			}
 			fileContents.RemoveAt(0);
-			string json = fileContents[0];
-			fileContents.RemoveAt(0);
-			foreach (string line in fileContents)
-				json += "\n" + line;
-			List<Scenario> list;
+			ScenarioList.ClearObjects();
+			if (!fileContents.IsNullOrEmpty())
+			{	
+				string json = fileContents[0];
+				if (json != "\n")
+				{
+					fileContents.RemoveAt(0);
+					foreach (string line in fileContents)
+						json += "\n" + line;
+					List<Scenario> list;
 
-			try
-			{
-				list = JsonConvert.DeserializeObject<List<Scenario>>(json, JsonSettings);
-			}
-			catch (JsonSerializationException e)
-			{
-				MessageBox.Show("JSON Serialization Error:\n" + e.Message);
-				goto DoneOpening;
-			}
+					try
+					{
+						list = JsonConvert.DeserializeObject<List<Scenario>>(json, JsonSettings);
+					}
+					catch (JsonSerializationException e)
+					{
+						MessageBox.Show("JSON Serialization Error:\n" + e.Message);
+						goto DoneOpening;
+					}
 
-			foreach (Scenario scenario in list)
-			{
-				Calculations.CalculateNeeded(scenario);
+					foreach (Scenario scenario in list)
+					{
+						Calculations.CalculateNeeded(scenario);
+					}
+					RegisterEvents(list);
+					ScenarioList.SetObjects(list);
+					ScenarioList.SelectedIndex = 0;
+				}
 			}
-			RegisterEvents(list);
-			ScenarioList.SetObjects(list);
-			ScenarioList.SelectedIndex = 0;
 			FilePath = filePath;
 			FileIsSaved = true;
 
@@ -1536,7 +1566,7 @@ namespace BareMinimum
 			//Process.Start("https://bareminimum.codeplex.com/discussions");
 		}
 
-		private void AboutBareMinimumMenuItem_Click(object sender, EventArgs e)
+		private void AboutBareMinimum_Click(object sender, EventArgs e)
 		{
 			InfoOverlay about = new InfoOverlay(this, new AboutBox(), true);
 		}

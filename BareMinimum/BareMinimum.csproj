@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BareMinimum</RootNamespace>
     <AssemblyName>BareMinimum</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
@@ -38,6 +38,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -48,6 +49,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>BareMinimum.Program</StartupObject>
@@ -57,6 +59,12 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Proto1.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>bareminimum.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
@@ -93,9 +101,7 @@
     <Compile Include="ItemOptionsBox.Designer.cs">
       <DependentUpon>ItemOptionsBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="OldInfoOverlay.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="OldInfoOverlay.cs" />
     <Compile Include="Modified Controls.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -112,9 +118,6 @@
       <DependentUpon>MainWin.cs</DependentUpon>
     </Compile>
     <Compile Include="InfoOverlay.cs" />
-    <Compile Include="Plastic.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -127,6 +130,9 @@
     </Compile>
     <Compile Include="ItemOptionsDialog.designer.cs">
       <DependentUpon>ItemOptionsDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Plastic.cs">
+      <SubType>Component</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -151,6 +157,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
+    <None Include="bareminimum.pfx" />
     <None Include="packages.config" />
     <None Include="Resources\gear.png" />
   </ItemGroup>
